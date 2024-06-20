@@ -1,0 +1,33 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreateDepartmentTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('department', function (Blueprint $table) {
+            $table->bigIncrements('department_id');
+            $table->text('department')->nullable();
+            $table->timestamp('date_created')->useCurrent()->useCurrentOnUpdate();
+            $table->string('delete', 1)->default('0');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('department');
+    }
+}
