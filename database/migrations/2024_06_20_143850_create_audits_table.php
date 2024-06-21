@@ -23,7 +23,6 @@ class CreateAuditsTable extends Migration
             $table->text('notes')->nullable();
             $table->text('map')->nullable();
             $table->text('action')->nullable();
-            $table->timestamp('date_created')->default(DB::raw('CURRENT_TIMESTAMP'))->useCurrentOnUpdate();
             $table->string('delete', 1)->default('0')->nullable();
             $table->timestamps();
         });

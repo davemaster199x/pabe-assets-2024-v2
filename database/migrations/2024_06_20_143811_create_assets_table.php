@@ -28,7 +28,6 @@ class CreateAssetsTable extends Migration
             $table->bigInteger('category_id')->nullable();
             $table->bigInteger('department_id')->nullable();
             $table->bigInteger('user_id')->nullable();
-            $table->timestamp('date_created')->default(DB::raw('CURRENT_TIMESTAMP'))->useCurrentOnUpdate();
             $table->string('delete', 1)->default('0')->nullable();
             $table->timestamps();
         });

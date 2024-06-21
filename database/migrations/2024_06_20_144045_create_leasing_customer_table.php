@@ -27,8 +27,8 @@ class CreateLeasingCustomerTable extends Migration
             $table->text('cell')->nullable();
             $table->text('email')->nullable();
             $table->text('notes')->nullable();
-            $table->timestamp('date_created')->useCurrent()->useCurrentOnUpdate();
             $table->string('delete', 1)->default('0');
+            $table->timestamps();
         });
     }
 

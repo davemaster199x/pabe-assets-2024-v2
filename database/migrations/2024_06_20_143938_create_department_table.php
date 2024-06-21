@@ -16,8 +16,8 @@ class CreateDepartmentTable extends Migration
         Schema::create('department', function (Blueprint $table) {
             $table->bigIncrements('department_id');
             $table->text('department')->nullable();
-            $table->timestamp('date_created')->useCurrent()->useCurrentOnUpdate();
             $table->string('delete', 1)->default('0');
+            $table->timestamps();
         });
     }
 

@@ -21,8 +21,8 @@ class CreateHistoryTable extends Migration
             $table->text('changed_from')->nullable();
             $table->text('changed_to')->nullable();
             $table->bigInteger('user_id')->nullable();
-            $table->timestamp('date_created')->useCurrent()->useCurrentOnUpdate();
             $table->string('delete', 1)->default('0');
+            $table->timestamps();
         });
     }
 

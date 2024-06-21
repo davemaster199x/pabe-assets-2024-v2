@@ -22,8 +22,8 @@ class CreateWarrantyTable extends Migration
             $table->text('address')->nullable();
             $table->text('phone')->nullable();
             $table->text('contact')->nullable();
-            $table->timestamp('date_created')->useCurrent()->useCurrentOnUpdate();
             $table->string('delete', 1)->default('0');
+            $table->timestamps();
         });
     }
 

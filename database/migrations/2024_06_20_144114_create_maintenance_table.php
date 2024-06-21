@@ -25,8 +25,8 @@ class CreateMaintenanceTable extends Migration
             $table->double('maintenance_cost')->nullable();
             $table->string('repeating', 1)->nullable();
             $table->text('frequency')->nullable();
-            $table->timestamp('date_created')->useCurrent()->useCurrentOnUpdate();
             $table->string('delete', 1)->default('0');
+            $table->timestamps();
         });
     }
 

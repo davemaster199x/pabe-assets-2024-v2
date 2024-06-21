@@ -24,8 +24,8 @@ class CreateReservationTable extends Migration
             $table->bigInteger('location_id')->nullable();
             $table->bigInteger('customer_id')->nullable();
             $table->text('notes')->nullable();
-            $table->timestamp('date_created')->useCurrent()->useCurrentOnUpdate();
             $table->string('delete', 1)->default('0');
+            $table->timestamps();
         });
     }
 

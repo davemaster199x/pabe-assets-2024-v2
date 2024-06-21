@@ -27,7 +27,6 @@ class CreateCustomersTable extends Migration
             $table->text('cell')->nullable();
             $table->text('email')->nullable();
             $table->text('notes')->nullable();
-            $table->timestamp('date_created')->default(DB::raw('CURRENT_TIMESTAMP'))->useCurrentOnUpdate();
             $table->string('delete', 1)->default('0')->nullable();
             $table->timestamps();
         });

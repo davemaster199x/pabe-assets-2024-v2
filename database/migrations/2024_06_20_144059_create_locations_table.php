@@ -17,8 +17,8 @@ class CreateLocationsTable extends Migration
             $table->bigIncrements('location_id');
             $table->bigInteger('site_id')->nullable();
             $table->text('location')->nullable();
-            $table->timestamp('date_created')->useCurrent()->useCurrentOnUpdate();
             $table->string('delete', 1)->default('0');
+            $table->timestamps();
         });
     }
 

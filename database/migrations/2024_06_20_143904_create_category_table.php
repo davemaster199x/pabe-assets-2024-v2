@@ -16,7 +16,6 @@ class CreateCategoryTable extends Migration
         Schema::create('category', function (Blueprint $table) {
             $table->id('category_id');
             $table->text('category')->nullable();
-            $table->timestamp('date_created')->default(DB::raw('CURRENT_TIMESTAMP'))->useCurrentOnUpdate();
             $table->string('delete', 1)->default('0')->nullable();
             $table->timestamps();
         });

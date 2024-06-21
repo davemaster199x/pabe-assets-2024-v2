@@ -17,7 +17,6 @@ class CreateAssetsPhotosTable extends Migration
             $table->id('assets_photo_id');
             $table->bigInteger('assets_id')->nullable();
             $table->text('assets_photo')->nullable();
-            $table->timestamp('date_created')->default(DB::raw('CURRENT_TIMESTAMP'))->useCurrentOnUpdate();
             $table->string('delete', 1)->default('0')->nullable();
             $table->timestamps();
         });

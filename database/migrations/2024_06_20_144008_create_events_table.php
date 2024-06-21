@@ -24,8 +24,8 @@ class CreateEventsTable extends Migration
             $table->text('notes')->nullable();
             $table->text('due_date')->nullable();
             $table->string('expires', 255)->nullable();
-            $table->timestamp('date_created')->useCurrent()->useCurrentOnUpdate();
             $table->string('delete', 1)->default('0');
+            $table->timestamps();
         });
     }
 

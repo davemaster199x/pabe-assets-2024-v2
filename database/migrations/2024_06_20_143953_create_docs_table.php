@@ -20,8 +20,8 @@ class CreateDocsTable extends Migration
             $table->text('file_name')->nullable();
             $table->timestamp('uploaded_date')->nullable();
             $table->bigInteger('user_id')->nullable();
-            $table->timestamp('date_created')->useCurrent()->useCurrentOnUpdate();
             $table->string('delete', 1)->default('0');
+            $table->timestamps();
         });
     }
 
