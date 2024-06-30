@@ -23,7 +23,7 @@
                   <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="#"><i data-feather="list"> </i><span>List of Assets</span></a></li>
                   <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="#"><i data-feather="plus"> </i><span>Add an Asset</span></a></li>
                   <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="#"><i data-feather="check"> </i><span>Check out</span></a></li>
-                  <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="#"><i data-feather="x"> </i><span>Check out</span></a></li>
+                  <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="#"><i data-feather="x"> </i><span>Check In</span></a></li>
                   <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="#"><i data-feather="refresh-cw"> </i><span>Dispose</span></a></li>
                 </ul>
               </div>
