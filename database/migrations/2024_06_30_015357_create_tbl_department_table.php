@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAssetsPhotosTable extends Migration
+class CreateTblDepartmentTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateAssetsPhotosTable extends Migration
      */
     public function up()
     {
-        Schema::create('assets_photos', function (Blueprint $table) {
-            $table->id('assets_photo_id');
-            $table->bigInteger('assets_id')->nullable();
-            $table->text('assets_photo')->nullable();
-            $table->string('delete', 1)->default('0')->nullable();
+        Schema::create('tbl_department', function (Blueprint $table) {
+            $table->bigIncrements('department_id');
+            $table->string('department_name', 100)->nullable();
+            $table->string('delete', 1)->default('0');
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ class CreateAssetsPhotosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('assets_photos');
+        Schema::dropIfExists('tbl_department');
     }
 }

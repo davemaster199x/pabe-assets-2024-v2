@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePersonsTable extends Migration
+class CreateTblEventCheckoutTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,17 @@ class CreatePersonsTable extends Migration
      */
     public function up()
     {
-        Schema::create('persons', function (Blueprint $table) {
-            $table->bigIncrements('person_id');
-            $table->text('full_name')->nullable();
-            $table->text('employee_id')->nullable();
-            $table->text('title')->nullable();
-            $table->text('phone')->nullable();
-            $table->text('email')->nullable();
+        Schema::create('tbl_event_checkout', function (Blueprint $table) {
+            $table->bigIncrements('checkout_id');
+            $table->bigInteger('event_id')->nullable();
+            $table->timestamp('checkout_date')->nullable();
+            $table->bigInteger('person_id')->nullable();
+            $table->timestamp('due_date')->nullable();
             $table->bigInteger('site_id')->nullable();
             $table->bigInteger('location_id')->nullable();
             $table->bigInteger('department_id')->nullable();
-            $table->text('notes')->nullable();
+            $table->text('checkout_notes')->nullable();
+            $table->text('concent')->nullable();
             $table->string('delete', 1)->default('0');
             $table->timestamps();
         });
@@ -36,6 +36,6 @@ class CreatePersonsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('persons');
+        Schema::dropIfExists('tbl_event_checkout');
     }
 }
