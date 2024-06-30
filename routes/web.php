@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\DashboardController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -13,10 +16,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('pages.login');
-});
+Route::get('/', [LoginController::class, 'showLoginForm'])->name('showLoginForm');
+Route::post('login', [LoginController::class, 'login'])->name('login-post');
 
-Route::get('/dashboard', function () {
-    return view('pages.dashboard');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
+    Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 });

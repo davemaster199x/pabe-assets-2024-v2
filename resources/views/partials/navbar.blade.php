@@ -20,19 +20,11 @@
                       <h6 class="lan-1">General</h6>
                     </div>
                   </li>
-                  <li class="sidebar-list">
-                    <label class="badge badge-light-primary">2</label><a class="sidebar-link sidebar-title" href="#"><i data-feather="home"></i><span class="lan-3">Dashboard              </span></a>
-                    <ul class="sidebar-submenu">
-                      <li><a class="lan-4" href="index.html">Default</a></li>
-                      <li><a class="lan-5" href="dashboard-02.html">Ecommerce</a></li>
-                    </ul>
-                  </li>
-                  <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="#"><i data-feather="airplay"></i><span class="lan-6">Widgets</span></a>
-                    <ul class="sidebar-submenu">
-                      <li><a href="general-widget.html">General</a></li>
-                      <li><a href="chart-widget.html">Chart</a></li>
-                    </ul>
-                  </li>
+                  <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="#"><i data-feather="list"> </i><span>List of Assets</span></a></li>
+                  <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="#"><i data-feather="plus"> </i><span>Add an Asset</span></a></li>
+                  <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="#"><i data-feather="check"> </i><span>Check out</span></a></li>
+                  <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="#"><i data-feather="x"> </i><span>Check out</span></a></li>
+                  <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="#"><i data-feather="refresh-cw"> </i><span>Dispose</span></a></li>
                 </ul>
               </div>
               <div class="right-arrow" id="right-arrow"><i data-feather="arrow-right"></i></div>

@@ -41,19 +41,26 @@
             <div>
               <div><a class="logo" href="index.html"><img class="img-fluid for-light" src="../images/pabe-logo.jpg" alt="looginpage" width="300"><img class="img-fluid for-dark" src="../images/pabe-logo.jpg" alt="looginpage"></a></div>
               <div class="login-main"> 
-                <form class="theme-form" action="/dashboard">
+                <form class="theme-form" action="{{ route('login-post') }}" method="POST">
+                  @csrf
                   <h4>Sign in to account</h4>
                   <p>Enter your email & password to login</p>
                   <div class="form-group">
                     <label class="col-form-label">Email Address</label>
-                    <input class="form-control" type="email"  placeholder="Test@gmail.com">
+                    <input class="form-control" type="email" id="email" name="email" required  placeholder="Test@gmail.com">
+                    @error('email')
+                      <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
                   </div>
                   <div class="form-group">
                     <label class="col-form-label">Password</label>
                     <div class="form-input position-relative">
-                      <input class="form-control" type="password" name="login[password]" placeholder="*********">
-                      <div class="show-hide"><span class="show">                         </span></div>
+                      <input class="form-control" type="password" id="password" name="password" required placeholder="*********">
+                      <div class="show-hide"><span class="show" onclick="togglePasswordVisibility()">                         </span></div>
                     </div>
+                    @error('password')
+                      <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
                   </div>
                   <div class="form-group mb-0">
                     <br/>
@@ -68,8 +75,8 @@
           </div>
         </div>
       </div>
-      <!-- latest jquery-->
-      <script src="../assets/js/jquery-3.5.1.min.js"></script>
+     <!-- latest jquery-->
+     <script src="../assets/js/jquery-3.5.1.min.js"></script>
       <!-- Bootstrap js-->
       <script src="../assets/js/bootstrap/bootstrap.bundle.min.js"></script>
       <!-- feather icon js-->
@@ -84,6 +91,17 @@
       <script src="../assets/js/script.js"></script>
       <!-- login js-->
       <!-- Plugin used-->
+       <script>
+        function togglePasswordVisibility() {
+            var passwordField = document.getElementById("password");
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+            } else {
+                passwordField.type = "password";
+            }
+        }
+    </script>
+
     </div>
   </body>
 </html>
