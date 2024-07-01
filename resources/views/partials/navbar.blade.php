@@ -20,11 +20,11 @@
                       <h6 class="lan-1">General</h6>
                     </div>
                   </li>
-                  <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="#"><i data-feather="list"> </i><span>List of Assets</span></a></li>
-                  <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="#"><i data-feather="plus"> </i><span>Add an Asset</span></a></li>
-                  <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="#"><i data-feather="check"> </i><span>Check out</span></a></li>
-                  <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="#"><i data-feather="x"> </i><span>Check In</span></a></li>
-                  <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="#"><i data-feather="refresh-cw"> </i><span>Dispose</span></a></li>
+                  <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="list_of_assets"><i data-feather="list"> </i><span>List of Assets</span></a></li>
+                  <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="add_assets"><i data-feather="plus"> </i><span>Add an Asset</span></a></li>
+                  <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="check_out"><i data-feather="check"> </i><span>Check out</span></a></li>
+                  <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="check_in"><i data-feather="x"> </i><span>Check In</span></a></li>
+                  <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="dispose"><i data-feather="refresh-cw"> </i><span>Dispose</span></a></li>
                 </ul>
               </div>
               <div class="right-arrow" id="right-arrow"><i data-feather="arrow-right"></i></div>
