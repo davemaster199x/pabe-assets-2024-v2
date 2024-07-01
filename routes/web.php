@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DashboardController;
-
+use App\Http\Controllers\AssetController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,4 +26,14 @@ Route::middleware(['auth'])->group(function () {
 
 
     Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+
+    
+    //ASSETS
+    Route::get('/data_assets/create', [AssetController::class, 'create'])->name('data_assets.create');
+    Route::post('/data-assets', [AssetController::class, 'store'])->name('data_assets.store');
+    Route::get('/data_assets/{asset}', [AssetController::class, 'show'])->name('data_assets.show');
+    Route::get('/data_assets/{asset}/edit', [AssetController::class, 'edit'])->name('data_assets.edit');
+    Route::put('/data_assets/{asset}', [AssetController::class, 'update'])->name('data_assets.update');
+    Route::delete('/data_assets/{asset}', [AssetController::class, 'destroy'])->name('data_assets.destroy');
+
 });
