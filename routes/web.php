@@ -17,6 +17,7 @@ use App\Http\Controllers\DashboardController;
 */
 
 Route::get('/', [LoginController::class, 'showLoginForm'])->name('showLoginForm');
+Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('login', [LoginController::class, 'login'])->name('login-post');
 
 Route::middleware(['auth'])->group(function () {
