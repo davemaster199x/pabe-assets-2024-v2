@@ -22,5 +22,8 @@ Route::post('login', [LoginController::class, 'login'])->name('login-post');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
+    Route::get('/add_assets', [DashboardController::class, 'add_asset'])->name('add_assets');
+
+
     Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 });
