@@ -99,14 +99,12 @@
                         <div class="d-flex">
                             <select class="form-select @error('site_id') is-invalid @enderror" id="site_id"
                                 name="site_id" required>
-                                <option selected disabled value="">Choose...</option>
-                                <option value="1">Site 1</option>
-                                <option value="2">Site 2</option>
+                                <option selected value=""></option>
                             </select>
                             @error('site_id')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
-                            <button class="btn btn-primary ms-2" type="button">Add</button>
+                            <button class="btn btn-primary ms-2" type="button" data-bs-toggle="modal" data-bs-target="#SitesModal" data-bs-original-title="" title="">Add</button>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -114,14 +112,12 @@
                         <div class="d-flex">
                             <select class="form-select @error('location_id') is-invalid @enderror" id="location_id"
                                 name="location_id" required>
-                                <option selected disabled value="">Choose...</option>
-                                <option value="1">Location 1</option>
-                                <option value="2">Location 2</option>
+                                <option selected value=""></option>
                             </select>
                             @error('location_id')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
-                            <button class="btn btn-primary ms-2" type="button">Add</button>
+                            <button class="btn btn-primary ms-2" type="button" data-bs-toggle="modal" data-bs-target="#LocationModal" data-bs-original-title="" title="">Add</button>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -129,14 +125,12 @@
                         <div class="d-flex">
                             <select class="form-select @error('category_id') is-invalid @enderror" id="category_id"
                                 name="category_id" required>
-                                <option selected disabled value="">Choose...</option>
-                                <option value="1">Category 1</option>
-                                <option value="2">Category 2</option>
+                                <option selected value=""></option>
                             </select>
                             @error('category_id')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
-                            <button class="btn btn-primary ms-2" type="button">Add</button>
+                            <button class="btn btn-primary ms-2" type="button" data-bs-toggle="modal" data-bs-target="#CategoryModal" data-bs-original-title="" title="">Add</button>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -144,14 +138,12 @@
                         <div class="d-flex">
                             <select class="form-select @error('department_id') is-invalid @enderror" id="department_id"
                                 name="department_id" required>
-                                <option selected disabled value="">Choose...</option>
-                                <option value="1">Department 1</option>
-                                <option value="2">Department 2</option>
+                                <option selected value=""></option>
                             </select>
                             @error('department_id')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
-                            <button class="btn btn-primary ms-2" type="button">Add</button>
+                            <button class="btn btn-primary ms-2" type="button" data-bs-toggle="modal" data-bs-target="#DepartmentModal" data-bs-original-title="" title="">Add</button>
                         </div>
                     </div>
                 </div>
@@ -304,3 +296,6 @@
     </div>
 </div>
 @endsection
+
+@include('partials.add_asset_modal')
+
