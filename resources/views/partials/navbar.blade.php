@@ -17,14 +17,15 @@
                   </li>
                   <li class="sidebar-main-title">
                     <div>
-                      <h6 class="lan-1">Generals</h6>
+                      <h6 class="lan-1">General</h6>
                     </div>
                   </li>
-                  <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="list_of_assets"><i data-feather="list"> </i><span>List of Assets</span></a></li>
-                  <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="add_assets"><i data-feather="plus"> </i><span>Add an Asset</span></a></li>
-                  <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="check_out"><i data-feather="check"> </i><span>Check out</span></a></li>
-                  <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="check_in"><i data-feather="x"> </i><span>Check In</span></a></li>
-                  <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="dispose"><i data-feather="refresh-cw"> </i><span>Dispose</span></a></li>
+                  <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" id="dashboard-navbar" href="dashboard"><i data-feather="home"> </i><span>Dashboard</span></a></li>
+                  <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" id="list_of_assets-navbar" href="list_of_assets"><i data-feather="list"> </i><span>List of Assets</span></a></li>
+                  <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" id="add_assets-navbar" href="add_assets"><i data-feather="plus"> </i><span>Add an Asset </span></a></li>
+                  <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" id="check_out-navbar" href="check_out"><i data-feather="check"> </i><span>Check out</span></a></li>
+                  <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" id="check_in-navbar" href="check_in"><i data-feather="x"> </i><span>Check In</span></a></li>
+                  <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" id="dispose-navbar" href="dispose"><i data-feather="refresh-cw"> </i><span>Dispose</span></a></li>
                 </ul>
               </div>
               <div class="right-arrow" id="right-arrow"><i data-feather="arrow-right"></i></div>

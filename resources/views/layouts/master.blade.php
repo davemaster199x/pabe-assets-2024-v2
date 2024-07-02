@@ -63,6 +63,19 @@
     <!-- <footer> -->
          @include('partials.footer')
     <!-- </footer> -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var activeHome = "@yield('active-home')";
+            if (activeHome === 'active') {
+                document.getElementById('dashboard-navbar').classList.add('active');
+            }
+            var activeAssets = "@yield('active-add-assets')";
+            if (activeAssets === 'active') {
+                document.getElementById('add_assets-navbar').classList.add('active');
+            }
+
+        });
+    </script>
     
 </body>
 </html>

@@ -1,6 +1,7 @@
 @extends('layouts.master')
 
 @section('title', 'Add Asset')
+@section('active-add-assets', 'active')
 @section('page-title', 'Add Asset')
 
 @section('content')
