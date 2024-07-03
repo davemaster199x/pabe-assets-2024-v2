@@ -299,3 +299,8 @@
 
 @include('partials.add_asset_modal')
 
+@section('scripts')
+    <script>
+        document.getElementById('add_assets-navbar').classList.add('active');
+    </script>
+@endsection

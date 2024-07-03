@@ -2,10 +2,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Models\Asset; // Make sure to import the Asset model
 
 class AssetController extends Controller
 {
+
+    public function add_asset()
+    {
+        return view('pages.add_asset');
+    }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -71,5 +78,17 @@ class AssetController extends Controller
         $asset->save();
 
         return redirect()->route('add_assets')->with('success', 'Asset created successfully.');
+    }
+
+    public function list_of_assets()
+    {
+        $assets = DB::table('tbl_assets')
+            ->join('tbl_status', 'tbl_assets.status_id', '=', 'tbl_status.status_id')
+            ->where('tbl_assets.delete', 0)
+            ->where('tbl_status.delete', 0)
+            ->select('tbl_assets.*', 'tbl_status.status_name')
+            ->paginate(10);
+
+        return view('pages.list_of_assets', compact('assets'));
     }
 }

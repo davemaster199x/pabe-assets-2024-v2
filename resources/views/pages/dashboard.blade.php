@@ -25,3 +25,9 @@
     </div>
   </div>
 @endsection
+
+@section('scripts')
+    <script>
+        document.getElementById('dashboard-navbar').classList.add('active');
+    </script>
+@endsection

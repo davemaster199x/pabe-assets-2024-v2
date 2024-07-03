@@ -21,19 +21,21 @@ Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('login', [LoginController::class, 'login'])->name('login-post');
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
-    Route::get('/add_assets', [DashboardController::class, 'add_asset'])->name('add_assets');
-
-
     Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
+    // Dashboard
+    Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
     
     //ASSETS
+    Route::get('/add_assets', [AssetController::class, 'add_asset'])->name('add_assets');
     Route::get('/data_assets/create', [AssetController::class, 'create'])->name('data_assets.create');
     Route::post('/data-assets', [AssetController::class, 'store'])->name('data_assets.store');
     Route::get('/data_assets/{asset}', [AssetController::class, 'show'])->name('data_assets.show');
     Route::get('/data_assets/{asset}/edit', [AssetController::class, 'edit'])->name('data_assets.edit');
     Route::put('/data_assets/{asset}', [AssetController::class, 'update'])->name('data_assets.update');
     Route::delete('/data_assets/{asset}', [AssetController::class, 'destroy'])->name('data_assets.destroy');
+
+    // List of assets
+    Route::get('/list_of_assets', [AssetController::class, 'list_of_assets'])->name('list_of_assets');
 
 });

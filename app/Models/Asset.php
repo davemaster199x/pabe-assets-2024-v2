@@ -60,7 +60,7 @@ class Asset extends Model
 
     public function status()
     {
-        return $this->belongsTo(Status::class, 'status_id');
+        return $this->belongsTo(Status::class, 'status_id', 'status_id');
     }
     
     // Add any other relationships as needed
