@@ -36,8 +36,7 @@
                     site_name: siteName
                 },
                 success: function(response) {
-                    alert('Site created successfully.');
-                    // Optionally, redirect or update the UI
+                    swal("Success!", response.message, "success");
                 },
                 error: function(xhr) {
                     var errors = xhr.responseJSON.errors;
@@ -118,5 +117,4 @@
          </div>
      </div>
  </div>
-
  

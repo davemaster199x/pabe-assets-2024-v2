@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Site;
+use App\Models\SiteModel;
 
 class SiteController extends Controller
 {
@@ -22,7 +22,7 @@ class SiteController extends Controller
         ]);
 
         // Create a new site
-        Site::create([
+        SiteModel::create([
             'site_name' => $request->input('site_name'),
             'delete' => '0',
         ]);
@@ -30,4 +30,11 @@ class SiteController extends Controller
         // Redirect or return a response
         return response()->json(['message' => 'Site created successfully.']);
     }
+
+    // Example in Laravel controller
+    public function getSites() {
+        $sites = SiteModel::select('site_id', 'site_name')->get();// Adjust columns as per your table structure
+        return response()->json($sites);
+    }
+
 }

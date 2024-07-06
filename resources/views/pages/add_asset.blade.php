@@ -97,9 +97,7 @@
                     <div class="col-md-6">
                         <label class="form-label" for="site_id">Site</label>
                         <div class="d-flex">
-                            <select class="form-select @error('site_id') is-invalid @enderror" id="site_id"
-                                name="site_id" required>
-                                <option selected value=""></option>
+                            <select class="form-select @error('site_id') is-invalid @enderror" id="siteSelect" name="site_id" required>
                             </select>
                             @error('site_id')
                             <div class="invalid-feedback">{{ $message }}</div>
@@ -299,8 +297,40 @@
 
 @include('partials.add_asset_modal')
 
+
 @section('scripts')
     <script>
         document.getElementById('add_assets-navbar').classList.add('active');
     </script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function(event) {
+        // Example fetch request to replace fetchSites functionality
+        fetch('/api/sites')
+            .then(function(response) {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(function(data) {
+                // Assuming data is an array of objects with id and site_name properties
+                var select = document.getElementById('siteSelect');
+
+                // Clear existing options (if any)
+                select.innerHTML = '';
+
+                // Create and append new options based on fetched data
+                data.forEach(function(site) {
+                    var option = document.createElement('option');
+                    option.value = site.id;
+                    option.textContent = site.site_name;
+                    select.appendChild(option);
+                });
+            })
+            .catch(function(error) {
+                console.error('Error fetching data:', error);
+            });
+    });
+</script>
 @endsection
