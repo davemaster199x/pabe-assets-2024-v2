@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AssetController;
+use App\Http\Controllers\SiteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,4 +39,10 @@ Route::middleware(['auth'])->group(function () {
     // List of assets
     Route::get('/list_of_assets', [AssetController::class, 'list_of_assets'])->name('list_of_assets');
 
+    //add site on add assets
+    Route::get('/sites/create', [SiteController::class, 'create'])->name('sites.create');
+    Route::post('/sites', [SiteController::class, 'store'])->name('sites.store');
 });
+
+
+
