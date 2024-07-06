@@ -5,6 +5,9 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AssetController;
 use App\Http\Controllers\SiteController;
+use App\Http\Controllers\LocationController;
+use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,9 +45,26 @@ Route::middleware(['auth'])->group(function () {
     //add site on add assets
     Route::get('/sites/create', [SiteController::class, 'create'])->name('sites.create');
     Route::post('/sites', [SiteController::class, 'store'])->name('sites.store');
-
     //load sites via api
     Route::get('/api/sites', [SiteController::class, 'getSites']);
+
+    //add location on add assets
+    Route::get('/locations/create', [LocationController::class, 'create'])->name('locations.create');
+    Route::post('/locations', [LocationController::class, 'store'])->name('locations.store');
+    //load locations via api
+    Route::get('/api/locations', [LocationController::class, 'getLocations']);
+
+    //add department on add assets
+    Route::get('/departments/create', [DepartmentController::class, 'create'])->name('departments.create');
+    Route::post('/departments', [DepartmentController::class, 'store'])->name('departments.store');
+    //load departments via api
+    Route::get('/api/departments', [DepartmentController::class, 'getDepartments']);
+
+    //add category on add assets
+    Route::get('/categories/create', [CategoryController::class, 'create'])->name('categories.create');
+    Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
+    //load departments via api
+    Route::get('/api/categories', [CategoryController::class, 'getCategories']);
     
 });
 

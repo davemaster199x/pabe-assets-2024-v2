@@ -3,52 +3,63 @@
      centered</button>
  <div class="modal fade" id="SitesModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenter"
      aria-hidden="true">
-     <div class="modal-dialog modal-dialog-centered" role="document">
-     <form id="site-form">
-         <div class="modal-content">
-             <div class="modal-header">
-                 <h5 class="modal-title">Add a Site</h5>
-                 <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+     <div class="modal-dialog modal-dialog" role="document">
+         <form id="site-form">
+             <div class="modal-content">
+                 <div class="modal-header">
+                     <h5 class="modal-title">Add a Site</h5>
+                     <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                 </div>
+                 <div class="modal-body">
+                     <div id="errors" style="display:none;">
+                         <ul id="error-list"></ul>
+                     </div>
+                     @csrf
+                     <div class="col-md-12">
+                         <label class="form-label" for="site_name">Site Name</label>
+                         <input class="form-control" type="text" placeholder="Site Name"
+                             type="text" name="site_name" id="site_name" value="{{ old('site_name') }}" required=""
+                             data-bs-original-title="" title="">
+                     </div>
+                 </div>
+                 <div class="modal-footer">
+                     <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
+                     <button class="btn btn-primary" type="button" onclick="submitFormSite()">Add</button>
+                 </div>
              </div>
-             <div class="modal-body">
-                 <div id="errors" style="display:none;">
-                    <ul id="error-list"></ul>
-                </div>
-                @csrf
-                 <label for="site_name">Site Name:</label>
-                <input type="text" name="site_name" id="site_name" value="{{ old('site_name') }}">
-             </div>
-             <div class="modal-footer">
-                 <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
-                 <button class="btn btn-primary" type="button" onclick="submitFormSite()">Add</button>
-             </div>
-         </div>
-     </form>
-      <script>
-        function submitFormSite() {
-            var siteName = $('#site_name').val();
+         </form>
+         <script>
+         function submitFormSite() {
+             var siteName = $('#site_name').val();
 
-            $.ajax({
-                url: '{{ route('sites.store') }}',
-                type: 'POST',
-                data: {
-                    _token: $('meta[name="csrf-token"]').attr('content'),
-                    site_name: siteName
-                },
-                success: function(response) {
-                    swal("Success!", response.message, "success");
-                },
-                error: function(xhr) {
-                    var errors = xhr.responseJSON.errors;
-                    $('#error-list').empty();
-                    $.each(errors, function(key, value) {
-                        $('#error-list').append('<li>' + value + '</li>');
-                    });
-                    $('#errors').show();
-                }
-            });
-        }
-    </script>
+             $.ajax({
+                 url: '{{ route('sites.store') }}',
+                 type: 'POST',
+                 data: {
+                     _token: $('meta[name="csrf-token"]').attr('content'),
+                     site_name: siteName
+                 },
+                 success: function(response) {
+                     swal("Success!", response.message, "success");
+                     var siteModal = new bootstrap.Modal(document.getElementById('SiteModal'));
+                    siteModal.hide();
+
+                    // Optionally, you can clear the form fields
+                    $('#site_name').val('');
+                    $('#errors').hide();
+                    loadData();
+                 },
+                 error: function(xhr) {
+                     var errors = xhr.responseJSON.errors;
+                     $('#error-list').empty();
+                     $.each(errors, function(key, value) {
+                         $('#error-list').append('<li>' + value + '</li>');
+                     });
+                     $('#errors').show();
+                 }
+             });
+         }
+         </script>
      </div>
  </div>
 
@@ -57,20 +68,68 @@
      centered</button>
  <div class="modal fade" id="LocationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenter"
      aria-hidden="true">
-     <div class="modal-dialog modal-dialog-centered" role="document">
-         <div class="modal-content">
-             <div class="modal-header">
-                 <h5 class="modal-title">Add a Location</h5>
-                 <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+     <div class="modal-dialog modal-dialog" role="document">
+         <form id="location-form">
+             <div class="modal-content">
+                 <div class="modal-header">
+                     <h5 class="modal-title">Add a Location</h5>
+                     <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                 </div>
+                 <div class="modal-body">
+                     <div id="errors2" style="display:none;">
+                         <ul id="error-list2"></ul>
+                     </div>
+                     @csrf
+                     <div class="col-md-12">
+                         <label class="form-label" for="location_name">Location Name</label>
+                         <input class="form-control"  type="text" placeholder="Location Name"
+                             type="text" name="location_name" id="location_name" value="{{ old('location_name') }}" required=""
+                             data-bs-original-title="" title="">
+                          <select class="form-select @error('site_id') is-invalid @enderror" id="siteSelect2"
+                                name="site_location_id" required>
+                          </select>  
+                     </div>
+                 </div>
+                 <div class="modal-footer">
+                     <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
+                     <button class="btn btn-primary" type="button" onclick="submitFormLocation()">Add</button>
+                 </div>
              </div>
-             <div class="modal-body">
-                 <p>Modal</p>
-             </div>
-             <div class="modal-footer">
-                 <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
-                 <button class="btn btn-primary" type="button">Add</button>
-             </div>
-         </div>
+         </form>
+         <script>
+         function submitFormLocation() {
+             var locationName = $('#location_name').val();
+             var siteID = $('#site_location_id').val();
+
+             $.ajax({
+                 url: '{{ route('locations.store') }}',
+                 type: 'POST',
+                 data: {
+                     _token: $('meta[name="csrf-token"]').attr('content'),
+                     location_name: locationName,
+                     site_id: siteID,
+                 },
+                 success: function(response) {
+                     swal("Success!", response.message, "success");
+                     var locationModal = new bootstrap.Modal(document.getElementById('LocationModal'));
+                    locationModal.hide();
+
+                    // Optionally, you can clear the form fields
+                    $('#location_name').val('');
+                    $('#errors2').hide();
+                    loadData();
+                 },
+                 error: function(xhr) {
+                     var errors = xhr.responseJSON.errors;
+                     $('#error-list2').empty();
+                     $.each(errors, function(key, value) {
+                         $('#error-list2').append('<li>' + value + '</li>');
+                     });
+                     $('#errors2').show();
+                 }
+             });
+         }
+         </script>
      </div>
  </div>
 
@@ -79,20 +138,63 @@
      centered</button>
  <div class="modal fade" id="CategoryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenter"
      aria-hidden="true">
-     <div class="modal-dialog modal-dialog-centered" role="document">
-         <div class="modal-content">
-             <div class="modal-header">
-                 <h5 class="modal-title">Add a Category</h5>
-                 <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+     <div class="modal-dialog modal-dialog" role="document">
+         <form id="category-form">
+             <div class="modal-content">
+                 <div class="modal-header">
+                     <h5 class="modal-title">Add a Category</h5>
+                     <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                 </div>
+                 <div class="modal-body">
+                     <div id="errors3" style="display:none;">
+                         <ul id="error-list3"></ul>
+                     </div>
+                     @csrf
+                     <div class="col-md-12">
+                         <label class="form-label" for="category_name">Category Name</label>
+                         <input class="form-control" type="text" placeholder="Category Name"
+                             type="text" name="category_name" id="category_name" value="{{ old('category_name') }}" required=""
+                             data-bs-original-title="" title="">
+                     </div>
+                 </div>
+                 <div class="modal-footer">
+                     <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
+                     <button class="btn btn-primary" type="button" onclick="submitFormCategory()">Add</button>
+                 </div>
              </div>
-             <div class="modal-body">
-                 <p>Modal</p>
-             </div>
-             <div class="modal-footer">
-                 <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
-                 <button class="btn btn-primary" type="button">Add</button>
-             </div>
-         </div>
+         </form>
+         <script>
+         function submitFormCategory() {
+             var categoryName = $('#category_name').val();
+
+             $.ajax({
+                 url: '{{ route('categories.store') }}',
+                 type: 'POST',
+                 data: {
+                     _token: $('meta[name="csrf-token"]').attr('content'),
+                     category_name: categoryName
+                 },
+                 success: function(response) {
+                     swal("Success!", response.message, "success");
+                     var categoryModal = new bootstrap.Modal(document.getElementById('CategoryModal'));
+                    categoryModal.hide();
+
+                    // Optionally, you can clear the form fields
+                    $('#category_name').val('');
+                    $('#errors3').hide();
+                    loadData();
+                 },
+                 error: function(xhr) {
+                     var errors = xhr.responseJSON.errors;
+                     $('#error-list3').empty();
+                     $.each(errors, function(key, value) {
+                         $('#error-list3').append('<li>' + value + '</li>');
+                     });
+                     $('#errors3').show();
+                 }
+             });
+         }
+         </script>
      </div>
  </div>
 
@@ -101,20 +203,63 @@
      centered</button>
  <div class="modal fade" id="DepartmentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenter"
      aria-hidden="true">
-     <div class="modal-dialog modal-dialog-centered" role="document">
-         <div class="modal-content">
-             <div class="modal-header">
-                 <h5 class="modal-title">Add a Department</h5>
-                 <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+     <div class="modal-dialog modal-dialog" role="document">
+         <form id="department-form">
+             <div class="modal-content">
+                 <div class="modal-header">
+                     <h5 class="modal-title">Add a Department</h5>
+                     <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                 </div>
+                 <div class="modal-body">
+                     <div id="errors4" style="display:none;">
+                         <ul id="error-list4"></ul>
+                     </div>
+                     @csrf
+                     <div class="col-md-12">
+                         <label class="form-label" for="department_name">Department Name</label>
+                         <input class="form-control" type="text" placeholder="Department Name"
+                             type="text" name="department_name" id="department_name" value="{{ old('department_name') }}" required=""
+                             data-bs-original-title="" title="">
+                     </div>
+                 </div>
+                 <div class="modal-footer">
+                     <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
+                     <button class="btn btn-primary" type="button" onclick="submitFormDepartment()">Add</button>
+                 </div>
              </div>
-             <div class="modal-body">
-                 <p>Modal</p>
-             </div>
-             <div class="modal-footer">
-                 <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
-                 <button class="btn btn-primary" type="button">Add</button>
-             </div>
-         </div>
+         </form>
+         <script>
+         function submitFormDepartment() {
+             var departmentName = $('#department_name').val();
+
+             $.ajax({
+                 url: '{{ route('departments.store') }}',
+                 type: 'POST',
+                 data: {
+                     _token: $('meta[name="csrf-token"]').attr('content'),
+                     department_name: departmentName
+                 },
+                 success: function(response) {
+                     swal("Success!", response.message, "success");
+                     // Hide the modal
+                    var departmentModal = new bootstrap.Modal(document.getElementById('DepartmentModal'));
+                    departmentModal.hide();
+
+                    // Optionally, you can clear the form fields
+                    $('#department_name').val('');
+                    $('#errors4').hide();
+                    loadData();
+                 },
+                 error: function(xhr) {
+                     var errors = xhr.responseJSON.errors;
+                     $('#error-list4').empty();
+                     $.each(errors, function(key, value) {
+                         $('#error-list4').append('<li>' + value + '</li>');
+                     });
+                     $('#errors4').show();
+                 }
+             });
+         }
+         </script>
      </div>
  </div>
- 

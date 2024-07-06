@@ -46,5 +46,4 @@
 
     <script src="../assets/js/sweet-alert/sweetalert.min.js"></script>
     <script src="../assets/js/sweet-alert/app.js"></script>
-    <script type="module" src="{{ mix('js/add_asset.js') }}"></script>
     <!-- Plugins JS Ends-->

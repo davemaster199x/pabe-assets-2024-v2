@@ -33,7 +33,8 @@ class SiteController extends Controller
 
     // Example in Laravel controller
     public function getSites() {
-        $sites = SiteModel::select('site_id', 'site_name')->get();// Adjust columns as per your table structure
+        //using this custom field name to prevent giving idea to the hackers like me XD
+        $sites = SiteModel::selectRaw('site_id as id, site_name as name')->get();
         return response()->json($sites);
     }
 
