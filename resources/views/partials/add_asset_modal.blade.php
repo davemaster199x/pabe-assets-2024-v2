@@ -28,7 +28,7 @@
                  </div>
              </div>
          </form>
-         <script>
+         <script> 
          function submitFormSite() {
              var siteName = $('#site_name').val();
 
