@@ -97,53 +97,53 @@
                     <div class="col-md-6">
                         <label class="form-label" for="site_id">Site</label>
                         <div class="d-flex">
-                            <select class="form-select @error('site_id') is-invalid @enderror" id="site_id"
+                            <select class="form-select @error('site_id') is-invalid @enderror" id="siteSelect"
                                 name="site_id" required>
-                                <option selected value=""></option>
                             </select>
                             @error('site_id')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
-                            <button class="btn btn-primary ms-2" type="button" data-bs-toggle="modal" data-bs-target="#SitesModal" data-bs-original-title="" title="">Add</button>
+                            <button class="btn btn-primary ms-2" type="button" data-bs-toggle="modal"
+                                data-bs-target="#SitesModal" data-bs-original-title="" title="">Add</button>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <label class="form-label" for="location_id">Location</label>
                         <div class="d-flex">
-                            <select class="form-select @error('location_id') is-invalid @enderror" id="location_id"
+                            <select class="form-select @error('location_id') is-invalid @enderror" id="locationSelect"
                                 name="location_id" required>
-                                <option selected value=""></option>
                             </select>
                             @error('location_id')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
-                            <button class="btn btn-primary ms-2" type="button" data-bs-toggle="modal" data-bs-target="#LocationModal" data-bs-original-title="" title="">Add</button>
+                            <button class="btn btn-primary ms-2" type="button" data-bs-toggle="modal"
+                                data-bs-target="#LocationModal" data-bs-original-title="" title="">Add</button>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <label class="form-label" for="category_id">Category</label>
                         <div class="d-flex">
-                            <select class="form-select @error('category_id') is-invalid @enderror" id="category_id"
+                            <select class="form-select @error('category_id') is-invalid @enderror" id="categorySelect"
                                 name="category_id" required>
-                                <option selected value=""></option>
                             </select>
                             @error('category_id')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
-                            <button class="btn btn-primary ms-2" type="button" data-bs-toggle="modal" data-bs-target="#CategoryModal" data-bs-original-title="" title="">Add</button>
+                            <button class="btn btn-primary ms-2" type="button" data-bs-toggle="modal"
+                                data-bs-target="#CategoryModal" data-bs-original-title="" title="">Add</button>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <label class="form-label" for="department_id">Department</label>
                         <div class="d-flex">
-                            <select class="form-select @error('department_id') is-invalid @enderror" id="department_id"
+                            <select class="form-select @error('department_id') is-invalid @enderror" id="departmentSelect"
                                 name="department_id" required>
-                                <option selected value=""></option>
                             </select>
                             @error('department_id')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
-                            <button class="btn btn-primary ms-2" type="button" data-bs-toggle="modal" data-bs-target="#DepartmentModal" data-bs-original-title="" title="">Add</button>
+                            <button class="btn btn-primary ms-2" type="button" data-bs-toggle="modal"
+                                data-bs-target="#DepartmentModal" data-bs-original-title="" title="">Add</button>
                         </div>
                     </div>
                 </div>
@@ -170,11 +170,11 @@
                         <div class="d-flex">
                             <label class="d-block" for="depreciable_asset_yes">
                                 <input class="radio_animated" id="depreciable_asset_yes" name="depreciable_asset"
-                                    type="radio" value="1" >Yes
+                                    type="radio" value="1">Yes
                             </label>
                             <label class="d-block ms-2" for="depreciable_asset_no">
                                 <input class="radio_animated" id="depreciable_asset_no" name="depreciable_asset"
-                                    type="radio" value="0" >No
+                                    type="radio" value="0">No
                             </label>
                         </div>
                         @error('depreciable_asset')
@@ -299,8 +299,152 @@
 
 @include('partials.add_asset_modal')
 
+
 @section('scripts')
-    <script>
-        document.getElementById('add_assets-navbar').classList.add('active');
-    </script>
+<script>
+document.getElementById('add_assets-navbar').classList.add('active');
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function(event) {
+    // Example fetch request to replace fetchSites functionality
+    loadData();
+});
+
+function loadData()
+{
+    fetch('/api/sites')
+        .then(function(response) {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(function(data) {
+            // Assuming data is an array of objects with id and site_name properties
+            var select = document.getElementById('siteSelect');
+
+            // Clear existing options (if any)
+            select.innerHTML = '';
+
+            // Create and append new options based on fetched data
+            data.forEach(function(site) {
+                var option = document.createElement('option');
+                option.value = site.id;
+                option.textContent = site.name;
+                select.appendChild(option);
+            });
+        })
+        .catch(function(error) {
+            console.error('Error fetching data:', error);
+        });
+
+        
+        fetch('/api/sites')
+        .then(function(response) {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(function(data) {
+            // Assuming data is an array of objects with id and site_name properties
+            var select = document.getElementById('siteSelect2');
+
+            // Clear existing options (if any)
+            select.innerHTML = '';
+
+            // Create and append new options based on fetched data
+            data.forEach(function(site) {
+                var option = document.createElement('option');
+                option.value = site.id;
+                option.textContent = site.name;
+                select.appendChild(option);
+            });
+        })
+        .catch(function(error) {
+            console.error('Error fetching data:', error);
+        });
+
+
+        fetch('/api/locations')
+        .then(function(response) {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(function(data) {
+            // Assuming data is an array of objects with id and site_name properties
+            var select = document.getElementById('locationSelect');
+
+            // Clear existing options (if any)
+            select.innerHTML = '';
+
+            // Create and append new options based on fetched data
+            data.forEach(function(location) {
+                var option = document.createElement('option');
+                option.value = location.id;
+                option.textContent = location.name;
+                select.appendChild(option);
+            });
+        })
+        .catch(function(error) {
+            console.error('Error fetching data:', error);
+        });
+
+        fetch('/api/categories')
+        .then(function(response) {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(function(data) {
+            // Assuming data is an array of objects with id and site_name properties
+            var select = document.getElementById('categorySelect');
+
+            // Clear existing options (if any)
+            select.innerHTML = '';
+
+            // Create and append new options based on fetched data
+            data.forEach(function(category) {
+                var option = document.createElement('option');
+                option.value = category.id;
+                option.textContent = category.name;
+                select.appendChild(option);
+            });
+        })
+        .catch(function(error) {
+            console.error('Error fetching data:', error);
+        });
+
+
+        fetch('/api/departments')
+        .then(function(response) {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(function(data) {
+            // Assuming data is an array of objects with id and site_name properties
+            var select = document.getElementById('departmentSelect');
+
+            // Clear existing options (if any)
+            select.innerHTML = '';
+
+            // Create and append new options based on fetched data
+            data.forEach(function(department) {
+                var option = document.createElement('option');
+                option.value = department.id;
+                option.textContent = department.name;
+                select.appendChild(option);
+            });
+        })
+        .catch(function(error) {
+            console.error('Error fetching data:', error);
+        });
+}
+</script>
 @endsection
