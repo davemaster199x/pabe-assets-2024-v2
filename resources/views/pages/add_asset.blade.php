@@ -302,149 +302,147 @@
 
 @section('scripts')
 <script>
-document.getElementById('add_assets-navbar').classList.add('active');
-</script>
+    document.getElementById('add_assets-navbar').classList.add('active');
+    
+    document.addEventListener('DOMContentLoaded', function(event) {
+        // Example fetch request to replace fetchSites functionality
+        loadData();
+    });
 
-<script>
-document.addEventListener('DOMContentLoaded', function(event) {
-    // Example fetch request to replace fetchSites functionality
-    loadData();
-});
-
-function loadData()
-{
-    fetch('/api/sites')
-        .then(function(response) {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(function(data) {
-            // Assuming data is an array of objects with id and site_name properties
-            var select = document.getElementById('siteSelect');
-
-            // Clear existing options (if any)
-            select.innerHTML = '';
-
-            // Create and append new options based on fetched data
-            data.forEach(function(site) {
-                var option = document.createElement('option');
-                option.value = site.id;
-                option.textContent = site.name;
-                select.appendChild(option);
-            });
-        })
-        .catch(function(error) {
-            console.error('Error fetching data:', error);
-        });
-
-        
+    function loadData()
+    {
         fetch('/api/sites')
-        .then(function(response) {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(function(data) {
-            // Assuming data is an array of objects with id and site_name properties
-            var select = document.getElementById('siteSelect2');
+            .then(function(response) {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(function(data) {
+                // Assuming data is an array of objects with id and site_name properties
+                var select = document.getElementById('siteSelect');
 
-            // Clear existing options (if any)
-            select.innerHTML = '';
+                // Clear existing options (if any)
+                select.innerHTML = '';
 
-            // Create and append new options based on fetched data
-            data.forEach(function(site) {
-                var option = document.createElement('option');
-                option.value = site.id;
-                option.textContent = site.name;
-                select.appendChild(option);
+                // Create and append new options based on fetched data
+                data.forEach(function(site) {
+                    var option = document.createElement('option');
+                    option.value = site.id;
+                    option.textContent = site.name;
+                    select.appendChild(option);
+                });
+            })
+            .catch(function(error) {
+                console.error('Error fetching data:', error);
             });
-        })
-        .catch(function(error) {
-            console.error('Error fetching data:', error);
-        });
 
+            
+            fetch('/api/sites')
+            .then(function(response) {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(function(data) {
+                // Assuming data is an array of objects with id and site_name properties
+                var select = document.getElementById('siteSelect2');
 
-        fetch('/api/locations')
-        .then(function(response) {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(function(data) {
-            // Assuming data is an array of objects with id and site_name properties
-            var select = document.getElementById('locationSelect');
+                // Clear existing options (if any)
+                select.innerHTML = '';
 
-            // Clear existing options (if any)
-            select.innerHTML = '';
-
-            // Create and append new options based on fetched data
-            data.forEach(function(location) {
-                var option = document.createElement('option');
-                option.value = location.id;
-                option.textContent = location.name;
-                select.appendChild(option);
+                // Create and append new options based on fetched data
+                data.forEach(function(site) {
+                    var option = document.createElement('option');
+                    option.value = site.id;
+                    option.textContent = site.name;
+                    select.appendChild(option);
+                });
+            })
+            .catch(function(error) {
+                console.error('Error fetching data:', error);
             });
-        })
-        .catch(function(error) {
-            console.error('Error fetching data:', error);
-        });
 
-        fetch('/api/categories')
-        .then(function(response) {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(function(data) {
-            // Assuming data is an array of objects with id and site_name properties
-            var select = document.getElementById('categorySelect');
 
-            // Clear existing options (if any)
-            select.innerHTML = '';
+            fetch('/api/locations')
+            .then(function(response) {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(function(data) {
+                // Assuming data is an array of objects with id and site_name properties
+                var select = document.getElementById('locationSelect');
 
-            // Create and append new options based on fetched data
-            data.forEach(function(category) {
-                var option = document.createElement('option');
-                option.value = category.id;
-                option.textContent = category.name;
-                select.appendChild(option);
+                // Clear existing options (if any)
+                select.innerHTML = '';
+
+                // Create and append new options based on fetched data
+                data.forEach(function(location) {
+                    var option = document.createElement('option');
+                    option.value = location.id;
+                    option.textContent = location.name;
+                    select.appendChild(option);
+                });
+            })
+            .catch(function(error) {
+                console.error('Error fetching data:', error);
             });
-        })
-        .catch(function(error) {
-            console.error('Error fetching data:', error);
-        });
 
+            fetch('/api/categories')
+            .then(function(response) {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(function(data) {
+                // Assuming data is an array of objects with id and site_name properties
+                var select = document.getElementById('categorySelect');
 
-        fetch('/api/departments')
-        .then(function(response) {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(function(data) {
-            // Assuming data is an array of objects with id and site_name properties
-            var select = document.getElementById('departmentSelect');
+                // Clear existing options (if any)
+                select.innerHTML = '';
 
-            // Clear existing options (if any)
-            select.innerHTML = '';
-
-            // Create and append new options based on fetched data
-            data.forEach(function(department) {
-                var option = document.createElement('option');
-                option.value = department.id;
-                option.textContent = department.name;
-                select.appendChild(option);
+                // Create and append new options based on fetched data
+                data.forEach(function(category) {
+                    var option = document.createElement('option');
+                    option.value = category.id;
+                    option.textContent = category.name;
+                    select.appendChild(option);
+                });
+            })
+            .catch(function(error) {
+                console.error('Error fetching data:', error);
             });
-        })
-        .catch(function(error) {
-            console.error('Error fetching data:', error);
-        });
-}
+
+
+            fetch('/api/departments')
+            .then(function(response) {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(function(data) {
+                // Assuming data is an array of objects with id and site_name properties
+                var select = document.getElementById('departmentSelect');
+
+                // Clear existing options (if any)
+                select.innerHTML = '';
+
+                // Create and append new options based on fetched data
+                data.forEach(function(department) {
+                    var option = document.createElement('option');
+                    option.value = department.id;
+                    option.textContent = department.name;
+                    select.appendChild(option);
+                });
+            })
+            .catch(function(error) {
+                console.error('Error fetching data:', error);
+            });
+    }
 </script>
 @endsection
