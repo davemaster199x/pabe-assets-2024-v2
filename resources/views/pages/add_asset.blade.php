@@ -241,9 +241,9 @@
                         <label class="form-label" for="funding_source">Funding Source</label>
                         <div class="d-flex">
                             <select class="form-select @error('funding_source') is-invalid @enderror"
-                                id="funding_source" name="funding_source" required>
+                            id="fundingSelect" name="funding_id" required>
                             </select>
-                            @error('funding_source')
+                            @error('funding_id')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                             <button class="btn btn-primary ms-2" type="button" data-bs-toggle="modal"

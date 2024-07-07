@@ -1,6 +1,4 @@
  <!-- Vertically centered Site modal-->
- <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#SitesModal">Vertically
-     centered</button>
  <div class="modal fade" id="SitesModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenter"
      aria-hidden="true">
      <div class="modal-dialog modal-dialog" role="document">
@@ -64,8 +62,6 @@
  </div>
 
  <!-- Vertically centered Location modal-->
- <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#LocationModal">Vertically
-     centered</button>
  <div class="modal fade" id="LocationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenter"
      aria-hidden="true">
      <div class="modal-dialog modal-dialog" role="document">
@@ -134,8 +130,6 @@
  </div>
 
  <!-- Vertically centered Category modal-->
- <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#CategoryModal">Vertically
-     centered</button>
  <div class="modal fade" id="CategoryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenter"
      aria-hidden="true">
      <div class="modal-dialog modal-dialog" role="document">
@@ -199,8 +193,6 @@
  </div>
 
  <!-- Vertically centered Site modal-->
- <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#DepartmentModal">Vertically
-     centered</button>
  <div class="modal fade" id="DepartmentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenter"
      aria-hidden="true">
      <div class="modal-dialog modal-dialog" role="document">
@@ -265,25 +257,23 @@
  </div>
 
 <!-- Fundings -->
- <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#FundingsModal">Vertically
-     centered</button>
  <div class="modal fade" id="FundingsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenter"
      aria-hidden="true">
      <div class="modal-dialog modal-dialog" role="document">
          <form id="site-form">
              <div class="modal-content">
                  <div class="modal-header">
-                     <h5 class="modal-title">Add a Site</h5>
+                     <h5 class="modal-title">Add a Funding</h5>
                      <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                  </div>
                  <div class="modal-body">
-                     <div id="errors" style="display:none;">
-                         <ul id="error-list"></ul>
+                     <div id="errors5" style="display:none;">
+                         <ul id="error-list5"></ul>
                      </div>
                      @csrf
                      <div class="col-md-12">
-                         <label class="form-label" for="site_name">Funding Name</label>
-                         <input class="form-control" type="text" placeholder="Site Name"
+                         <label class="form-label" for="funding_name">Funding Name</label>
+                         <input class="form-control" type="text" placeholder="Funding Name"
                              type="text" name="funding_name" id="funding_name" value="{{ old('funding_name') }}" required=""
                              data-bs-original-title="" title="">
                      </div>
