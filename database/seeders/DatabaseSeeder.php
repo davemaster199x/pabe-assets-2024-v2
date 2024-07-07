@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             TblCategory::class,
             TblLocation::class,
             TblDepartment::class,
+            TblFundings::class,
         ]);
     }
 }

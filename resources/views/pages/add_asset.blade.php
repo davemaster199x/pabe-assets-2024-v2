@@ -222,12 +222,7 @@
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
-                </div>
-                <div class="row g-3">
-                    <div class="col-md-12">
-                        <hr />
-                        <h5>Accounting</h5>
-                    </div>
+                    
                     <div class="col-md-6">
                         <label class="form-label" for="date_acquired">Date Acquired</label>
                         <input class="form-control @error('date_acquired') is-invalid @enderror" id="date_acquired"
@@ -236,19 +231,23 @@
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
+                </div>
+                <div class="row g-3">
+                    <div class="col-md-12">
+                        <hr />
+                        <h5>Accounting</h5>
+                    </div>
                     <div class="col-md-6">
                         <label class="form-label" for="funding_source">Funding Source</label>
                         <div class="d-flex">
                             <select class="form-select @error('funding_source') is-invalid @enderror"
                                 id="funding_source" name="funding_source" required>
-                                <option selected disabled value="">Choose...</option>
-                                <option value="1">Funding Source 1</option>
-                                <option value="2">Funding Source 2</option>
                             </select>
                             @error('funding_source')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
-                            <button class="btn btn-primary ms-2" type="button">Add</button>
+                            <button class="btn btn-primary ms-2" type="button" data-bs-toggle="modal"
+                                data-bs-target="#FundingsModal" data-bs-original-title="" title="">Add</button>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -267,27 +266,6 @@
                 <div class="row g-3">
                     <div class="col-md-12">
                         <hr />
-                        <h5>Status</h5>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label" for="status_id">Status</label>
-                        <div class="d-flex">
-                            <select class="form-select @error('status_id') is-invalid @enderror" id="status_id"
-                                name="status_id" required>
-                                <option selected disabled value="">Choose...</option>
-                                <option value="1">Status 1</option>
-                                <option value="2">Status 2</option>
-                            </select>
-                            @error('status_id')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                            <button class="btn btn-primary ms-2" type="button">Add</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="row g-3">
-                    <div class="col-md-12">
-                        <hr />
                         <button class="btn btn-primary" type="submit">Submit</button>
                     </div>
                 </div>
@@ -297,7 +275,7 @@
 </div>
 @endsection
 
-@include('partials.add_asset_modal')
+//@include('partials.add_asset_modal')
 
 
 @section('scripts')
@@ -437,6 +415,32 @@
                     var option = document.createElement('option');
                     option.value = department.id;
                     option.textContent = department.name;
+                    select.appendChild(option);
+                });
+            })
+            .catch(function(error) {
+                console.error('Error fetching data:', error);
+            });
+
+            fetch('/api/fundings')
+            .then(function(response) {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(function(data) {
+                // Assuming data is an array of objects with id and site_name properties
+                var select = document.getElementById('fundingSelect');
+
+                // Clear existing options (if any)
+                select.innerHTML = '';
+
+                // Create and append new options based on fetched data
+                data.forEach(function(funding) {
+                    var option = document.createElement('option');
+                    option.value = funding.id;
+                    option.textContent = funding.name;
                     select.appendChild(option);
                 });
             })

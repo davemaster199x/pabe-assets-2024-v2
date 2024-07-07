@@ -41,7 +41,7 @@
                  },
                  success: function(response) {
                      swal("Success!", response.message, "success");
-                     var siteModal = new bootstrap.Modal(document.getElementById('SiteModal'));
+                     var siteModal = new bootstrap.Modal(document.getElementById('SitesModal'));
                     siteModal.hide();
 
                     // Optionally, you can clear the form fields
@@ -257,6 +257,71 @@
                          $('#error-list4').append('<li>' + value + '</li>');
                      });
                      $('#errors4').show();
+                 }
+             });
+         }
+         </script>
+     </div>
+ </div>
+
+<!-- Fundings -->
+ <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#FundingsModal">Vertically
+     centered</button>
+ <div class="modal fade" id="FundingsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenter"
+     aria-hidden="true">
+     <div class="modal-dialog modal-dialog" role="document">
+         <form id="site-form">
+             <div class="modal-content">
+                 <div class="modal-header">
+                     <h5 class="modal-title">Add a Site</h5>
+                     <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                 </div>
+                 <div class="modal-body">
+                     <div id="errors" style="display:none;">
+                         <ul id="error-list"></ul>
+                     </div>
+                     @csrf
+                     <div class="col-md-12">
+                         <label class="form-label" for="site_name">Funding Name</label>
+                         <input class="form-control" type="text" placeholder="Site Name"
+                             type="text" name="funding_name" id="funding_name" value="{{ old('funding_name') }}" required=""
+                             data-bs-original-title="" title="">
+                     </div>
+                 </div>
+                 <div class="modal-footer">
+                     <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
+                     <button class="btn btn-primary" type="button" onclick="submitFormFunding()">Add</button>
+                 </div>
+             </div>
+         </form>
+         <script> 
+         function submitFormFunding() {
+             var fundingName = $('#funding_name').val();
+
+             $.ajax({
+                 url: '{{ route('fundings.store') }}',
+                 type: 'POST',
+                 data: {
+                     _token: $('meta[name="csrf-token"]').attr('content'),
+                     funding_name: fundingName
+                 },
+                 success: function(response) {
+                     swal("Success!", response.message, "success");
+                     var fundingModal = new bootstrap.Modal(document.getElementById('FundingsModal'));
+                     fundingModal.hide();
+
+                    // Optionally, you can clear the form fields
+                    $('#funding_name').val('');
+                    $('#errors5').hide();
+                    loadData();
+                 },
+                 error: function(xhr) {
+                     var errors = xhr.responseJSON.errors;
+                     $('#error-list5').empty();
+                     $.each(errors, function(key, value) {
+                         $('#error-list5').append('<li>' + value + '</li>');
+                     });
+                     $('#errors5').show();
                  }
              });
          }

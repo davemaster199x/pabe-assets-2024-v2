@@ -41,6 +41,8 @@
     <!-- </header> -->
 
     <!-- <nav> -->
+    <!-- Page Body Start-->
+    <div class="page-body-wrapper">
         @include('partials.navbar')
     <!-- </nav> -->
 
@@ -63,8 +65,9 @@
     </div>
     
     <!-- <footer> -->
-         @include('partials.footer')
+       @include('partials.footer')
     <!-- </footer> -->
+     
 
     @yield('scripts')
 </body>
