@@ -37,7 +37,15 @@
                     </tbody>
                 </table>
             </div>
-            {{ $assets->links() }}
+            <div class="mt-3">
+                <p>
+                    Showing {{ $assets->firstItem() }} to {{ $assets->lastItem() }} of {{ $assets->total() }} entries
+                </p>
+            </div>
+            <!-- Pagination links -->
+            <div class="d-flex justify-content-center">
+                {{ $assets->links() }}
+            </div>
         </div>
     </div>
 </div>
