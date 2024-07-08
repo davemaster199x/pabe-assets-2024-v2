@@ -71,7 +71,7 @@ class AssetController extends Controller
         $asset->date_acquired = $request->date_acquired;
         $asset->funding_source = $request->funding_source;
         $asset->amount_debited = $request->amount_debited;
-        $asset->status_id = $request->status_id;
+        $asset->status_id = 1;//$request->status_id;
         $asset->delete = $request->delete ?? '0';
 
         // Save the asset to the database

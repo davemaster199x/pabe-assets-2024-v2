@@ -8,6 +8,7 @@ use App\Http\Controllers\SiteController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\FundingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -66,6 +67,11 @@ Route::middleware(['auth'])->group(function () {
     //load departments via api
     Route::get('/api/categories', [CategoryController::class, 'getCategories']);
     
+    //add category on add assets
+    Route::get('/fundings/create', [FundingController::class, 'create'])->name('fundings.create');
+    Route::post('/fundings', [FundingController::class, 'store'])->name('fundings.store');
+    //load departments via api
+    Route::get('/api/fundings', [FundingController::class, 'getFundings']);
 });
 
 
