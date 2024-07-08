@@ -91,4 +91,10 @@ class AssetController extends Controller
 
         return view('pages.list_of_assets', compact('assets'));
     }
+
+    public function asset_details($asset_id)
+    {
+        $asset = Asset::findOrFail($asset_id);
+        dd($asset);
+    }
 }

@@ -42,6 +42,7 @@ Route::middleware(['auth'])->group(function () {
 
     // List of assets
     Route::get('/list_of_assets', [AssetController::class, 'list_of_assets'])->name('list_of_assets');
+    Route::get('/assets/detail/{asset}', [AssetController::class, 'asset_details'])->name('asset_details');
 
     //add site on add assets
     Route::get('/sites/create', [SiteController::class, 'create'])->name('sites.create');

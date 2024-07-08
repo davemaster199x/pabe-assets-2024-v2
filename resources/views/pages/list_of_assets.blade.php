@@ -11,7 +11,7 @@
                 <table class="display" id="list_assets_table" class="display">
                     <thead>
                         <tr>
-                            <th></th>
+                            <th><input type="checkbox" id="select_all"></th>
                             <th>Asset Tag ID</th>
                             <th>Description</th>
                             <th>Brand</th>
@@ -24,14 +24,18 @@
                     <tbody>
                         @foreach($assets as $asset)
                         <tr>
-                            <td></td>
+                            <td>
+                                <input type="checkbox" class="asset_checkbox" data-id="{{ $asset->asset_id }}">
+                            </td>
                             <td>{{ $asset->assets_tag_id }}</td>
                             <td>{{ $asset->description }}</td>
                             <td>{{ $asset->brand }}</td>
                             <td>{{ $asset->purchase_date }}</td>
                             <td>{{ $asset->cost }}</td>
                             <td>{{ $asset->status_name }}</td>
-                            <td></td>
+                            <td><a href="{{ route('asset_details', ['asset' => $asset->asset_id]) }}" class="btn btn-outline-light" style="border-color: black; color: black;" title="btn btn-outline-light" data-bs-original-title="btn btn-outline-light" data-original-title="btn btn-outline-light txt-dark">
+                                <i class="icofont icofont-eye-alt"></i>View
+                            </a></td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -59,7 +63,33 @@
             $('#list_assets_table').DataTable({
                 paging: false, // Disable pagination
                 info: false, // Disable information display
+                columnDefs: [
+                    { orderable: false, targets: 0 } // Disable sorting on the first column
+                ]
             });
+        }
+
+        document.getElementById('select_all').addEventListener('change', function() {
+            const checkboxes = document.querySelectorAll('.asset_checkbox');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = this.checked;
+            });
+            updateCheckedItems();
+        });
+
+        document.querySelectorAll('.asset_checkbox').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                updateCheckedItems();
+            });
+        });
+
+        function updateCheckedItems() {
+            const checkedItems = [];
+            document.querySelectorAll('.asset_checkbox:checked').forEach(checkbox => {
+                checkedItems.push(checkbox.getAttribute('data-id'));
+            });
+            console.log('Checked items:', checkedItems);
+            // You can perform further actions with the checked items here
         }
     </script>
 @endsection
