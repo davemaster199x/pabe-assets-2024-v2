@@ -10,6 +10,7 @@ use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FundingController;
 
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -73,6 +74,11 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/fundings', [FundingController::class, 'store'])->name('fundings.store');
     //load fundings via api
     Route::get('/api/fundings', [FundingController::class, 'getFundings']);
+
+    Route::get('qrcode', function () {
+        $qrCodeValue = QrCode::size(300)->generate('1');
+        return view('partials.qrcode', compact('qrCodeValue'));
+    });
 });
 
 
