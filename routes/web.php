@@ -10,6 +10,7 @@ use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FundingController;
 
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -65,14 +66,19 @@ Route::middleware(['auth'])->group(function () {
     //add category on add assets
     Route::get('/categories/create', [CategoryController::class, 'create'])->name('categories.create');
     Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
-    //load departments via api
+    //load categories via api
     Route::get('/api/categories', [CategoryController::class, 'getCategories']);
     
-    //add category on add assets
+    //add funding on add assets
     Route::get('/fundings/create', [FundingController::class, 'create'])->name('fundings.create');
     Route::post('/fundings', [FundingController::class, 'store'])->name('fundings.store');
-    //load departments via api
+    //load fundings via api
     Route::get('/api/fundings', [FundingController::class, 'getFundings']);
+
+    Route::get('qrcode', function () {
+        $qrCodeValue = QrCode::size(300)->generate('1');
+        return view('partials.qrcode', compact('qrCodeValue'));
+    });
 });
 
 
