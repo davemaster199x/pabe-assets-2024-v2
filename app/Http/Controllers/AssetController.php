@@ -87,6 +87,7 @@ class AssetController extends Controller
             ->where('tbl_assets.delete', 0)
             ->where('tbl_status.delete', 0)
             ->select('tbl_assets.*', 'tbl_status.status_name')
+            ->orderBy('tbl_assets.asset_id', 'desc')
             ->paginate(10);
 
         return view('pages.list_of_assets', compact('assets'));

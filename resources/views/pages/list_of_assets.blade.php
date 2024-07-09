@@ -7,7 +7,7 @@
 <div class="col-md-12">
     <div class="card">
         <div class="card-body">
-            <div class="table-responsive">
+            <div class="table-responsive" style="overflow-x: hidden;">
                 <table class="display" id="list_assets_table" class="display">
                     <thead>
                         <tr>
