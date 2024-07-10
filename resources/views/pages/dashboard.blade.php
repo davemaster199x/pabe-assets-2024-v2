@@ -25,7 +25,7 @@
                         </svg><span id="txt">2:32 PM</span></div>
                 </div>
             </div>
-            <div class="cartoon"><img class="img-fluid" src="../assets/images/dashboard/cartoon.png" alt=""></div>
+            <div class="cartoon"><img class="img-fluid" src="{{ asset('assets/images/dashboard/cartoon.png') }}" alt=""></div>
         </div>
     </div>
 </div>

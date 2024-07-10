@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="../images/pabe-logo.png?" type="image/x-icon">
-    <link rel="shortcut icon" href="../images/pabe-logo.jpg?" type="image/x-icon">
+    <link rel="icon" href="{{ asset('images/pabe-logo.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('images/pabe-logo.png') }}" type="image/x-icon">
     <title>@yield('title')</title>
     <!-- Include CSS and other head elements -->
     <link href="https://fonts.googleapis.com/css?family=Rubik:400,400i,500,500i,700,700i&amp;display=swap" rel="stylesheet">

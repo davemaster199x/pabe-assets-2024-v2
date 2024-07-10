@@ -2,20 +2,20 @@
     <!-- Page Sidebar Start-->
     <div class="sidebar-wrapper">
         <div>
-            <div class="logo-wrapper"><a href="./dashboard"><img class="img-fluid for-light"
-                        src="../images/pabe-logo.png" alt="" width="200"><img class="img-fluid for-dark"
-                        src="../images/pabe-logo.png" alt="" width="200"></a>
+            <div class="logo-wrapper"><a href="{{ route('dashboard') }}"><img class="img-fluid for-light"
+                        src="{{ asset('images/pabe-logo.png') }}" alt="" width="150"><img class="img-fluid for-dark"
+                        src="{{ asset('images/pabe-logo.png') }}" alt="" width="150"></a>
                 <div class="back-btn"><i class="fa fa-angle-left"></i></div>
                 <div class="toggle-sidebar"><i class="status_toggle middle sidebar-toggle" data-feather="grid">
                     </i></div>
             </div>
-            <div class="logo-icon-wrapper"><a href="./dashboard"><img class="img-fluid" src="../images/pabe-logo.png"
+            <div class="logo-icon-wrapper"><a href="{{ route('dashboard') }}"><img class="img-fluid" width="75" src="{{ asset('images/pabe-logo.png') }}"
                         alt="" width="100"></a></div>
             <nav class="sidebar-main">
                 <div class="left-arrow" id="left-arrow"><i data-feather="arrow-left"></i></div>
                 <div id="sidebar-menu">
                     <ul class="sidebar-links" id="simple-bar">
-                        <li class="back-btn"><a href="./dashboard"><img class="img-fluid" src="../images/pabe-logo.png"
+                        <li class="back-btn"><a href="{{ route('dashboard') }}"><img class="img-fluid" src="{{ asset('images/pabe-logo.png') }}"
                                     alt="" width="100"></a>
                             <div class="mobile-back text-end"><span>Back</span><i class="fa fa-angle-right ps-2"
                                     aria-hidden="true"></i></div>
@@ -26,22 +26,22 @@
                             </div>
                         </li>
                         <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" id="dashboard-navbar"
-                                href="dashboard"><i data-feather="home">
+                                href="{{ route('dashboard') }}"><i data-feather="home">
                                 </i><span>Dashboard</span></a></li>
                         <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav"
-                                id="list_of_assets-navbar" href="list_of_assets"><i data-feather="list">
+                                id="list_of_assets-navbar" href="{{ route('list_of_assets') }}"><i data-feather="list">
                                 </i><span>List of Assets</span></a></li>
                         <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" id="add_assets-navbar"
-                                href="add_assets"><i data-feather="plus"> </i><span>Add
+                                href="{{ route('add_assets') }}"><i data-feather="plus"> </i><span>Add
                                     an Asset </span></a></li>
                         <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" id="check_out-navbar"
-                                href="check_out"><i data-feather="check"> </i><span>Check
+                                href="#"><i data-feather="check"> </i><span>Check
                                     out</span></a></li>
                         <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" id="check_in-navbar"
-                                href="check_in"><i data-feather="x"> </i><span>Check
+                                href="#"><i data-feather="x"> </i><span>Check
                                     In</span></a></li>
                         <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" id="dispose-navbar"
-                                href="dispose"><i data-feather="refresh-cw">
+                                href="#"><i data-feather="refresh-cw">
                                 </i><span>Dispose</span></a></li>
                     </ul>
                 </div>
