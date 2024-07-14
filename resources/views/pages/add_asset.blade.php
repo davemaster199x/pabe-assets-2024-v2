@@ -275,7 +275,9 @@
 </div>
 @endsection
 
-//@include('partials.add_asset_modal')
+@include('partials.add_asset_modal')
+
+@include('partials.add_asset_lastid')
 
 
 @section('scripts')

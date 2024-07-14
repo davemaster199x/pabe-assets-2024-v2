@@ -43,10 +43,19 @@ class AssetController extends Controller
 
         // Create a new instance of the Asset model
         $asset = new Asset();
+
+         // Call the getLastAssetId method
+         $response = $this->getLastAssetId();
+
+         // Extract the data from the response
+         $lastIdData = $response->getData();
+ 
+         // Access the formatted ID
+         $formattedId = $lastIdData->last_id;
         
         // Assign values from request to the model instance
         $asset->description = $request->description;
-        $asset->assets_tag_id = $request->assets_tag_id;
+        $asset->assets_tag_id = $formattedId; //useless ang modification sa frontend kung ma retrive ra sa backend inig add sa assets
         $asset->purchase_date = $request->purchase_date;
         $asset->cost = $request->cost;
         $asset->purchase_from = $request->purchase_from;
@@ -98,5 +107,18 @@ class AssetController extends Controller
         // $asset = Asset::findOrFail($asset_id);
         // dd($asset);
         return view('pages.asset_details');
+    }
+
+    public function getLastAssetId()
+    {
+        // Get the last asset_id
+        $lastAsset = Asset::latest('asset_id')->first();
+
+        // Format the asset_id
+        $lastId = $lastAsset ? $lastAsset->asset_id : 0;
+        $formattedId = 'PABE-'.date('Y').'-' . ($lastId+1);
+
+        // Return the formatted ID
+        return response()->json(['last_id' => $formattedId]);
     }
 }
