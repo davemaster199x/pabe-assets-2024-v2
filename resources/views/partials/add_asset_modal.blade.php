@@ -1,4 +1,5 @@
  <!-- Vertically centered Site modal-->
+  <div class="hiddenpreload" style="display:none">
  <div class="modal fade" id="SitesModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenter"
      aria-hidden="true">
      <div class="modal-dialog modal-dialog" role="document">
@@ -319,3 +320,4 @@
          </script>
      </div>
  </div>
+        </div>

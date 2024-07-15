@@ -7,6 +7,8 @@
         </div>
         </div>
     </footer>
+    <?php /*
+    <!-- DataTables CSS -->
     <!-- latest jquery-->
     <script src="{{ asset('assets/js/jquery-3.5.1.min.js') }}"></script>
     <!-- Bootstrap js-->
@@ -42,8 +44,7 @@
     <!-- Plugins JS start-->
     <script src="{{ asset('assets/js/sidebar-menu.js') }}"></script>
     <script src="{{ asset('assets/js/tooltip-init.js') }}"></script>
-
-    <?php /* //wondering asa sayup ani hayop
+*/ ?>
     <script src="../assets/js/jquery-3.5.1.min.js"></script>
     <!-- Bootstrap js-->
     <script src="../assets/js/bootstrap/bootstrap.bundle.min.js"></script>
@@ -77,10 +78,6 @@
     <!-- Plugins JS Ends-->
     <!-- Theme js-->
     <script src="../assets/js/script.js"></script>
-    */ ?>
 
     <script src="{{ asset('assets/js/sweet-alert/sweetalert.min.js') }}"></script>
 
-    
-    <script src="{{ asset('assets/js/datatable/datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('assets/js/datatable/datatables/datatable.custom.js') }}"></script>

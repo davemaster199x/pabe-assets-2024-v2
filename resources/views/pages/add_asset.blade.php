@@ -287,7 +287,9 @@
     document.addEventListener('DOMContentLoaded', function(event) {
         // Example fetch request to replace fetchSites functionality
         loadData();
+        $('.hiddenpreload').css('display', 'block');//pra dli una mo display ang other html ayha ang actual 
     });
+
 
     function loadData()
     {
