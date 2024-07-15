@@ -41,22 +41,22 @@ class Asset extends Model
     // Example: belongsTo relationships
     public function site()
     {
-        return $this->belongsTo(Site::class, 'site_id');
+        return $this->belongsTo(SiteModel::class, 'site_id');
     }
 
     public function location()
     {
-        return $this->belongsTo(Location::class, 'location_id');
+        return $this->belongsTo(LocationModel::class, 'location_id');
     }
 
     public function category()
     {
-        return $this->belongsTo(Category::class, 'category_id');
+        return $this->belongsTo(CategoryModel::class, 'category_id');
     }
 
     public function department()
     {
-        return $this->belongsTo(Department::class, 'department_id');
+        return $this->belongsTo(DepartmentModel::class, 'department_id');
     }
 
     public function status()

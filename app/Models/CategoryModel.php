@@ -9,6 +9,7 @@ class CategoryModel extends Model
 {
     use HasFactory;
     protected $table = 'tbl_category';
+    protected $primaryKey = 'category_id';
     protected $fillable = ['category_name', 'delete'];
 
 }

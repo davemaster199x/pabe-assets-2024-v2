@@ -12,6 +12,7 @@
                     <thead>
                         <tr>
                             <th><input type="checkbox" id="select_all"></th>
+                            <th></th>
                             <th>Asset Tag ID</th>
                             <th>Description</th>
                             <th>Brand</th>
@@ -26,6 +27,13 @@
                         <tr>
                             <td>
                                 <input type="checkbox" class="asset_checkbox" data-id="{{ $asset->asset_id }}">
+                            </td>
+                             <td>
+                                @if(Storage::disk('public')->exists($asset->asset_photo_file))
+                                    <img src="{{ asset('storage/' . $asset->asset_photo_file) }}" alt="{{ $asset->description }}" style="width: 100px; height: auto;">
+                                @else
+                                    No Image
+                                @endif
                             </td>
                             <td>{{ $asset->assets_tag_id }}</td>
                             <td>{{ $asset->description }}</td>

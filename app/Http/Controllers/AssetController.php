@@ -69,7 +69,7 @@ class AssetController extends Controller
 
         // Handle file upload if asset_photo_file is present
         if ($request->hasFile('asset_photo_file')) {
-            $asset->asset_photo_file = $request->file('asset_photo_file')->store('assets_photos');
+            $asset->asset_photo_file = $request->file('asset_photo_file')->store('assets_photos', 'public');
         }
 
         $asset->depreciable_asset = $request->depreciable_asset;
@@ -104,9 +104,9 @@ class AssetController extends Controller
 
     public function asset_details($asset_id)
     {
-        // $asset = Asset::findOrFail($asset_id);
-        // dd($asset);
-        return view('pages.asset_details');
+        $asset = Asset::findOrFail($asset_id);
+
+        return view('pages.asset_details', compact('asset'));
     }
 
     public function getLastAssetId()
