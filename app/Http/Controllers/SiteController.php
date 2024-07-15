@@ -38,4 +38,11 @@ class SiteController extends Controller
         return response()->json($sites);
     }
 
+    public function show($id)
+    {
+        $site = SiteModel::find($id);
+        
+        return response()->json($site);
+    }
+
 }

@@ -9,5 +9,6 @@ class LocationModel extends Model
 {
     use HasFactory;
     protected $table = 'tbl_location';
+    protected $primaryKey = 'location_id';
     protected $fillable = ['location_name','site_id', 'delete'];
 }

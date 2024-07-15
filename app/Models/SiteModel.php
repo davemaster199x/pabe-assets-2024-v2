@@ -10,5 +10,6 @@ class SiteModel extends Model
     use HasFactory;
 
     protected $table = 'tbl_sites';
+    protected $primaryKey = 'site_id';
     protected $fillable = ['site_name', 'delete'];
 }
