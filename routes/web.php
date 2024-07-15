@@ -31,7 +31,7 @@ Route::middleware(['auth'])->group(function () {
 
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
-    
+
     //ASSETS
     Route::get('/add_assets', [AssetController::class, 'add_asset'])->name('add_assets');
     Route::get('/data_assets/create', [AssetController::class, 'create'])->name('data_assets.create');
@@ -40,9 +40,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/data_assets/{asset}/edit', [AssetController::class, 'edit'])->name('data_assets.edit');
     Route::put('/data_assets/{asset}', [AssetController::class, 'update'])->name('data_assets.update');
     Route::delete('/data_assets/{asset}', [AssetController::class, 'destroy'])->name('data_assets.destroy');
+ 
 
     //assets last id
-    Route::get('/assets/last-id', [AssetController::class, 'getLastAssetId']);
+    //Route::get('/assets/last-id', [AssetController::class, 'getLastAssetId']); 
+    Route::middleware(['check.referrer:add_assets'])->group(function () {
+        Route::get('/assets/last-id', [AssetController::class, 'getLastAssetId']);//para dli ma diretso ug access sa browser test pani
+    });
 
     // List of assets
     Route::get('/list_of_assets', [AssetController::class, 'list_of_assets'])->name('list_of_assets');
