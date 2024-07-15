@@ -25,22 +25,22 @@
                                 <h6 class="lan-1">General</h6>
                             </div>
                         </li>
-                        <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" id="dashboard-navbar"
+                        <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" id="dashboard-navbar" style="display: flex;"
                                 href="{{ route('dashboard') }}"><i data-feather="home">
                                 </i><span>Dashboard</span></a></li>
-                        <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav"
+                        <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" style="display: flex;"
                                 id="list_of_assets-navbar" href="{{ route('list_of_assets') }}"><i data-feather="list">
                                 </i><span>List of Assets</span></a></li>
-                        <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" id="add_assets-navbar"
+                        <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" id="add_assets-navbar" style="display: flex;"
                                 href="{{ route('add_assets') }}"><i data-feather="plus"> </i><span>Add
                                     an Asset </span></a></li>
-                        <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" id="check_out-navbar"
+                        <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" id="check_out-navbar" style="display: flex;"
                                 href="#"><i data-feather="check"> </i><span>Check
                                     out</span></a></li>
-                        <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" id="check_in-navbar"
+                        <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" id="check_in-navbar" style="display: flex;"
                                 href="#"><i data-feather="x"> </i><span>Check
                                     In</span></a></li>
-                        <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" id="dispose-navbar"
+                        <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" id="dispose-navbar" style="display: flex;"
                                 href="#"><i data-feather="refresh-cw">
                                 </i><span>Dispose</span></a></li>
                     </ul>
