@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Asset; // Make sure to import the Asset model
+use Illuminate\Support\Facades\Storage;
 
 class AssetController extends Controller
 {
@@ -127,7 +128,9 @@ class AssetController extends Controller
     }
 
     public function getAssets() {
-            $assets = Asset::selectRaw('assets_tag_id, description, brand, purchase_date, cost, status_id ')->get();
+            $assets = Asset::selectRaw('asset_photo_file, assets_tag_id, description, brand, purchase_date, cost, status_id, asset_id')
+            ->orderBy('asset_id', 'desc')
+            ->get();
     
             $response = [
                 "recordsTotal" => $assets->count(), // Total records without filtering
@@ -136,14 +139,18 @@ class AssetController extends Controller
             ];
             
             foreach ($assets as $asset) {
+                $assetPhotoUrl = Storage::disk('public')->exists($asset->asset_photo_file) 
+                    ? asset('storage/' . $asset->asset_photo_file) 
+                    : 'No Image';
                 $response['data'][] = [
+                    "asset_photo" => $assetPhotoUrl !== 'No Image' ? '<img src="' . $assetPhotoUrl . '" alt="' . $asset->description . '" style="width: 100px; height: auto;">' : 'No Image',
                     "assets_tag_id" => $asset->assets_tag_id,
                     "description" => $asset->description,
                     "brand" => $asset->brand,
                     "purchase_date" => $asset->purchase_date,
                     "cost" => $asset->cost,
                     "status_id" => $asset->status_id,
-                    "view_button" => '<a href="/assets/'.$asset->assets_id.'" class="btn btn-outline-light" style="border-color: black; color: black;" title="View" data-bs-original-title="View" data-original-title="View"><i class="icofont icofont-eye-alt"></i> View</a>'
+                    "view_button" => '<a href="' . route('asset_details', ['asset' => $asset->asset_id]) . '" class="btn btn-outline-light" style="border-color: black; color: black;" title="View" data-bs-original-title="View" data-original-title="View"><i class="icofont icofont-eye-alt"></i> View</a>'
                 ];
             }
             
