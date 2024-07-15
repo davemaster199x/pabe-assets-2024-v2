@@ -31,8 +31,6 @@ Route::middleware(['auth'])->group(function () {
 
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
-    
-    Route::middleware(['check.allowed.hosts'])->group(function () {
 
     //ASSETS
     Route::get('/add_assets', [AssetController::class, 'add_asset'])->name('add_assets');
@@ -42,8 +40,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/data_assets/{asset}/edit', [AssetController::class, 'edit'])->name('data_assets.edit');
     Route::put('/data_assets/{asset}', [AssetController::class, 'update'])->name('data_assets.update');
     Route::delete('/data_assets/{asset}', [AssetController::class, 'destroy'])->name('data_assets.destroy');
- });
  
+
     //assets last id
     //Route::get('/assets/last-id', [AssetController::class, 'getLastAssetId']); 
     Route::middleware(['check.referrer:add_assets'])->group(function () {
