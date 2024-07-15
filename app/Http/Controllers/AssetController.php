@@ -104,9 +104,13 @@ class AssetController extends Controller
 
     public function asset_details($asset_id)
     {
-        $asset = Asset::findOrFail($asset_id);
+        return view('pages.asset_details', ['asset_id' => $asset_id]);
+    }
 
-        return view('pages.asset_details', compact('asset'));
+    public function api_asset_details($asset_id)
+    {
+        $asset = Asset::with(['site', 'location', 'category', 'department', 'status'])->findOrFail($asset_id);
+        return response()->json($asset);
     }
 
     public function getLastAssetId()
