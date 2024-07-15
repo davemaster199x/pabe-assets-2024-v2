@@ -135,8 +135,25 @@
     <script>
         document.getElementById('list_of_assets-navbar').classList.add('active');
 
-        var asset_id = {{ $asset_id }};
-        fetch(`/api/asset_details/${asset_id}`)
+        // Get the current URL path
+        const currentPath = window.location.pathname;
+
+        // Split the URL path by '/'
+        const parts = currentPath.split('/');
+
+        // Find the index of 'detail' in the path
+        const detailIndex = parts.indexOf('detail');
+        var assetId = '';
+        // Extract the asset_id which is next to 'detail'
+        if (detailIndex !== -1 && detailIndex < parts.length - 1) {
+            assetId = parts[detailIndex + 1];
+            console.log('Extracted Asset ID:', assetId);
+        } else {
+            console.error('Asset ID not found in the URL path');
+        }
+
+        var asset_id = assetId;
+        fetch(`/api/asset_details/`+asset_id)
             .then(function(response) {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');

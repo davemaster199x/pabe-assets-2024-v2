@@ -8,12 +8,15 @@ use Illuminate\Http\Request;
 
 class CheckReferrer
 {
-    protected $allowedDomains = [
-        'localhost',
-        '127.0.0.1',
-        'pabe.i-link.support',
-        // Add other allowed domains here
-    ];
+    protected $allowedDomains;
+
+    public function __construct()
+    {
+        $tempDomains = explode(',', env('TEMP_ALLOWED_DOMAINS', '')); //para dli madala ang localhost sa live production since ang env dli madala sa github
+        $this->allowedDomains = array_merge([
+            'pabe.i-link.support',// this domain should only allowed
+        ], $tempDomains);
+    }
 
     public function handle(Request $request, Closure $next, ...$allowedReferrers)
     {

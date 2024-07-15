@@ -5,6 +5,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Asset; // Make sure to import the Asset model
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Crypt;
+
 
 class AssetController extends Controller
 {
@@ -103,15 +105,17 @@ class AssetController extends Controller
         return view('pages.list_of_assets', compact('assets'));
     }
 
-    public function asset_details($asset_id)
+    public function asset_details($asset)
     {
-        return view('pages.asset_details', ['asset_id' => $asset_id]);
+        $asset_idd = Crypt::decryptString(strval($asset));
+        return view('pages.asset_details', ['asset_id' => $asset_idd ]);
     }
 
-    public function api_asset_details($asset_id)
+    public function api_asset_details($asset)
     {
-        $asset = Asset::with(['site', 'location', 'category', 'department', 'status'])->findOrFail($asset_id);
-        return response()->json($asset);
+        $asset_idd = Crypt::decryptString(strval($asset));
+        $asset2 = Asset::with(['site', 'location', 'category', 'department', 'status'])->findOrFail($asset_idd);
+        return response()->json($asset2);
     }
 
     public function getLastAssetId()
@@ -139,6 +143,7 @@ class AssetController extends Controller
             ];
             
             foreach ($assets as $asset) {
+                $asset_idd = Crypt::encryptString(strval($asset->asset_id));
                 $assetPhotoUrl = Storage::disk('public')->exists($asset->asset_photo_file) 
                     ? asset('storage/' . $asset->asset_photo_file) 
                     : 'No Image';
@@ -150,12 +155,15 @@ class AssetController extends Controller
                     "purchase_date" => $asset->purchase_date,
                     "cost" => $asset->cost,
                     "status_id" => $asset->status_id,
-                    "view_button" => '<a href="' . route('asset_details', ['asset' => $asset->asset_id]) . '" class="btn btn-outline-light" style="border-color: black; color: black;" title="View" data-bs-original-title="View" data-original-title="View"><i class="icofont icofont-eye-alt"></i> View</a>'
+                    "view_button" => '<a href="' . route('asset_details', ['asset' => $asset_idd ]) . '" class="btn btn-outline-light" style="border-color: black; color: black;" title="View" data-bs-original-title="View" data-original-title="View"><i class="icofont icofont-eye-alt"></i> View</a>'
                 ];
             }
             
             return response()->json($response);
     
     }
+    //
+    
+    
     
 }
