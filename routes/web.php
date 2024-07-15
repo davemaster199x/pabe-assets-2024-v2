@@ -87,7 +87,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/api/assets', [AssetController::class, 'getAssets']);//para dli ma diretso ug access sa browser test pani
     });
     Route::get('/list_of_assets', [AssetController::class, 'list_of_assets'])->name('list_of_assets');
-    Route::get('/assets/detail/{asset_id}', [AssetController::class, 'asset_details'])->name('asset_details');
+    Route::get('/assets/detail/{asset}', [AssetController::class, 'asset_details'])->name('asset_details');
    
     Route::get('/api/asset_details/{asset}', [AssetController::class, 'api_asset_details'])->name('api_asset_details');
 
