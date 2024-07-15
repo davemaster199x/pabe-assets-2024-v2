@@ -10,7 +10,7 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-6">
-                        <h3>{{ $asset->description }}</h3>
+                        <h3 id="asset_description"></h3>
                     </div>
                     <div class="col-6">
                         <div style="float: right;">
@@ -22,12 +22,7 @@
                 </div><br>
                 <div class="row">
                     <div class="col-4">
-                        <div style="border: 1px solid #ddd; padding: 10px; display: flex; justify-content: center; align-items: center; width: fit-content; margin: auto;">
-                            @if(Storage::disk('public')->exists($asset->asset_photo_file))
-                                    <img src="{{ asset('storage/' . $asset->asset_photo_file) }}" alt="{{ $asset->description }}" style="width: 100%; height: auto;">
-                            @else
-                                No Image
-                            @endif
+                        <div style="border: 1px solid #ddd; padding: 10px; display: flex; justify-content: center; align-items: center; width: fit-content; margin: auto;" id="asset_photo">
                         </div>
                     </div>
                     <div class="col-4">
@@ -36,31 +31,31 @@
                                 <td>
                                     Asset Tag ID
                                 </td>
-                                <td>{{ $asset->assets_tag_id }}</td>
+                                <td id="asset_tag_id"></td>
                             </tr>
                             <tr>
                                 <td>
                                     Purchase Date
                                 </td>
-                                <td>{{ $asset->purchase_date }}</td>
+                                <td id="asset_purchase_date"></td>
                             </tr>
                             <tr>
                                 <td>
                                     Cost
                                 </td>
-                                <td>${{ $asset->cost }}</td>
+                                <td id="asset_cost"></td>
                             </tr>
                             <tr>
                                 <td>
                                     Brand
                                 </td>
-                                <td>${{ $asset->brand }}</td>
+                                <td id="asset_brand"></td>
                             </tr>
                             <tr>
                                 <td>
                                     Model
                                 </td>
-                                <td>{{ $asset->model }}</td>
+                                <td id="asset_model"></td>
                             </tr>
                         </table>
                     </div>
@@ -70,25 +65,25 @@
                                 <td>
                                     Site
                                 </td>
-                                <td>{{ $asset->site->site_name }}</td>
+                                <td id="asset_site_name"></td>
                             </tr>
                             <tr>
                                 <td>
                                     Location
                                 </td>
-                                <td>{{ $asset->location->location_name }}</td>
+                                <td id="asset_location_name"></td>
                             </tr>
                             <tr>
                                 <td>
                                     Category
                                 </td>
-                                <td>{{ $asset->category->category_name }}</td>
+                                <td id="asset_category_name"></td>
                             </tr>
                             <tr>
                                 <td>
                                     Department
                                 </td>
-                                <td>{{ $asset->department->department_name }}</td>
+                                <td id="asset_department_name"></td>
                             </tr>
                             <tr>
                                 <td>
@@ -100,7 +95,7 @@
                                 <td>
                                     Status
                                 </td>
-                                <td>{{ $asset->status->status_name }}</td>
+                                <td id="asset_status_name"></td>
                             </tr>
                         </table>
                     </div>
@@ -139,6 +134,40 @@
 @section('scripts')
     <script>
         document.getElementById('list_of_assets-navbar').classList.add('active');
+
+        var asset_id = {{ $asset_id }};
+        fetch(`/api/asset_details/${asset_id}`)
+            .then(function(response) {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(function(data) {
+                $('#asset_description').html(data.description);
+                if (data.asset_photo_file != '') {
+                    $('#asset_photo').html(
+                        `<img src="{{ asset('storage') }}/${data.asset_photo_file}" alt="${data.description}" style="width: 100%; height: auto;">`
+                    );
+                } else {
+                    $('#asset_photo').html(
+                        `<img src="{{ asset('images/No_Image_Available.jpg') }}" alt="No Image Available" style="width: 100%; height: auto;">`
+                    );
+                }
+                $('#asset_tag_id').html(data.assets_tag_id);
+                $('#asset_purchase_date').html(data.purchase_date);
+                $('#asset_cost').html(data.cost);
+                $('#asset_brand').html(data.brand);
+                $('#asset_model').html(data.model);
+                $('#asset_site_name').html(data.site.site_name);
+                $('#asset_location_name').html(data.location.location_name);
+                $('#asset_category_name').html(data.category.category_name);
+                $('#asset_department_name').html(data.department.department_name);
+                $('#asset_status_name').html(data.status.status_name);
+            })
+            .catch(function(error) {
+                console.error('Error fetching data:', error);
+            });
     </script>
 
 @endsection
