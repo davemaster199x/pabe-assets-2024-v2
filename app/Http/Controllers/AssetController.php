@@ -121,4 +121,30 @@ class AssetController extends Controller
         // Return the formatted ID
         return response()->json(['last_id' => $formattedId]);
     }
+
+    public function getAssets() {
+            $assets = Asset::selectRaw('assets_tag_id, description, brand, purchase_date, cost, status_id ')->get();
+    
+            $response = [
+                "recordsTotal" => $assets->count(), // Total records without filtering
+                "recordsFiltered" => $assets->count(), // Total records after filtering, if any
+                "data" => []
+            ];
+            
+            foreach ($assets as $asset) {
+                $response['data'][] = [
+                    "assets_tag_id" => $asset->assets_tag_id,
+                    "description" => $asset->description,
+                    "brand" => $asset->brand,
+                    "purchase_date" => $asset->purchase_date,
+                    "cost" => $asset->cost,
+                    "status_id" => $asset->status_id,
+                    "view_button" => '<a href="/assets/'.$asset->assets_id.'" class="btn btn-outline-light" style="border-color: black; color: black;" title="View" data-bs-original-title="View" data-original-title="View"><i class="icofont icofont-eye-alt"></i> View</a>'
+                ];
+            }
+            
+            return response()->json($response);
+    
+    }
+    
 }

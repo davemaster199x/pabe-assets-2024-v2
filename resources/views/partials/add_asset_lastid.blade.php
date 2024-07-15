@@ -24,7 +24,7 @@
 
         setInterval(() => {
             fetchLastID();
-        }, 1000);
-    
+        }, 5000);
+        fetchLastID();
    
     </script>
