@@ -41,6 +41,9 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/data_assets/{asset}', [AssetController::class, 'update'])->name('data_assets.update');
     Route::delete('/data_assets/{asset}', [AssetController::class, 'destroy'])->name('data_assets.destroy');
 
+    //assets last id
+    Route::get('/assets/last-id', [AssetController::class, 'getLastAssetId']);
+
     // List of assets
     Route::get('/list_of_assets', [AssetController::class, 'list_of_assets'])->name('list_of_assets');
     Route::get('/assets/detail/{asset}', [AssetController::class, 'asset_details'])->name('asset_details');

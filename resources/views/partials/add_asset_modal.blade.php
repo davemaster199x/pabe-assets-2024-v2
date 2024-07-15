@@ -81,6 +81,7 @@
                          <input class="form-control"  type="text" placeholder="Location Name"
                              type="text" name="location_name" id="location_name" value="{{ old('location_name') }}" required=""
                              data-bs-original-title="" title="">
+                             <label class="form-label" for="site_location_id">Site</label>
                           <select class="form-select @error('site_id') is-invalid @enderror" id="siteSelect2"
                                 name="site_location_id" required>
                           </select>  
@@ -95,7 +96,7 @@
          <script>
          function submitFormLocation() {
              var locationName = $('#location_name').val();
-             var siteID = $('#site_location_id').val();
+             var siteID = $('#siteSelect2').val();
 
              $.ajax({
                  url: '{{ route('locations.store') }}',
