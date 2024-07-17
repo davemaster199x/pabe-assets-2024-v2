@@ -29,6 +29,10 @@ Route::post('login', [LoginController::class, 'login'])->name('login-post');
 Route::middleware(['auth'])->group(function () {
     Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
+    Route::get('/settings', [LoginController::class, 'sessionView'])->name('settings');
+    Route::post('settings/update', [LoginController::class, 'updateSession'])->name('settings.update')->middleware('auth');
+    //Route::get('session', [ApiUserController::class, 'sessionView'])->name('pages.session.data');
+    
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
 
@@ -86,17 +90,42 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['check.referrer:list_of_assets'])->group(function () {
         Route::get('/api/assets', [AssetController::class, 'getAssets']);//para dli ma diretso ug access sa browser test pani
     });
+
+
     Route::get('/list_of_assets', [AssetController::class, 'list_of_assets'])->name('list_of_assets');
     Route::get('/assets/detail/{asset}', [AssetController::class, 'asset_details'])->name('asset_details');
    
     Route::get('/api/asset_details/{asset}', [AssetController::class, 'api_asset_details'])->name('api_asset_details');
 
+
+    Route::get('/check_in', [AssetController::class, 'check_in'])->name('check_in');
+    Route::get('/check_out', [AssetController::class, 'check_out'])->name('check_out');
+    Route::get('/dispose', [AssetController::class, 'dispose'])->name('dispose');
+
     
 
-    Route::get('qrcode', function () {
-        $qrCodeValue = QrCode::size(300)->generate('1');
-        return view('partials.qrcode', compact('qrCodeValue'));
+    Route::get('/qrcode/{qrvalue}', function ($qrvalue) {
+            // Generate QR code based on the provided $qrvalue
+            $qrCodeValue = QrCode::size(100)->generate($qrvalue);
+        
+            // Prepare data to pass to the view
+            $qrtext = $qrvalue;
+        
+            // Return the view with the generated QR code and the QR text
+            return view('partials.qrcode', compact('qrCodeValue', 'qrtext'));
     });
+    
+    Route::get('/printqrcode/{qrvalue}', function ($qrvalue) {
+            // Generate QR code based on the provided $qrvalue
+            $qrCodeValue = QrCode::size(100)->generate($qrvalue);
+        
+            // Return the view with the generated QR code and the QR text
+            return view('partials.qrcode_print', compact('qrCodeValue'));
+    });
+
+    
+    
+    
 });
 
 

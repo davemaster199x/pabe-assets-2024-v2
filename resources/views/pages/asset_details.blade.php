@@ -35,6 +35,14 @@
                             </tr>
                             <tr>
                                 <td>
+                                    QR Code
+                                </td>
+                                <td id="qr_code">
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
                                     Purchase Date
                                 </td>
                                 <td id="asset_purchase_date"></td>
@@ -181,9 +189,22 @@
                 $('#asset_category_name').html(data.category.category_name);
                 $('#asset_department_name').html(data.department.department_name);
                 $('#asset_status_name').html(data.status.status_name);
-            })
-            .catch(function(error) {
-                console.error('Error fetching data:', error);
+
+                 fetch(`/qrcode/` + data.assets_tag_id)
+                 .then(function(response) {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.text(); // Get response body as text
+                    })
+                    .then(function(html) {
+                        $('#qr_code').html(html); // Insert HTML into #qr_code element
+                        console.log("Fetched HTML:", html); // Log the fetched HTML for debugging
+                    })
+                .catch(function(error) {
+                    console.error('Error fetching data:', error);
+                });
+
             });
     </script>
 
