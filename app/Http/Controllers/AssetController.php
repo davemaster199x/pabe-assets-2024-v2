@@ -167,6 +167,21 @@ class AssetController extends Controller
     }
     //
     
+
+    public function check_out()
+    {
+        return view('pages.check_out');
+    }
+
+    public function check_in()
+    {
+        return view('pages.check_in');
+    }
+
+    public function dispose()
+    {
+        return view('pages.dispose');
+    }
     
     
 }
