@@ -45,7 +45,7 @@
                 <form class="theme-form" action="{{ route('login-post') }}" method="POST">
                   @csrf
                   <h4>Sign in to account</h4>
-                  <p>Enter your email & password to login</p>
+                  <p>Enter your email & password to login test lang</p>
                   <div class="form-group">
                     <label class="col-form-label">Email Address</label>
                     <input class="form-control" type="email" id="email" name="email" required  placeholder="Test@gmail.com">
