@@ -14,7 +14,8 @@ class CheckReferrer
     {
         $tempDomains = explode(',', env('TEMP_ALLOWED_DOMAINS', '')); //para dli madala ang localhost sa live production since ang env dli madala sa github
         $this->allowedDomains = array_merge([
-            'pabe.i-link.support',// this domain should only allowed
+            'pabe.i-link.support',
+            'asset.pabecorp.com',// this domain should only allowed
         ], $tempDomains);
     }
 
