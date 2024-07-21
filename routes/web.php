@@ -87,9 +87,9 @@ Route::middleware(['auth'])->group(function () {
     });
 
     // List of assets
-    // Route::middleware(['check.referrer:list_of_assets'])->group(function () {
+    Route::middleware(['check.referrer:list_of_assets'])->group(function () {
         Route::get('/api/assets', [AssetController::class, 'getAssets']);//para dli ma diretso ug access sa browser test pani
-    // });
+    });
 
 
     Route::get('/list_of_assets', [AssetController::class, 'list_of_assets'])->name('list_of_assets');
