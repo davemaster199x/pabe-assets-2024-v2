@@ -3,8 +3,8 @@
     <div class="sidebar-wrapper">
         <div>
             <div class="logo-wrapper"><a href="{{ route('dashboard') }}"><img class="img-fluid for-light"
-                        src="{{ asset('images/pabe-logo.png') }}" alt="" width="150"><img class="img-fluid for-dark"
-                        src="{{ asset('images/pabe-logo.png') }}" alt="" width="150"></a>
+                        src="{{ asset('images/pabe-logo.png') }}" alt="" width="90"><img class="img-fluid for-dark"
+                        src="{{ asset('images/pabe-logo.png') }}" alt="" width="90"></a>
                 <div class="back-btn"><i class="fa fa-angle-left"></i></div>
                 <div class="toggle-sidebar"><i class="status_toggle middle sidebar-toggle" data-feather="grid">
                     </i></div>

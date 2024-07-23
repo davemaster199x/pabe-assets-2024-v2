@@ -4,6 +4,37 @@
 @section('active-home', 'active')
 @section('page-title', 'Asset View')
 
+@section('header')
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* .dropdown-content{
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: #f9f9f9;
+            min-width: 175px;
+            -webkit-box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            left: 0;
+            top: 45px;
+        } */
+         .btn-group .dropdown-menu {
+            min-width: 200px; /* Set minimum width */
+        }
+
+        .btn-group .dropdown-item:hover {
+            background-color: #f0f0f0; /* Change hover color */
+        }
+
+        .btn-group .dropdown-item {
+            padding: 10px 20px; /* Adjust padding */
+        }
+
+    </style>
+@endsection
+
+
 @section('content')
     <div class="col-sm-12">
         <div class="card">
@@ -16,7 +47,17 @@
                         <div style="float: right;">
                             <button type="button" class="btn btn-primary"><i class="fa fa-print"></i> Print</button>
                             <button type="button" class="btn btn-primary"><i class="fa fa-edit"></i> Edit Asset</button>
-                            <button type="button" class="btn btn-success">More Actions</button>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                    More Actions
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#"><span><i class="icofont icofont-user"></i></span> Check Out</a></li>
+                                    <li><a class="dropdown-item" href="#"><span><i class="icofont icofont-ui-check"></i></span> Check In</a></li>
+                                    <li><a class="dropdown-item" href="#"><span><i class="icofont icofont-trash"></i></span> Dispose</a></li>
+                                    <!-- Add more actions as needed -->
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div><br>
@@ -151,7 +192,8 @@
 
         // Find the index of 'detail' in the path
         const detailIndex = parts.indexOf('detail');
-        var assetId = '';
+        let assetId = '';
+
         // Extract the asset_id which is next to 'detail'
         if (detailIndex !== -1 && detailIndex < parts.length - 1) {
             assetId = parts[detailIndex + 1];
@@ -160,52 +202,89 @@
             console.error('Asset ID not found in the URL path');
         }
 
-        var asset_id = assetId;
-        fetch(`/api/asset_details/`+asset_id)
-            .then(function(response) {
+        async function fetchAssetDetails(assetId) {
+            try {
+                const response = await fetch(`/api/asset_details/${assetId}`);
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
-                return response.json();
-            })
-            .then(function(data) {
-                $('#asset_description').html(data.description);
-                if (data.asset_photo_file != '') {
-                    $('#asset_photo').html(
-                        `<img src="{{ asset('storage') }}/${data.asset_photo_file}" alt="${data.description}" style="width: 100%; height: auto;">`
-                    );
-                } else {
-                    $('#asset_photo').html(
-                        `<img src="{{ asset('images/No_Image_Available.jpg') }}" alt="No Image Available" style="width: 100%; height: auto;">`
-                    );
-                }
-                $('#asset_tag_id').html(data.assets_tag_id);
-                $('#asset_purchase_date').html(data.purchase_date);
-                $('#asset_cost').html(data.cost);
-                $('#asset_brand').html(data.brand);
-                $('#asset_model').html(data.model);
-                $('#asset_site_name').html(data.site.site_name);
-                $('#asset_location_name').html(data.location.location_name);
-                $('#asset_category_name').html(data.category.category_name);
-                $('#asset_department_name').html(data.department.department_name);
-                $('#asset_status_name').html(data.status.status_name);
+                const data = await response.json();
+                updateAssetDetails(data);
+                await fetchQRCode(data.assets_tag_id);
+            } catch (error) {
+                console.error('Error fetching asset details:', error);
+            }
+        }
 
-                 fetch(`/qrcode/` + data.assets_tag_id)
-                 .then(function(response) {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.text(); // Get response body as text
-                    })
-                    .then(function(html) {
-                        $('#qr_code').html(html); // Insert HTML into #qr_code element
-                        console.log("Fetched HTML:", html); // Log the fetched HTML for debugging
-                    })
-                .catch(function(error) {
-                    console.error('Error fetching data:', error);
-                });
+        function updateAssetDetails(data) {
+            $('#asset_description').html(data.description);
 
+            const assetPhotoUrl = `{{ asset('storage') }}/${data.asset_photo_file}`;
+            const defaultPhotoUrl = `{{ asset('images/No_Image_Available.jpg') }}`;
+
+            checkImageExists(assetPhotoUrl, function(exists) {
+                const imgUrl = exists ? assetPhotoUrl : defaultPhotoUrl;
+                $('#asset_photo').html(
+                    `<img src="${imgUrl}" alt="${data.description || 'No Image Available'}" style="width: 100%; height: auto;">`
+                );
             });
+
+            $('#asset_tag_id').html(data.assets_tag_id);
+            $('#asset_purchase_date').html(data.purchase_date);
+            $('#asset_cost').html(data.cost);
+            $('#asset_brand').html(data.brand);
+            $('#asset_model').html(data.model);
+            $('#asset_site_name').html(data.site.site_name);
+            $('#asset_location_name').html(data.location.location_name);
+            $('#asset_category_name').html(data.category.category_name);
+            $('#asset_department_name').html(data.department.department_name);
+            $('#asset_status_name').html(data.status.status_name);
+        }
+
+        function checkImageExists(url, callback) {
+            const img = new Image();
+            img.onload = () => callback(true);
+            img.onerror = () => callback(false);
+            img.src = url;
+        }
+
+        async function fetchQRCode(assetsTagId) {
+            try {
+                const response = await fetch(`/qrcode/${assetsTagId}`);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const html = await response.text();
+                $('#qr_code').html(html);
+                console.log('Fetched HTML:', html);
+            } catch (error) {
+                console.error('Error fetching QR code:', error);
+            }
+        }
+
+        // Initiate the fetch process if assetId is valid
+        if (assetId) {
+            fetchAssetDetails(assetId);
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const dropdownToggle = document.querySelector('.dropdown-toggle');
+
+            dropdownToggle.addEventListener('click', function () {
+                const dropdownMenu = this.nextElementSibling;
+
+                // Toggle dropdown visibility
+                if (dropdownMenu.classList.contains('show')) {
+                    dropdownMenu.classList.remove('show');
+                } else {
+                    dropdownMenu.classList.add('show');
+                }
+            });
+        });
+
     </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.min.js"></script>
 
 @endsection
