@@ -94,6 +94,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/list_of_assets', [AssetController::class, 'list_of_assets'])->name('list_of_assets');
     Route::get('/assets/detail/{asset}', [AssetController::class, 'asset_details'])->name('asset_details');
+    Route::get('/assets/edit/{asset}', [AssetController::class, 'edit_asset_details'])->name('edit_asset_details');
    
     Route::get('/api/asset_details/{asset}', [AssetController::class, 'api_asset_details'])->name('api_asset_details');
 

@@ -18,6 +18,8 @@ class AssetController extends Controller
         return view('pages.add_asset');
     }
 
+
+
     public function store(Request $request)
     {
         $request->validate([
@@ -110,7 +112,16 @@ class AssetController extends Controller
     public function asset_details($asset)
     {
         $asset_idd = Crypt::decryptString(strval($asset));
-        return view('pages.asset_details', ['asset_id' => $asset_idd ]);
+        return view('pages.asset_details', ['asset_id' => $asset_idd , 'encrypt_asset_id' => $asset ]);
+    }
+
+    public function edit_asset_details($asset)
+    {
+        $asset_idd = Crypt::decryptString(strval($asset));
+        $asset2 = Asset::where('delete','0')->findOrFail($asset_idd);
+        print_r($asset2);
+        exit();//LAST SESSION SLEEPY
+        return view('pages.edit_asset', ['asset_id' => $asset_idd ]);
     }
 
     public function api_asset_details($asset)
