@@ -46,7 +46,7 @@
                     <div class="col-6">
                         <div style="float: right;">
                             <button type="button" class="btn btn-primary"><i class="fa fa-print"></i> Print</button>
-                            <button type="button" class="btn btn-primary"><i class="fa fa-edit"></i> Edit Asset</button>
+                            <a href="{{ url('assets/edit/' . $encrypt_asset_id) }}" class="btn btn-primary"><i class="fa fa-edit"></i> Edit Asset</a>
                             <div class="btn-group">
                                 <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                                     More Actions
