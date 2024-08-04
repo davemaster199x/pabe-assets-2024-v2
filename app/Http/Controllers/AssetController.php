@@ -119,9 +119,13 @@ class AssetController extends Controller
     {
         $asset_idd = Crypt::decryptString(strval($asset));
         $asset2 = Asset::where('delete','0')->findOrFail($asset_idd);
-        print_r($asset2);
-        exit();//LAST SESSION SLEEPY
-        return view('pages.edit_asset', ['asset_id' => $asset_idd ]);
+        //print_r($asset2);
+        // exit();//LAST SESSION SLEEPY
+        return view('pages.edit_asset', [
+            'asset_id' => $asset_idd ,
+            'data' => $asset2
+        ]);
+
     }
 
     public function api_asset_details($asset)
