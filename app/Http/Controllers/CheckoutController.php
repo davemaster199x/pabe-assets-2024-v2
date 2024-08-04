@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\AssetEvent;
 use App\Models\EventCheckout;
+use App\Models\Asset;
 
 
 class CheckoutController extends Controller
@@ -42,28 +43,25 @@ class CheckoutController extends Controller
                 'checkout_notes' => $request->input('checkout_notes_site'),
             ]);
         }
-        // $request->validate([
-        //     'checkout_date' => 'required|date',
-        //     'checkout_to' => 'required|string',
-        //     'person_id' => 'nullable|exists:people,id',
-        //     'site_id' => 'nullable|exists:sites,id',
-        //     'location_id' => 'nullable|exists:locations,id',
-        //     'department_id' => 'nullable|exists:departments,id',
-        //     'due_date' => 'nullable|date',
-        //     'checkout_notes' => 'nullable|string',
-        // ]);
 
-        // Create a new Checkout record
-        // $checkout = Checkout::create([
-        //     'checkout_date' => $request->input('checkout_date'),
-        //     'checkout_to' => $request->input('checkout_to'),
-        //     'person_id' => $request->input('person_id'),
-        //     'site_id' => $request->input('site_id'),
-        //     'location_id' => $request->input('location_id'),
-        //     'department_id' => $request->input('department_id'),
-        //     'due_date' => $request->input('due_date'),
-        //     'checkout_notes' => $request->input('checkout_notes'),
-        // ]);
+        $asset = Asset::find($request->input('asset_id'));
+
+        if ($asset) {
+            $asset->status_id = 2; // Checkout
+            if ($request->input('radio_checkout') == 'Person') {
+                $asset->site_id = $request->input('site_id_person') ?? $asset->site_id;
+                $asset->location_id = $request->input('location_id_person') ?? $asset->location_id;
+                $asset->department_id = $request->input('department_id_person') ?? $asset->department_id;
+            } else {
+                $asset->site_id = $request->input('site_id_site') ?? $asset->site_id;
+                $asset->location_id = $request->input('location_id_site') ?? $asset->location_id;
+                $asset->department_id = $request->input('department_id_site') ?? $asset->department_id;
+            }
+            $asset->save();
+        } else {
+            // Handle the case where the asset is not found
+            return response()->json(['error' => 'Asset not found'], 404);
+        }
 
         // Return a response
         return response()->json(['message' => 'Checkout saved successfully!', 'Events' => $events->id], 201);

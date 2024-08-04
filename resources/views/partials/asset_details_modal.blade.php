@@ -1,3 +1,4 @@
+    <!-- Checkout Modal -->
 <div class="hiddenpreload" style="display:none">
 <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -37,12 +38,16 @@
                           <div id="div_person" style="display: none;">
                             <div class="mb-3 row">
                                 <label class="col-sm-3 col-form-label">Assign to *</label>
-                                <div class="col-sm-9">
+                                <div class="col-sm-6">
                                     <select class="form-control" id="person_id" name="person_id_person">
                                         <option value="">-- Select --</option>
                                         <option value="1">First</option>
                                         <option value="3">Third</option>
                                     </select>
+                                </div>
+                                <div class="col-sm-3">
+                                    <button class="btn btn-primary ms-2" type="button" data-bs-toggle="modal"
+                                    data-bs-target="#PersonModal" data-bs-original-title="" title="">Add</button>
                                 </div>
                             </div>
                             <div class="mb-3 row">
@@ -163,13 +168,62 @@ document.querySelector('.form-checkout').addEventListener('submit', function(eve
             .then(response => response.json())
             .then(data => {
                 console.log('Success:', data);
+
+                var modalElement = document.getElementById('checkoutModal');
+                var modalInstance = bootstrap.Modal.getInstance(modalElement);
+                if (modalInstance) {
+                    modalInstance.hide();
+                } else {
+                    // If no instance exists, initialize and hide it
+                    modalInstance = new bootstrap.Modal(modalElement);
+                    modalInstance.hide();
+                }
+                fetchAssetDetails(assetId);
+                swal(
+                    "Success!", "Check out Sucessfully Saved!", "success"           
+                )
             })
             .catch((error) => {
                 console.error('Error:', error);
             });
         });
 </script>
+<!-- End Checkout Modal -->
 
+<!-- Assign to modal-->
+ <div class="modal fade" id="PersonModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenter"
+     aria-hidden="true">
+     <div class="modal-dialog modal-dialog" role="document">
+         <form id="location-form">
+             <div class="modal-content">
+                 <div class="modal-header">
+                     <h5 class="modal-title">Add an Person/Employee</h5>
+                     <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                 </div>
+                 <div class="modal-body">
+                     @csrf
+                     <div class="col-md-12">
+                         <label class="form-label" for="location_name">Location Name</label>
+                         <input class="form-control"  type="text" placeholder="Location Name"
+                             type="text" name="location_name" id="location_name" value="{{ old('location_name') }}" required=""
+                             data-bs-original-title="" title="">
+                             <label class="form-label" for="site_location_id">Site</label>
+                          <select class="form-select @error('site_id') is-invalid @enderror" id="siteSelect2"
+                                name="site_location_id" required>
+                          </select>  
+                     </div>
+                 </div>
+                 <div class="modal-footer">
+                     <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
+                     <button class="btn btn-primary" type="button" onclick="submitFormLocation()">Add</button>
+                 </div>
+             </div>
+         </form>
+         <script>
+         </script>
+     </div>
+ </div>
+<!-- END Assign to modal-->
 
 <!---------------repair----------------------->
 <div class="hiddenpreload" style="display:none">
