@@ -9,6 +9,7 @@ use App\Http\Controllers\LocationController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FundingController;
+use App\Http\Controllers\CheckoutController;
 
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 /*
@@ -46,9 +47,8 @@ Route::middleware(['auth'])->group(function () {
     //Route::delete('/data_assets/{asset}', [AssetController::class, 'destroy'])->name('data_assets.destroy');
     Route::post('/assets/{asset}', [AssetController::class, 'update'])->name('assets.update');
 
-
-    //check refer to specific which url allows on that url only 
-    //Route::middleware(['check.referrer:add_assets'])->group(function () {
+    //check refer to specific which url allows on that url only
+    // Route::middleware(['check.referrer:add_assets'])->group(function () {
         //para dli ma diretso ug access sa browser test pani
 
         Route::get('/data_assets/create', [AssetController::class, 'create'])->name('data_assets.create');
@@ -85,7 +85,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/fundings', [FundingController::class, 'store'])->name('fundings.store');
         //load fundings via api
         Route::get('/api/fundings', [FundingController::class, 'getFundings']);
-   // });
+    // });
 
     // List of assets
     //Route::middleware(['check.referrer:list_of_assets'])->group(function () {
@@ -102,7 +102,11 @@ Route::middleware(['auth'])->group(function () {
 
 
     Route::get('/check_in', [AssetController::class, 'check_in'])->name('check_in');
+
+    // Checkout
     Route::get('/check_out', [AssetController::class, 'check_out'])->name('check_out');
+    Route::post('/checkout/store', [CheckoutController::class, 'store'])->name('checkout.store');
+    
     Route::get('/dispose', [AssetController::class, 'dispose'])->name('dispose');
 
     
