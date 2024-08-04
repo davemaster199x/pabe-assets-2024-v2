@@ -5,7 +5,9 @@
 @section('page-title', 'Asset View')
 
 @section('header')
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet"> -->
+    <!-- <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/scrollbar.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/select2.css') }}"> -->
     <style>
         /* .dropdown-content{
             display: none;
@@ -52,9 +54,11 @@
                                     More Actions
                                 </button>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#"><span><i class="icofont icofont-user"></i></span> Check Out</a></li>
+                                    <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target=".bd-example-modal-lg"><span><i class="icofont icofont-user"></i></span> Check Out</a>
+                                    </li>
                                     <li><a class="dropdown-item" href="#"><span><i class="icofont icofont-ui-check"></i></span> Check In</a></li>
                                     <li><a class="dropdown-item" href="#"><span><i class="icofont icofont-trash"></i></span> Dispose</a></li>
+                                    <li><a class="dropdown-item" href="#"><span><i class="icofont icofont-repair"></i></span> Repair</a></li>
                                     <!-- Add more actions as needed -->
                                 </ul>
                             </div>
@@ -180,6 +184,8 @@
     </div>
 @endsection
 
+@include('partials.asset_details_modal')
+
 @section('scripts')
     <script>
         document.getElementById('list_of_assets-navbar').classList.add('active');
@@ -282,9 +288,162 @@
             });
         });
 
+        fetch('/api/sites')
+            .then(function(response) {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(function(data) {
+                // Assuming data is an array of objects with id and site_name properties
+                var selects = document.querySelectorAll('select[id="site_id"]');
+
+                // Iterate over each select element
+                selects.forEach(function(select) {
+                    // Clear existing options (if any)
+                    select.innerHTML = '';
+
+                    // Create and append the "Select Site" placeholder option
+                    var placeholderOption = document.createElement('option');
+                    placeholderOption.value = '';
+                    placeholderOption.textContent = 'Select Site';
+                    placeholderOption.disabled = true;
+                    placeholderOption.selected = true;
+                    select.appendChild(placeholderOption);
+
+                    // Create and append new options based on fetched data
+                    data.forEach(function(site) {
+                        var option = document.createElement('option');
+                        option.value = site.id;
+                        option.textContent = site.name;
+                        select.appendChild(option);
+                    });
+                });
+            })
+            .catch(function(error) {
+                console.error('Error fetching data:', error);
+            });
+
+        fetch('/api/locations')
+            .then(function(response) {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(function(data) {
+                // Assuming data is an array of objects with id and name properties
+                var selects = document.querySelectorAll('select[id="location_id"]');
+
+                // Iterate over each select element
+                selects.forEach(function(select) {
+                    // Clear existing options (if any)
+                    select.innerHTML = '';
+
+                    // Create and append the "Select Location" placeholder option
+                    var placeholderOption = document.createElement('option');
+                    placeholderOption.value = '';
+                    placeholderOption.textContent = 'Select Location';
+                    placeholderOption.disabled = true;
+                    placeholderOption.selected = true;
+                    select.appendChild(placeholderOption);
+
+                    // Create and append new options based on fetched data
+                    data.forEach(function(location) {
+                        var option = document.createElement('option');
+                        option.value = location.id;
+                        option.textContent = location.name;
+                        select.appendChild(option);
+                    });
+                });
+            })
+            .catch(function(error) {
+                console.error('Error fetching data:', error);
+            });
+
+        fetch('/api/departments')
+            .then(function(response) {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(function(data) {
+                // Assuming data is an array of objects with id and name properties
+                var selects = document.querySelectorAll('select[id="department_id"]');
+
+                // Iterate over each select element
+                selects.forEach(function(select) {
+                    // Clear existing options (if any)
+                    select.innerHTML = '';
+
+                    // Create and append the "Select Department" placeholder option
+                    var placeholderOption = document.createElement('option');
+                    placeholderOption.value = '';
+                    placeholderOption.textContent = 'Select Department';
+                    placeholderOption.disabled = true;
+                    placeholderOption.selected = true;
+                    select.appendChild(placeholderOption);
+
+                    // Create and append new options based on fetched data
+                    data.forEach(function(department) {
+                        var option = document.createElement('option');
+                        option.value = department.id;
+                        option.textContent = department.name;
+                        select.appendChild(option);
+                    });
+                });
+            })
+            .catch(function(error) {
+                console.error('Error fetching data:', error);
+            });
+
+        function checkout_to(value) {
+            var divSite = document.getElementById('div_site');
+            var divPerson = document.getElementById('div_person');
+
+            if (value === 'Site') {
+                divSite.style.display = 'block';  // Show the site div
+                divPerson.style.display = 'none'; // Hide the person div
+            } else {
+                divSite.style.display = 'none';   // Hide the site div
+                divPerson.style.display = 'block'; // Show the person div
+            }
+        }
+
+        document.querySelector('.form-checkout').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the form from submitting the default way
+
+            // Collect form data
+            var formData = new FormData(event.target);
+
+            for (var pair of formData.entries()) {
+                console.log(pair[0] + ': ' + pair[1]);
+            }
+
+            fetch('/checkout/store', {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        });
     </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.min.js"></script>
+    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.min.js"></script> -->
+    <!-- <script src="{{ asset('assets/js/sidebar-menu.js') }}"></script>
+    <script src="{{ asset('assets/js/select2/select2.full.min.js') }}"></script>
+    <script src="{{ asset('assets/js/select2/select2-custom.js') }}"></script>
+    <script src="{{ asset('assets/js/tooltip-init.js') }}"></script> -->
 
 @endsection
