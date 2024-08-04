@@ -10,6 +10,7 @@ use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FundingController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\RepairController;
 
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 /*
@@ -106,6 +107,8 @@ Route::middleware(['auth'])->group(function () {
     // Checkout
     Route::get('/check_out', [AssetController::class, 'check_out'])->name('check_out');
     Route::post('/checkout/store', [CheckoutController::class, 'store'])->name('checkout.store');
+
+    Route::post('/repair/store', [RepairController::class, 'store'])->name('checkout.store');
     
     Route::get('/dispose', [AssetController::class, 'dispose'])->name('dispose');
 
