@@ -196,9 +196,10 @@ class AssetController extends Controller
     $asset->save();
 
         $asset2 = Asset::where('delete','0')->findOrFail($asset->asset_id);
-      //  print_r($asset2->site_id);
+        //  print_r($asset2->site_id);
         //exit();
-
+        //
+        
    /*     $sites = SiteModel::where('site_id',$asset2->site_id)->first();
         $locations = LocationModel::where('location_id',$asset2->location_id)->first();
         $categories = CategoryModel::where('category_id',$asset2->category_id)->first();
