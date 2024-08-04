@@ -58,8 +58,8 @@
                                     </li>
                                     <li><a class="dropdown-item" href="#"><span><i class="icofont icofont-ui-check"></i></span> Check In</a></li>
                                     <li><a class="dropdown-item" href="#"><span><i class="icofont icofont-trash"></i></span> Dispose</a></li>
-                                    <li><a class="dropdown-item" href="#"><span><i class="icofont icofont-repair"></i></span> Repair</a></li>
-                                    <!-- Add more actions as needed -->
+                                    <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target=".modalRepair"><span><i class="icofont icofont-repair"></i></span> Repair</a></li>
+                                    <!-- Add more actions as needed --> 
                                 </ul>
                             </div>
                         </div>
@@ -189,6 +189,11 @@
 @section('scripts')
     <script>
         document.getElementById('list_of_assets-navbar').classList.add('active');
+
+        document.addEventListener('DOMContentLoaded', function(event) {
+        
+        $('.hiddenpreload').css('display', 'block');//pra dli una mo display ang other html ayha ang actual 
+        });
 
         // Get the current URL path
         const currentPath = window.location.pathname;
