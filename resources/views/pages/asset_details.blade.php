@@ -412,31 +412,7 @@
             }
         }
 
-        document.querySelector('.form-checkout').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent the form from submitting the default way
-
-            // Collect form data
-            var formData = new FormData(event.target);
-
-            for (var pair of formData.entries()) {
-                console.log(pair[0] + ': ' + pair[1]);
-            }
-
-            fetch('/checkout/store', {
-                method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                },
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Success:', data);
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
-        });
+        
     </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
