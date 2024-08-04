@@ -195,11 +195,11 @@ class AssetController extends Controller
     // Save the updated asset instance
     $asset->save();
 
-        $asset2 = Asset::where('delete','0')->findOrFail($asset->$asset_id);
+        $asset2 = Asset::where('delete','0')->findOrFail($asset->asset_id);
       //  print_r($asset2->site_id);
         //exit();
 
-        $sites = SiteModel::where('site_id',$asset2->site_id)->first();
+   /*     $sites = SiteModel::where('site_id',$asset2->site_id)->first();
         $locations = LocationModel::where('location_id',$asset2->location_id)->first();
         $categories = CategoryModel::where('category_id',$asset2->category_id)->first();
         $departments = DepartmentModel::where('department_id',$asset2->department_id)->first();
@@ -209,10 +209,10 @@ class AssetController extends Controller
         $fundings = FundingModel::where('funding_id',$asset2->funding_source)->first();
 
        // print_r($fundings);
-        exit('ss');
+       // exit('ss');
         
-      /*  return view('pages.edit_asset', [
-            'asset_id' => $asset_idd ,
+        return view('pages.edit_asset', [
+            'asset_id' => $asset->asset_id ,
             'data' => $asset2,
             'site_id' => $sites->site_id,
             'site_name' => $sites->site_name,
@@ -225,8 +225,12 @@ class AssetController extends Controller
             'funding_id' => $fundings->funding_id ?? '',
             'funding_name' => $fundings->funding_name ?? ''
         ]);*/
-    
-   
+     
+        $asset_idd = $asset->asset_id;//Crypt::decryptString(strval($asset));
+       // return route('/assets/details/'.$asset_idd , ['asset_id' => $asset_idd , 'encrypt_asset_id' => $asset->asset_id ]);
+       return redirect()->to('/assets/detail/' . $asset_idd );
+
+
     }
 
     //

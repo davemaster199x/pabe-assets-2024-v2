@@ -44,7 +44,7 @@ Route::middleware(['auth'])->group(function () {
     //Route::get('/data_assets/{asset}/edit', [AssetController::class, 'edit'])->name('data_assets.edit');
     //Route::post('/data_assets/{asset}', [AssetController::class, 'update'])->name('data_assets.update');
     //Route::delete('/data_assets/{asset}', [AssetController::class, 'destroy'])->name('data_assets.destroy');
-    Route::put('/assets/{asset}', [AssetController::class, 'update'])->name('assets.update');
+    Route::post('/assets/{asset}', [AssetController::class, 'update'])->name('assets.update');
 
 
     //check refer to specific which url allows on that url only 

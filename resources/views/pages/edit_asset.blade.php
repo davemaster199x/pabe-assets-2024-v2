@@ -18,7 +18,6 @@
             @endif
             <form action="{{ route('assets.update', $data->asset_id) }}" method="POST" enctype="multipart/form-data">
     @csrf
-    @method('PUT')
                 <div class="row g-3">
                     <!-- Add your form fields here -->
                     <div class="col-md-12">
