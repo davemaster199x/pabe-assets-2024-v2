@@ -167,7 +167,33 @@
                     Details
                     </div>
                     <div class="tab-pane fade" id="info-events" role="tabpanel" aria-labelledby="events-info-tab">
-                    Events
+                    <div class="row">
+                        <div class="col-2">
+                                <label>Events</label>
+                            </div>
+                    </div>
+                        <div class="row">
+                            <div class="col-2">
+                                <label>Schedule Date</label><br/>
+                                <label>Schedule Date</label>
+                            </div>
+                            <div class="col-2">Repair</div>
+                            <div class="col-2">
+                                <label>Schedule Date</label><br/>
+                                <label>Schedule Date</label>
+                            </div>
+                            <div class="col-2">
+                                <label>Schedule Date</label><br/>
+                                <label>Schedule Date</label>
+                            </div>
+                            <div class="col-2">
+                                <label>Schedule Date</label><br/>
+                                <label>Schedule Date</label>
+                            </div>
+                            <div class="col-2">
+                                <button class="btn btn-primary" type="button">Edit</button>
+                            </div>
+                        </div>
                     </div>
                     <div class="tab-pane fade" id="info-docs" role="tabpanel" aria-labelledby="docs-info-tab">
                     Docs
