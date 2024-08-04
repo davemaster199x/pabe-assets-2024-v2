@@ -40,14 +40,15 @@ Route::middleware(['auth'])->group(function () {
     
     Route::get('/add_assets', [AssetController::class, 'add_asset'])->name('add_assets');
 
-    Route::get('/data_assets/{asset}', [AssetController::class, 'show'])->name('data_assets.show');
-    Route::get('/data_assets/{asset}/edit', [AssetController::class, 'edit'])->name('data_assets.edit');
-    Route::put('/data_assets/{asset}', [AssetController::class, 'update'])->name('data_assets.update');
-    Route::delete('/data_assets/{asset}', [AssetController::class, 'destroy'])->name('data_assets.destroy');
- 
+    //Route::get('/data_assets/{asset}', [AssetController::class, 'show'])->name('data_assets.show');
+    //Route::get('/data_assets/{asset}/edit', [AssetController::class, 'edit'])->name('data_assets.edit');
+    //Route::post('/data_assets/{asset}', [AssetController::class, 'update'])->name('data_assets.update');
+    //Route::delete('/data_assets/{asset}', [AssetController::class, 'destroy'])->name('data_assets.destroy');
+    Route::put('/assets/{asset}', [AssetController::class, 'update'])->name('assets.update');
 
-    //check refer to specific which url allows on that url only
-    Route::middleware(['check.referrer:add_assets'])->group(function () {
+
+    //check refer to specific which url allows on that url only 
+    //Route::middleware(['check.referrer:add_assets'])->group(function () {
         //para dli ma diretso ug access sa browser test pani
 
         Route::get('/data_assets/create', [AssetController::class, 'create'])->name('data_assets.create');
@@ -84,7 +85,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/fundings', [FundingController::class, 'store'])->name('fundings.store');
         //load fundings via api
         Route::get('/api/fundings', [FundingController::class, 'getFundings']);
-    });
+   // });
 
     // List of assets
     //Route::middleware(['check.referrer:list_of_assets'])->group(function () {
@@ -95,6 +96,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/list_of_assets', [AssetController::class, 'list_of_assets'])->name('list_of_assets');
     Route::get('/assets/detail/{asset}', [AssetController::class, 'asset_details'])->name('asset_details');
     Route::get('/assets/edit/{asset}', [AssetController::class, 'edit_asset_details'])->name('edit_asset_details');
+
    
     Route::get('/api/asset_details/{asset}', [AssetController::class, 'api_asset_details'])->name('api_asset_details');
 
@@ -124,9 +126,7 @@ Route::middleware(['auth'])->group(function () {
             return view('partials.qrcode_print', compact('qrCodeValue'));
     });
 
-    
-    
-    
+
 });
 
 

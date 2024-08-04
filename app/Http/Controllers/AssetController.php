@@ -9,6 +9,12 @@ use Illuminate\Support\Facades\Crypt;
 
 use App\Models\Status;
 
+use App\Models\SiteModel;
+use App\Models\LocationModel;
+use App\Models\CategoryModel;
+use App\Models\DepartmentModel;
+use App\Models\FundingModel;
+use App\Models\StatusModel;
 
 class AssetController extends Controller
 {
@@ -111,26 +117,123 @@ class AssetController extends Controller
 
     public function asset_details($asset)
     {
-        $asset_idd = Crypt::decryptString(strval($asset));
+        $asset_idd = $asset;//Crypt::decryptString(strval($asset));
         return view('pages.asset_details', ['asset_id' => $asset_idd , 'encrypt_asset_id' => $asset ]);
     }
 
     public function edit_asset_details($asset)
     {
-        $asset_idd = Crypt::decryptString(strval($asset));
+       
+        $asset_idd = $asset;//Crypt::decryptString(strval($asset));
         $asset2 = Asset::where('delete','0')->findOrFail($asset_idd);
-        //print_r($asset2);
-        // exit();//LAST SESSION SLEEPY
+      //  print_r($asset2->site_id);
+        //exit();
+
+        $sites = SiteModel::where('site_id',$asset2->site_id)->first();
+        $locations = LocationModel::where('location_id',$asset2->location_id)->first();
+        $categories = CategoryModel::where('category_id',$asset2->category_id)->first();
+        $departments = DepartmentModel::where('department_id',$asset2->department_id)->first();
+
+        //    print_r($asset2->funding_source);
+         //   exit();
+        $fundings = FundingModel::where('funding_id',$asset2->funding_source)->first();
+
+       // print_r($fundings);
+        //exit();
+        
         return view('pages.edit_asset', [
             'asset_id' => $asset_idd ,
-            'data' => $asset2
+            'data' => $asset2,
+            'site_id' => $sites->site_id,
+            'site_name' => $sites->site_name,
+            'location_id' => $locations->location_id,
+            'location_name' => $locations->location_name,
+            'category_id' => $categories->category_id,
+            'category_name' => $categories->category_name,
+            'department_id' => $departments->department_id,
+            'department_name' => $departments->department_name,
+            'funding_id' => $fundings->funding_id ?? '',
+            'funding_name' => $fundings->funding_name ?? ''
         ]);
 
     }
 
+    //
+    public function update(Request $request, Asset $asset)
+    {
+        
+         // Directly update the asset instance without validation
+    $asset->description = $request->input('description');
+    //$asset->assets_tag_id = $request->input('assets_tag_id');
+    $asset->purchase_date = $request->input('purchase_date');
+    $asset->cost = $request->input('cost');
+    $asset->purchase_from = $request->input('purchase_from');
+    $asset->brand = $request->input('brand');
+    $asset->model = $request->input('model');
+    $asset->serial_no = $request->input('serial_no');
+    $asset->site_id = $request->input('site_id');
+    $asset->location_id = $request->input('location_id');
+    $asset->category_id = $request->input('category_id');
+    $asset->department_id = $request->input('department_id');
+    $asset->depreciable_asset = $request->input('depreciable_asset');
+    $asset->depreciable_cost = $request->input('depreciable_cost');
+    $asset->salvage_value = $request->input('salvage_value');
+    $asset->assets_life = $request->input('assets_life');
+    $asset->depreciation_method = $request->input('depreciation_method');
+    $asset->date_acquired = $request->input('date_acquired');
+    $asset->funding_source = $request->input('funding_source');
+    $asset->amount_debited = $request->input('amount_debited');
+   // $asset->status_id = $request->input('status_id');
+
+    // Handle file upload if any
+    if ($request->hasFile('asset_photo_file')) {
+        $file = $request->file('asset_photo_file');
+        $path = $file->store('public/assets_photos'); // Store the file
+        $asset->asset_photo_file = $path;
+    }
+
+    // Save the updated asset instance
+    $asset->save();
+
+        $asset2 = Asset::where('delete','0')->findOrFail($asset->$asset_id);
+      //  print_r($asset2->site_id);
+        //exit();
+
+        $sites = SiteModel::where('site_id',$asset2->site_id)->first();
+        $locations = LocationModel::where('location_id',$asset2->location_id)->first();
+        $categories = CategoryModel::where('category_id',$asset2->category_id)->first();
+        $departments = DepartmentModel::where('department_id',$asset2->department_id)->first();
+
+        //    print_r($asset2->funding_source);
+         //   exit();
+        $fundings = FundingModel::where('funding_id',$asset2->funding_source)->first();
+
+       // print_r($fundings);
+        exit('ss');
+        
+      /*  return view('pages.edit_asset', [
+            'asset_id' => $asset_idd ,
+            'data' => $asset2,
+            'site_id' => $sites->site_id,
+            'site_name' => $sites->site_name,
+            'location_id' => $locations->location_id,
+            'location_name' => $locations->location_name,
+            'category_id' => $categories->category_id,
+            'category_name' => $categories->category_name,
+            'department_id' => $departments->department_id,
+            'department_name' => $departments->department_name,
+            'funding_id' => $fundings->funding_id ?? '',
+            'funding_name' => $fundings->funding_name ?? ''
+        ]);*/
+    
+   
+    }
+
+    //
+
     public function api_asset_details($asset)
     {
-        $asset_idd = Crypt::decryptString(strval($asset));
+        $asset_idd = $asset;//Crypt::decryptString(strval($asset));
         $asset2 = Asset::with(['site', 'location', 'category', 'department', 'status'])->findOrFail($asset_idd);
         return response()->json($asset2);
     }
@@ -160,7 +263,7 @@ class AssetController extends Controller
             ];
             
             foreach ($assets as $asset) {
-                $asset_idd = Crypt::encryptString(strval($asset->asset_id));
+                $asset_idd = $asset->asset_id;//Crypt::encryptString(strval($asset->asset_id));
                 $status_name = Status::where('status_id', $asset->status_id)->select('status_name')->first();
                 $assetPhotoUrl = Storage::disk('public')->exists($asset->asset_photo_file) 
                     ? asset('storage/' . $asset->asset_photo_file) 
@@ -174,7 +277,7 @@ class AssetController extends Controller
                     "brand" => $asset->brand,
                     "purchase_date" => $asset->purchase_date,
                     "cost" => $asset->cost,
-                    "status_id" => $status_name->status_name,
+                    "status_id" => $status_name->status_name ?? '',
                     "view_button" => '<a href="' . route('asset_details', ['asset' => $asset_idd ]) . '" class="btn btn-outline-light" style="border-color: black; color: black;" title="View" data-bs-original-title="View" data-original-title="View"><i class="icofont icofont-eye-alt"></i> View</a>'
                 ];
             }
