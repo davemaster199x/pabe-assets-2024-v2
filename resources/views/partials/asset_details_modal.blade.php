@@ -319,6 +319,8 @@ document.querySelector('.form-repair').addEventListener('submit', function(event
             .then(response => response.json())
             .then(data => {
                 console.log('Success:', data);
+                alert('Repair event updated successfully!');
+                location.reload();
                 fetchAssetDetails();
             })
             .catch((error) => {
