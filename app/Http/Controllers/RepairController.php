@@ -36,4 +36,34 @@ class RepairController extends Controller
         // Return a response
         return response()->json(['message' => 'Repair saved successfully!', 'Events' => $events->id], 201);
     }
+
+    public function getAssetEvents($assetId)
+    {
+        $assetEvents = AssetEvent::where('asset_id', $assetId)->get();
+        $result = [];
+
+        foreach ($assetEvents as $event) {
+            $repairEvents = EventRepair::where('event_id', $event->event_id)->get();
+            $result[] = [
+                'assetevent' => $event,
+                'repairevents' => $repairEvents
+            ];
+        }
+
+        return response()->json($result);
+    }
+
+    public function updateRepair(Request $request, $repairId)
+    {
+        $repair = EventRepair::findOrFail($repairId);
+        $repair->sched_date = $request->input('re_schedule_date');
+        $repair->assigned_to = $request->input('re_assigned_to');
+        $repair->date_completed = $request->input('re_date_completed');
+        $repair->repair_cost = $request->input('re_cost');
+        $repair->repair_notes = $request->input('re_notes');
+        $repair->save();
+
+        return response()->json(['message' => 'Repair event updated successfully!']);
+    }
+
 }

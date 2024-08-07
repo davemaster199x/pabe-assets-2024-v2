@@ -134,6 +134,10 @@ Route::middleware(['auth'])->group(function () {
     });
 
 
+    Route::get('/asset_events/{assetId}', [RepairController::class, 'getAssetEvents']);
+    Route::post('/update_repair/{repairId}', [RepairController::class, 'updateRepair']);
+    Route::get('/update_repair/{repairId}', [RepairController::class, 'updateRepair']);
+
 });
 
 
