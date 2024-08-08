@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded', function () {
         
         data.forEach(item => {
             const assetEvent = item.assetevent;
-            const repairEvents = item.repairevents;
+            const EEvents = item.events;
             
             var headhtml = `
                 <table class="table table-border-vertical table-border-horizontal">
@@ -116,7 +116,7 @@ document.addEventListener('DOMContentLoaded', function () {
             
             const tbody = tableContainer.querySelector('tbody');
             
-            repairEvents.forEach(repair => {
+            EEvents.forEach(repair => {
                 const row = document.createElement('tr');
 
                 row.innerHTML = `

@@ -11,6 +11,9 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FundingController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\RepairController;
+use App\Http\Controllers\DisposeController;
+
+
 
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 /*
@@ -109,6 +112,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/checkout/store', [CheckoutController::class, 'store'])->name('checkout.store');
 
     Route::post('/repair/store', [RepairController::class, 'store'])->name('checkout.store');
+    Route::post('/dispose/store', [DisposeController::class, 'store'])->name('checkout.store');
     
     Route::get('/dispose', [AssetController::class, 'dispose'])->name('dispose');
 
@@ -134,9 +138,13 @@ Route::middleware(['auth'])->group(function () {
     });
 
 
-    Route::get('/asset_events/{assetId}', [RepairController::class, 'getAssetEvents']);
+    Route::get('/asset_events/{assetId}', [AssetController::class, 'getAssetEvents']);
+
     Route::post('/update_repair/{repairId}', [RepairController::class, 'updateRepair']);
     Route::get('/update_repair/{repairId}', [RepairController::class, 'updateRepair']);
+
+    Route::post('/update_dispose/{disposeId}', [DisposeController::class, 'updateDispose']);
+    Route::get('/update_dispose/{disposeId}', [DisposeController::class, 'updateDispose']);
 
 });
 

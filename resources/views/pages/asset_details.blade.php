@@ -57,7 +57,7 @@
                                     <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target=".bd-example-modal-lg"><span><i class="icofont icofont-user"></i></span> Check Out</a>
                                     </li>
                                     <li><a class="dropdown-item" href="#"><span><i class="icofont icofont-ui-check"></i></span> Check In</a></li>
-                                    <li><a class="dropdown-item" href="#"><span><i class="icofont icofont-trash"></i></span> Dispose</a></li>
+                                    <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target=".modalDispose"><span><i class="icofont icofont-trash"></i></span> Dispose</a></li>
                                     <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target=".modalRepair"><span><i class="icofont icofont-repair"></i></span> Repair</a></li>
                                     <!-- Add more actions as needed --> 
                                 </ul>

@@ -16,6 +16,10 @@ use App\Models\DepartmentModel;
 use App\Models\FundingModel;
 use App\Models\StatusModel;
 
+use App\Models\EventDispose;
+use App\Models\EventRepair;
+use App\Models\AssetEvent;
+
 class AssetController extends Controller
 {
 
@@ -308,5 +312,21 @@ class AssetController extends Controller
         return view('pages.dispose');
     }
     
+    public function getAssetEvents($assetId)
+    {
+        $assetEvents = AssetEvent::where('asset_id', $assetId)->get();
+        $result = [];
+
+        foreach ($assetEvents as $event) {
+            $repairEvents = EventRepair::where('event_id', $event->event_id)->get();
+            $disposeEvents = EventDispose::where('event_id', $event->event_id)->get();
+            $result[] = [
+                'assetevent' => $event,
+                'events' => $repairEvents ?? $disposeEvents ?? ''
+            ];
+        }
+ 
+        return response()->json($result);
+    }
     
 }
