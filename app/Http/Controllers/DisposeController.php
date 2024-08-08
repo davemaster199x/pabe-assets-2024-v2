@@ -38,7 +38,7 @@ class DisposeController extends Controller
 
     public function updateDispose(Request $request, $disposeId)
     {
-        $dispose = EventRepair::findOrFail($disposeId);
+        $dispose = EventDispose::findOrFail($disposeId);
         $dispose->sched_date = $request->input('de_date_disposed');
         $dispose->assigned_to = $request->input('de_dispose_to');
         $dispose->repair_notes = $request->input('de_notes');

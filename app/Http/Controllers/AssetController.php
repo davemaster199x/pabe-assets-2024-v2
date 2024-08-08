@@ -313,20 +313,28 @@ class AssetController extends Controller
     }
     
     public function getAssetEvents($assetId)
-    {
-        $assetEvents = AssetEvent::where('asset_id', $assetId)->get();
-        $result = [];
+{
+    $assetEvents = AssetEvent::where('asset_id', $assetId)->get();
+    $result = [];
 
-        foreach ($assetEvents as $event) {
-            $repairEvents = EventRepair::where('event_id', $event->event_id)->get();
-            $disposeEvents = EventDispose::where('event_id', $event->event_id)->get();
-            $result[] = [
-                'assetevent' => $event,
-                'events' => $repairEvents ?? $disposeEvents ?? ''
-            ];
-        }
- 
-        return response()->json($result);
+    foreach ($assetEvents as $event) {
+        $eventID = $event->event_id;
+
+        // Get repair and dispose events
+        $repairEvents = EventRepair::where('event_id', $eventID)->get();
+        $disposeEvents = EventDispose::where('event_id', $eventID)->get();
+
+        // Determine which events to include
+        $events = $repairEvents->isNotEmpty() ? $repairEvents : ($disposeEvents->isNotEmpty() ? $disposeEvents : '1');
+
+        $result[] = [
+            'assetevent' => $event,
+            'events' => $events,
+        ];
     }
+
+    return response()->json($result);
+}
+
     
 }

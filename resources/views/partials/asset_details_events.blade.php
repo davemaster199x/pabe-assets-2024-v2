@@ -93,65 +93,98 @@ document.addEventListener('DOMContentLoaded', function () {
     .then(response => response.json())
     .then(data => {
         const eventDatasContainer = document.querySelector('.eventdatas');
-        
+
         data.forEach(item => {
             const assetEvent = item.assetevent;
             const EEvents = item.events;
             
-            var headhtml = `
+            const tableContainer = document.createElement('div');
+            tableContainer.classList.add('table-responsive'); // Optional class for styling
+            
+            const headhtml = `
                 <table class="table table-border-vertical table-border-horizontal">
                     <thead>
+                        <!-- Add table headers if needed -->
                     </thead>
                     <tbody>
             `;
+            
+            tableContainer.innerHTML = headhtml;
+            const tbody = tableContainer.querySelector('tbody');
 
-            var endhtml = `
+            if (Array.isArray(EEvents)) {
+                EEvents.forEach(event => {
+                    const row = document.createElement('tr');
+
+                    if (event.repair_id) {
+                        row.innerHTML = `
+                            <td>
+                                <label>Schedule Date</label><br />
+                                <label>${event.sched_date || ''}</label>
+                            </td>
+                            <td>
+                                Repair
+                            </td>
+                            <td>
+                                <label>Assigned to</label><br />
+                                <label>${event.assigned_to || ''}</label>
+                            </td>
+                            <td>
+                                <label>Completion Date</label><br />
+                                <label>${event.date_completed || ''}</label>
+                            </td>
+                            <td>
+                                <label>Cost of Repairs</label><br />
+                                <label>${event.repair_cost || ''}</label>
+                            </td>
+                            <td>
+                                <label>Notes</label><br />
+                                <label>${event.repair_notes || ''}</label>
+                            </td>
+                            <td>
+                                <button class="btn btn-primary edit-button" type="button" data-bs-toggle="modal" data-bs-target=".modalRepair" data-repair='${JSON.stringify(event)}'>Edit</button>
+                            </td>
+                        `;
+                    } else if (event.dispose_id) {
+                        row.innerHTML = `
+                            <td>
+                                <label>Date Disposed</label><br />
+                                <label>${event.date_disposed || ''}</label>
+                            </td>
+                            <td>
+                                Dispose
+                            </td>
+                            <td>
+                                <label>Disposed To</label><br />
+                                <label>${event.dispose_to || ''}</label>
+                            </td>
+                            <td colspan="3">
+                                <label>Notes</label><br />
+                                <label>${event.dispose_notes || ''}</label>
+                            </td>
+                            <td>
+                                <button class="btn btn-primary edit-button" type="button" data-bs-toggle="modal" data-bs-target=".modalRepair" data-repair='${JSON.stringify(event)}'>Edit</button>
+                            </td>
+                        `;
+                    }
+
+                    tbody.appendChild(row);
+                });
+            } else {
+                // Handle the case where EEvents is a string (e.g., '1')
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td colspan="7">No events available.</td>
+                `;
+                tbody.appendChild(row);
+            }
+
+            const endhtml = `
                     </tbody>
                 </table>
             `;
 
-            // Create a container for the table
-            const tableContainer = document.createElement('div');
-            tableContainer.innerHTML = headhtml;
-            
-            const tbody = tableContainer.querySelector('tbody');
-            
-            EEvents.forEach(repair => {
-                const row = document.createElement('tr');
-
-                row.innerHTML = `
-                    <td>
-                        <label>Schedule Date</label><br />
-                        <label>${repair.sched_date}</label>
-                    </td>
-                    <td>
-                        Repair
-                    </td>
-                    <td>
-                        <label>Assigned to</label><br />
-                        <label>${repair.assigned_to}</label>
-                    </td>
-                    <td>
-                        <label>Completion Date</label><br />
-                        <label>${repair.date_completed}</label>
-                    </td>
-                    <td>
-                        <label>Cost of Repairs</label><br />
-                        <label>${repair.repair_cost}</label>
-                    </td>
-                    <td>
-                        <label>Notes</label><br />
-                        <label>${repair.repair_notes}</label>
-                    </td>
-                    <td>
-                        <button class="btn btn-primary edit-button" type="button" data-bs-toggle="modal" data-bs-target=".modalRepair" data-repair='${JSON.stringify(repair)}'>Edit</button>
-                    </td>
-                `;
-
-                tbody.appendChild(row);
-            });
-
-            // Add the closing tag for the table
+            // Close the table
             tableContainer.innerHTML += endhtml;
 
             // Append the table container to the event data container
@@ -159,6 +192,8 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     })
     .catch(error => console.error('Error fetching data:', error));
+
+
 
 
     document.querySelector('.eventdatas').addEventListener('click', function(event) {
