@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\AssetEvent;
 use App\Models\EventRepair;
+use App\Models\EventDispose;
 use App\Models\Asset;
 
 class RepairController extends Controller
@@ -35,22 +36,6 @@ class RepairController extends Controller
         $assetstatus->save();
         // Return a response
         return response()->json(['message' => 'Repair saved successfully!', 'Events' => $events->id], 201);
-    }
-
-    public function getAssetEvents($assetId)
-    {
-        $assetEvents = AssetEvent::where('asset_id', $assetId)->get();
-        $result = [];
-
-        foreach ($assetEvents as $event) {
-            $repairEvents = EventRepair::where('event_id', $event->event_id)->get();
-            $result[] = [
-                'assetevent' => $event,
-                'repairevents' => $repairEvents
-            ];
-        }
-
-        return response()->json($result);
     }
 
     public function updateRepair(Request $request, $repairId)

@@ -1,6 +1,19 @@
+<style>
+label.eventtitle {
+    font-family: 'Roboto';
+    font-weight: 900;
+    font-size: 150%;
+}
+table.table.table-border-vertical.table-border-horizontal {
+    font-size: 75%;
+    font-family: 'Rubik';
+}
+
+
+</style>
 <div class="row">
     <div class="col-2">
-        <label>Events</label>
+        <label class="eventtitle">Events</label>
     </div>
 </div>
 
@@ -14,7 +27,7 @@
                 <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form class="form-repair theme-form">
+                <form class="form-repair-edit theme-form">
                     <div class="card-body">
                         <div class="row">
                             <div class="col">
@@ -77,54 +90,115 @@ document.addEventListener('DOMContentLoaded', function () {
     const apiUrl = `/asset_events/${assetId}`;
 
     fetch(apiUrl)
-        .then(response => response.json())
-        .then(data => {
-            const eventDatasContainer = document.querySelector('.eventdatas');
+    .then(response => response.json())
+    .then(data => {
+        const eventDatasContainer = document.querySelector('.eventdatas');
+
+        data.forEach(item => {
+            const assetEvent = item.assetevent;
+            const EEvents = item.events;
             
-            data.forEach(item => {
-                const assetEvent = item.assetevent;
-                const repairEvents = item.repairevents;
-                
-                repairEvents.forEach(repair => {
-                    const row = document.createElement('div');
-                    row.classList.add('row');
+            const tableContainer = document.createElement('div');
+            tableContainer.classList.add('table-responsive'); // Optional class for styling
+            
+            const headhtml = `
+                <table class="table table-border-vertical table-border-horizontal">
+                    <thead>
+                        <!-- Add table headers if needed -->
+                    </thead>
+                    <tbody>
+            `;
+            
+            tableContainer.innerHTML = headhtml;
+            const tbody = tableContainer.querySelector('tbody');
 
-                    row.innerHTML = `
-                        <div class="col-2">
-                            <label>Schedule Date</label><br />
-                            <label>${repair.sched_date}</label>
-                        </div>
-                        <div class="col-2">Repair</div>
-                        <div class="col-2">
-                            <label>Assigned to</label><br />
-                            <label>${repair.assigned_to}</label>
-                        </div>
-                        <div class="col-2">
-                            <label>Completion Date</label><br />
-                            <label>${repair.date_completed}</label>
-                        </div>
-                        <div class="col-2">
-                            <label>Cost of Repairs</label><br />
-                            <label>${repair.repair_cost}</label>
-                        </div>
-                        <div class="col-2">
-                            <label>Notes</label><br />
-                            <label>${repair.repair_notes}</label>
-                        </div>
-                        <div class="col-2">
-                            <button class="btn btn-primary edit-button" type="button" data-bs-toggle="modal" data-bs-target=".modalRepair" data-repair='${JSON.stringify(repair)}'>Edit</button>
-                        </div>
-                    `;
+            if (Array.isArray(EEvents)) {
+                EEvents.forEach(event => {
+                    const row = document.createElement('tr');
 
-                    eventDatasContainer.appendChild(row);
+                    if (event.repair_id) {
+                        row.innerHTML = `
+                            <td>
+                                <label>Schedule Date</label><br />
+                                <label>${event.sched_date || ''}</label>
+                            </td>
+                            <td>
+                                Repair
+                            </td>
+                            <td>
+                                <label>Assigned to</label><br />
+                                <label>${event.assigned_to || ''}</label>
+                            </td>
+                            <td>
+                                <label>Completion Date</label><br />
+                                <label>${event.date_completed || ''}</label>
+                            </td>
+                            <td>
+                                <label>Cost of Repairs</label><br />
+                                <label>${event.repair_cost || ''}</label>
+                            </td>
+                            <td>
+                                <label>Notes</label><br />
+                                <label>${event.repair_notes || ''}</label>
+                            </td>
+                            <td>
+                                <button class="btn btn-primary edit-button" type="button" data-bs-toggle="modal" data-bs-target=".modalRepair" data-repair='${JSON.stringify(event)}'>Edit</button>
+                            </td>
+                        `;
+                    } else if (event.dispose_id) {
+                        row.innerHTML = `
+                            <td>
+                                <label>Date Disposed</label><br />
+                                <label>${event.date_disposed || ''}</label>
+                            </td>
+                            <td>
+                                Dispose
+                            </td>
+                            <td>
+                                <label>Disposed To</label><br />
+                                <label>${event.dispose_to || ''}</label>
+                            </td>
+                            <td colspan="3">
+                                <label>Notes</label><br />
+                                <label>${event.dispose_notes || ''}</label>
+                            </td>
+                            <td>
+                                <button class="btn btn-primary edit-button" type="button" data-bs-toggle="modal" data-bs-target=".modalRepair" data-repair='${JSON.stringify(event)}'>Edit</button>
+                            </td>
+                        `;
+                    }
+
+                    tbody.appendChild(row);
                 });
-            });
-        })
-        .catch(error => console.error('Error fetching data:', error));
+            } else {
+                // Handle the case where EEvents is a string (e.g., '1')
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td colspan="7">No events available.</td>
+                `;
+                tbody.appendChild(row);
+            }
+
+            const endhtml = `
+                    </tbody>
+                </table>
+            `;
+
+            // Close the table
+            tableContainer.innerHTML += endhtml;
+
+            // Append the table container to the event data container
+            eventDatasContainer.appendChild(tableContainer);
+        });
+    })
+    .catch(error => console.error('Error fetching data:', error));
+
+
+
 
     document.querySelector('.eventdatas').addEventListener('click', function(event) {
         if (event.target.classList.contains('edit-button')) {
-            const repairData = JSON.parse(event.target.getAttribute('data-repair'));
+            const repairData = JSON.parse(event.target.getAttribute('data-repair-edit'));
             document.getElementById('re_schedule_date').value = repairData.sched_date;
             document.getElementById('re_assigned_to').value = repairData.assigned_to;
             document.getElementById('re_date_completed').value = repairData.date_completed;
@@ -134,7 +208,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    document.querySelector('.form-repair').addEventListener('submit', function(event) {
+    document.querySelector('.form-repair-edit').addEventListener('submit', function(event) {
         event.preventDefault();
 
         const repairId = document.getElementById('repair_id').value;
@@ -151,7 +225,7 @@ document.addEventListener('DOMContentLoaded', function () {
         })
         .then(response => response.json())
         .then(data => {
-            alert('Repair event added successfully!');
+            alert('Repair event updated successfully!');
             location.reload();
         })
         .catch(error => console.error('Error updating repair event:', error));

@@ -16,10 +16,12 @@ class CreateTblEventDisposeTable extends Migration
         Schema::create('tbl_event_dispose', function (Blueprint $table) {
             $table->bigIncrements('dispose_id');
             $table->bigInteger('asset_id')->nullable();
+            $table->bigInteger('event_id')->nullable();
             $table->date('date_disposed')->nullable();
             $table->string('dispose_to', 50)->nullable();
             $table->text('dispose_notes')->nullable();
             $table->string('delete', 1)->default('0');
+            $table->date('deleted_at')->nullable();
             $table->timestamps();
         });
     }
