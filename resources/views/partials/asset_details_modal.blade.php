@@ -1,6 +1,6 @@
     <!-- Checkout Modal -->
 <div class="hiddenpreload" style="display:none">
-<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="checkoutModal">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -38,11 +38,8 @@
                           <div id="div_person" style="display: none;">
                             <div class="mb-3 row">
                                 <label class="col-sm-3 col-form-label">Assign to *</label>
-                                <div class="col-sm-6">
+                                <div class="col-sm-6" >
                                     <select class="form-control" id="person_id" name="person_id_person">
-                                        <option value="">-- Select --</option>
-                                        <option value="1">First</option>
-                                        <option value="3">Third</option>
                                     </select>
                                 </div>
                                 <div class="col-sm-3">
@@ -194,7 +191,7 @@ document.querySelector('.form-checkout').addEventListener('submit', function(eve
  <div class="modal fade" id="PersonModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenter"
      aria-hidden="true">
      <div class="modal-dialog modal-dialog" role="document">
-         <form id="location-form">
+         <form id="person-form" class="person-form">
              <div class="modal-content">
                  <div class="modal-header">
                      <h5 class="modal-title">Add an Person/Employee</h5>
@@ -203,19 +200,29 @@ document.querySelector('.form-checkout').addEventListener('submit', function(eve
                  <div class="modal-body">
                      @csrf
                      <div class="col-md-12">
-                         <label class="form-label" for="location_name">Location Name</label>
-                         <input class="form-control"  type="text" placeholder="Location Name"
-                             type="text" name="location_name" id="location_name" value="{{ old('location_name') }}" required=""
-                             data-bs-original-title="" title="">
-                             <label class="form-label" for="site_location_id">Site</label>
-                          <select class="form-select @error('site_id') is-invalid @enderror" id="siteSelect2"
-                                name="site_location_id" required>
-                          </select>  
+                        <label class="form-label">Full Name</label>
+                        <input class="form-control"  type="text" placeholder="" type="text" name="full_name" id="full_name" value="" required="" >
+                        <label class="form-label">Employee ID</label>
+                        <input type="text" class="form-control" name="emp_id" id="emp_id">
+                        <label class="form-label">Title</label>
+                        <input type="text" class="form-control" name="title" id="title">
+                        <label class="form-label">Phone</label>
+                        <input type="text" class="form-control" name="phone" id="phone">
+                        <label class="form-label">Email</label>
+                        <input type="text" class="form-control" name="email" id="email">
+                        <label class="form-label">Site</label>
+                        <select class="form-select" id="site_id" name="site_id"></select>
+                        <label class="form-label">Location</label>
+                        <select class="form-select" id="location_id" name="location_id"></select>
+                        <label class="form-label">Department</label>
+                        <select class="form-control" id="department_id" name="department_id"></select>
+                        <label class="form-label">Notes</label>
+                        <textarea name="notes" id="notes" class="form-control"></textarea>
                      </div>
                  </div>
                  <div class="modal-footer">
                      <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
-                     <button class="btn btn-primary" type="button" onclick="submitFormLocation()">Add</button>
+                     <button class="btn btn-primary" type="submit">Add</button>
                  </div>
              </div>
          </form>
@@ -223,6 +230,129 @@ document.querySelector('.form-checkout').addEventListener('submit', function(eve
          </script>
      </div>
  </div>
+ <script>
+    document.querySelector('.person-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the form from submitting the default way
+
+            // Collect form data
+            var formData = new FormData(event.target);
+
+            for (var pair of formData.entries()) {
+                console.log(pair[0] + ': ' + pair[1]);
+            }
+
+            fetch('/person/store', {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                populatePersonSelect(data.person_id);
+
+                var modalElement = document.getElementById('PersonModal');
+                var modalInstance = bootstrap.Modal.getInstance(modalElement);
+                if (modalInstance) {
+                    modalInstance.hide();
+                } else {
+                    // If no instance exists, initialize and hide it
+                    modalInstance = new bootstrap.Modal(modalElement);
+                    modalInstance.hide();
+                }
+
+                swal(
+                    "Success!", "Person Sucessfully Saved!", "success"           
+                )
+
+                document.getElementById('person-form').reset();
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        });
+</script>
+<!-- END Assign to modal-->
+
+<!-- Check in to modal-->
+ <div class="modal fade check-in-modal" id="CheckinModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenter"
+     aria-hidden="true">
+     <div class="modal-dialog modal-dialog" role="document">
+         <form id="checkin-form" class="checkin-form">
+             <div class="modal-content">
+                 <div class="modal-header">
+                     <h5 class="modal-title">Check in</h5>
+                     <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                 </div>
+                 <div class="modal-body">
+                     @csrf
+                     <div class="col-md-12">
+                        <input class="form-control" type="hidden" id="asset_id" name="asset_id" value="{{ $encrypt_asset_id }}">
+                        <label class="form-label">Site *</label>
+                        <select class="form-select" id="site_id" name="site_id"></select>
+                        <label class="form-label">Location</label>
+                        <select class="form-select" id="location_id" name="location_id"></select>
+                        <label class="form-label">Return Date *</label>
+                        <input type="date" name="return_date" id="return_date" class="form-control">
+                        <label class="form-label">Department</label>
+                        <select class="form-control" id="department_id" name="department_id"></select>
+                        <label class="form-label">Checkin Notes</label>
+                        <textarea name="checkin_notes" id="checkin_notes" class="form-control"></textarea>
+                     </div>
+                 </div>
+                 <div class="modal-footer">
+                     <button class="btn btn-success" type="submit">Check-In</button>
+                    <button class="btn btn-primary" type="button" data-bs-dismiss="modal">Cancel</button>
+                 </div>
+             </div>
+         </form>
+         <script>
+         </script>
+     </div>
+ </div>
+ <script>
+    document.querySelector('.checkin-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the form from submitting the default way
+
+            // Collect form data
+            var formData = new FormData(event.target);
+
+            for (var pair of formData.entries()) {
+                console.log(pair[0] + ': ' + pair[1]);
+            }
+
+            fetch('/checkin/store', {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+
+                var modalElement = document.getElementById('CheckinModal');
+                var modalInstance = bootstrap.Modal.getInstance(modalElement);
+                if (modalInstance) {
+                    modalInstance.hide();
+                } else {
+                    // If no instance exists, initialize and hide it
+                    modalInstance = new bootstrap.Modal(modalElement);
+                    modalInstance.hide();
+                }
+                fetchAssetDetails(assetId);
+                swal(
+                    "Success!", "Check In Sucessfully Saved!", "success"           
+                )
+
+                document.getElementById('checkin-form').reset();
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        });
+</script>
 <!-- END Assign to modal-->
 
 <!---------------repair----------------------->

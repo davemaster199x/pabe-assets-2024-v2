@@ -12,6 +12,8 @@ use App\Http\Controllers\FundingController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\RepairController;
 use App\Http\Controllers\DisposeController;
+use App\Http\Controllers\PersonController;
+use App\Http\Controllers\CheckinController;
 
 
 
@@ -145,6 +147,13 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/update_dispose/{disposeId}', [DisposeController::class, 'updateDispose']);
     Route::get('/update_dispose/{disposeId}', [DisposeController::class, 'updateDispose']);
+
+    // Person Store
+    Route::post('/person/store', [PersonController::class, 'store'])->name('person.store');
+    Route::get('/api/getPerson', [PersonController::class, 'getPersons'])->name('api.getPersons');
+
+    // Check In
+    Route::post('/checkin/store', [CheckinController::class, 'store'])->name('checkin.store');
 
 });
 

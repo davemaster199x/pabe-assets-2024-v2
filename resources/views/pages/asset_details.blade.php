@@ -56,7 +56,7 @@
                                 <ul class="dropdown-menu">
                                     <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target=".bd-example-modal-lg"><span><i class="icofont icofont-user"></i></span> Check Out</a>
                                     </li>
-                                    <li><a class="dropdown-item" href="#"><span><i class="icofont icofont-ui-check"></i></span> Check In</a></li>
+                                    <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target=".check-in-modal"><span><i class="icofont icofont-ui-check"></i></span> Check In</a></li>
                                     <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target=".modalDispose"><span><i class="icofont icofont-trash"></i></span> Dispose</a></li>
                                     <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target=".modalRepair"><span><i class="icofont icofont-repair"></i></span> Repair</a></li>
                                     <!-- Add more actions as needed --> 
@@ -403,6 +403,54 @@
             .catch(function(error) {
                 console.error('Error fetching data:', error);
             });
+
+        function populatePersonSelect(selectedPersonId = null) {
+            fetch('/api/getPerson')
+                .then(function(response) {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(function(data) {
+                    console.log(data);
+                    // Assuming data is an array of objects with person_id and full_name properties
+                    var selects = document.querySelectorAll('select[id="person_id"]');
+
+                    // Iterate over each select element
+                    selects.forEach(function(select) {
+                        // Clear existing options (if any)
+                        select.innerHTML = '';
+
+                        // Create and append the "Select Person" placeholder option
+                        var placeholderOption = document.createElement('option');
+                        placeholderOption.value = '';
+                        placeholderOption.textContent = 'Select Person';
+                        placeholderOption.disabled = true;
+                        placeholderOption.selected = true;
+                        select.appendChild(placeholderOption);
+
+                        // Create and append new options based on fetched data
+                        data.forEach(function(person) {
+                            var option = document.createElement('option');
+                            option.value = person.person_id;
+                            option.textContent = person.full_name;
+                            select.appendChild(option);
+                        });
+
+                        // Set the selected option if a personId is provided
+                        if (selectedPersonId) {
+                            select.value = selectedPersonId;
+                        }
+                    });
+                })
+                .catch(function(error) {
+                    console.error('Error fetching data:', error);
+                });
+        }
+
+        // Example usage: Populate select elements and pre-select the option with ID 123
+        populatePersonSelect();
 
         function checkout_to(value) {
             var divSite = document.getElementById('div_site');
