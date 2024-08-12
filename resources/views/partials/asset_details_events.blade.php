@@ -174,7 +174,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 // Handle the case where EEvents is a string (e.g., '1')
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td colspan="7">No events available.</td>
+                   <!-- <td colspan="7">No events available.</td> -->
                 `;
                 tbody.appendChild(row);
             }
