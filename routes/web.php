@@ -96,6 +96,7 @@ Route::middleware(['auth'])->group(function () {
     // List of assets
     //Route::middleware(['check.referrer:list_of_assets'])->group(function () {
         Route::get('/api/assets', [AssetController::class, 'getAssets']);//para dli ma diretso ug access sa browser test pani
+        Route::get('/api/assets_dispose', [AssetController::class, 'getAssets2']);//para dli ma diretso ug access sa browser test pani
     //});
 
 

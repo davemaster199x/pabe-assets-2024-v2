@@ -174,7 +174,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                 <label>${event.date_disposed || ''}</label>
                             </td>
                             <td>
-                                Check Out
+                                Check in
                             </td>
                             <td>
                                 <label>Disposed To</label><br />

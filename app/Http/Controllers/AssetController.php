@@ -297,6 +297,42 @@ class AssetController extends Controller
             return response()->json($response);
     
     }
+
+    public function getAssets2() {
+        $assets = Asset::selectRaw('asset_photo_file, assets_tag_id, description, brand, purchase_date, cost, status_id, asset_id , site_id , location_id ')
+        ->orderBy('asset_id', 'desc')
+        ->get();
+
+        $response = [
+            "recordsTotal" => $assets->count(), // Total records without filtering
+            "recordsFiltered" => $assets->count(), // Total records after filtering, if any
+            "data" => []
+        ];
+        
+        foreach ($assets as $asset) {
+            $asset_idd = $asset->asset_id;//Crypt::encryptString(strval($asset->asset_id));
+            $status_name = Status::where('status_id', $asset->status_id)->select('status_name')->first();
+
+            
+
+            $assetPhotoUrl = Storage::disk('public')->exists($asset->asset_photo_file) 
+                ? asset('storage/' . $asset->asset_photo_file) 
+                : 'No Image';
+            $response['data'][] = [
+                "asset_id" => $asset->asset_id,
+                "assets_tag_id" => $asset->assets_tag_id,
+                "description" => $asset->description,
+                "status_id" => $status_name->status_name ?? '',
+                "assigned_to" => '',
+                "site_id" => $asset->site_id ?? '',
+                "location_id" => $asset->location_id  ?? '',
+                "lease_to" =>  ''
+            ];
+        }
+        
+        return response()->json($response);
+
+}
     //
     
 
