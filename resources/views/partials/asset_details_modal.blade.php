@@ -145,45 +145,45 @@
 
 </div>
 <script>
-document.querySelector('.form-checkout').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent the form from submitting the default way
+    document.querySelector('.form-checkout').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent the form from submitting the default way
 
-            // Collect form data
-            var formData = new FormData(event.target);
+        // Collect form data
+        var formData = new FormData(event.target);
 
-            for (var pair of formData.entries()) {
-                console.log(pair[0] + ': ' + pair[1]);
+        for (var pair of formData.entries()) {
+            console.log(pair[0] + ': ' + pair[1]);
+        }
+
+        fetch('/checkout/store', {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success:', data);
+
+            var modalElement = document.getElementById('checkoutModal');
+            var modalInstance = bootstrap.Modal.getInstance(modalElement);
+            if (modalInstance) {
+                modalInstance.hide();
+            } else {
+                // If no instance exists, initialize and hide it
+                modalInstance = new bootstrap.Modal(modalElement);
+                modalInstance.hide();
             }
-
-            fetch('/checkout/store', {
-                method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                },
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Success:', data);
-
-                var modalElement = document.getElementById('checkoutModal');
-                var modalInstance = bootstrap.Modal.getInstance(modalElement);
-                if (modalInstance) {
-                    modalInstance.hide();
-                } else {
-                    // If no instance exists, initialize and hide it
-                    modalInstance = new bootstrap.Modal(modalElement);
-                    modalInstance.hide();
-                }
-                fetchAssetDetails(assetId);
-                swal(
-                    "Success!", "Check out Sucessfully Saved!", "success"           
-                )
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
+            fetchAssetDetails(assetId);
+            swal(
+                "Success!", "Check out Sucessfully Saved!", "success"           
+            )
+        })
+        .catch((error) => {
+            console.error('Error:', error);
         });
+    });
 </script>
 <!-- End Checkout Modal -->
 

@@ -287,7 +287,8 @@ class AssetController extends Controller
                     "purchase_date" => $asset->purchase_date,
                     "cost" => $asset->cost,
                     "status_id" => $status_name->status_name ?? '',
-                    "view_button" => '<a href="' . route('asset_details', ['asset' => $asset_idd ]) . '" class="btn btn-outline-light" style="border-color: black; color: black;" title="View" data-bs-original-title="View" data-original-title="View"><i class="icofont icofont-eye-alt"></i> View</a>'
+                    "view_button" => '<a href="' . route('asset_details', ['asset' => $asset_idd ]) . '" class="btn btn-outline-light" style="border-color: black; color: black;" title="View" data-bs-original-title="View" data-original-title="View"><i class="icofont icofont-eye-alt"></i> View</a>',
+                    "asset_id" => $asset_idd
                 ];
             }
             

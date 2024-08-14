@@ -4,15 +4,13 @@
 @section('page-title', 'List of Assets')
 
 @section('header')
-
-<link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
-<style>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
+    <style>
         /* Adjust pagination font size */
         .dataTables_paginate .paginate_button {
             font-size: 18px!important; /* Adjust as needed */
         }
     </style>
-
 @endsection
 
 @section('content')
