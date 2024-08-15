@@ -167,6 +167,50 @@ document.addEventListener('DOMContentLoaded', function () {
                             </td>
                         `;
                     }
+                    else if (event.checkin_id) {
+                        row.innerHTML = `
+                            <td>
+                                <label>Date Disposed</label><br />
+                                <label>${event.date_disposed || ''}</label>
+                            </td>
+                            <td>
+                                Check in
+                            </td>
+                            <td>
+                                <label>Disposed To</label><br />
+                                <label>${event.dispose_to || ''}</label>
+                            </td>
+                            <td colspan="3">
+                                <label>Notes</label><br />
+                                <label>${event.dispose_notes || ''}</label>
+                            </td>
+                            <td>
+                                <button class="btn btn-primary edit-button" type="button" data-bs-toggle="modal" data-bs-target=".modalRepair" data-repair='${JSON.stringify(event)}'>Edit</button>
+                            </td>
+                        `;
+                    }
+                    else if (event.checkout_id) {
+                        row.innerHTML = `
+                            <td>
+                                <label>Date Disposed</label><br />
+                                <label>${event.date_disposed || ''}</label>
+                            </td>
+                            <td>
+                                Check Out
+                            </td>
+                            <td>
+                                <label>Disposed To</label><br />
+                                <label>${event.dispose_to || ''}</label>
+                            </td>
+                            <td colspan="3">
+                                <label>Notes</label><br />
+                                <label>${event.dispose_notes || ''}</label>
+                            </td>
+                            <td>
+                                <button class="btn btn-primary edit-button" type="button" data-bs-toggle="modal" data-bs-target=".modalRepair" data-repair='${JSON.stringify(event)}'>Edit</button>
+                            </td>
+                        `;
+                    }
 
                     tbody.appendChild(row);
                 });
@@ -174,7 +218,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 // Handle the case where EEvents is a string (e.g., '1')
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td colspan="7">No events available.</td>
+                   <!-- <td colspan="7">No events available.</td> -->
                 `;
                 tbody.appendChild(row);
             }
