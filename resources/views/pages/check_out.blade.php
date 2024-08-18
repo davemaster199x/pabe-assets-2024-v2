@@ -316,6 +316,8 @@
 <script>
     document.getElementById('check_out-navbar').classList.add('active');
 
+    let selectedAssets = [];
+
     $(document).ready(function() {
         const table = $('#listassets').DataTable({
             "ajax": {
@@ -359,7 +361,6 @@
 
         // Add event listener to the "Add to List" button
         $('.Add-List').on('click', function() {
-            const selectedAssets = [];
 
             // Iterate over each checked checkbox
             $('#listassets tbody .asset-checkbox:checked').each(function() {
@@ -390,11 +391,17 @@
         // Collect form data
         var formData = new FormData(event.target);
 
+        // Map the selectedAssets array to get only the asset_id values
+        const assetIds = selectedAssets.map(asset => asset.asset_id);
+
+        // Append the assetIds array to formData as a JSON string
+        formData.append('selectedAssets', JSON.stringify(assetIds));
+
         for (var pair of formData.entries()) {
             console.log(pair[0] + ': ' + pair[1]);
         }
 
-        fetch('/checkout/store', {
+        fetch('/checkout/multiple-store', {
             method: 'POST',
             headers: {
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
@@ -404,20 +411,11 @@
         .then(response => response.json())
         .then(data => {
             console.log('Success:', data);
-
-            var modalElement = document.getElementById('checkoutModal');
-            var modalInstance = bootstrap.Modal.getInstance(modalElement);
-            if (modalInstance) {
-                modalInstance.hide();
-            } else {
-                // If no instance exists, initialize and hide it
-                modalInstance = new bootstrap.Modal(modalElement);
-                modalInstance.hide();
-            }
-            fetchAssetDetails(assetId);
             swal(
                 "Success!", "Check out Sucessfully Saved!", "success"           
             )
+
+            location.reload();
         })
         .catch((error) => {
             console.error('Error:', error);

@@ -23,6 +23,7 @@ class CreateTblAssetsTable extends Migration
             $table->string('brand', 150)->nullable();
             $table->string('model', 150)->nullable();
             $table->string('serial_no', 150)->nullable();
+            $table->bigInteger('person_id')->nullable();
             $table->bigInteger('site_id')->nullable();
             $table->bigInteger('location_id')->nullable();
             $table->bigInteger('category_id')->nullable();

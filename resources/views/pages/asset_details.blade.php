@@ -142,7 +142,7 @@
                                 <td>
                                     Assigned to
                                 </td>
-                                <td></td>
+                                <td id="asset_assigned_to"></td>
                             </tr>
                             <tr>
                                 <td>
@@ -228,6 +228,8 @@
         }
 
         function updateAssetDetails(data) {
+
+            console.log(data);
             $('#asset_description').html(data.description);
 
             const assetPhotoUrl = `{{ asset('storage') }}/${data.asset_photo_file}`;
@@ -250,6 +252,12 @@
             $('#asset_category_name').html(data.category.category_name);
             $('#asset_department_name').html(data.department.department_name);
             $('#asset_status_name').html(data.status.status_name);
+            if (data.person && data.person.full_name) {
+                $('#asset_assigned_to').html(data.person.full_name);
+            } else {
+                $('#asset_assigned_to').html(''); // Optionally clear the content if full_name is not available
+            }
+            
         }
 
         function checkImageExists(url, callback) {

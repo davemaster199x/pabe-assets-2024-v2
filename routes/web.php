@@ -113,6 +113,7 @@ Route::middleware(['auth'])->group(function () {
     // Checkout
     Route::get('/check_out', [AssetController::class, 'check_out'])->name('check_out');
     Route::post('/checkout/store', [CheckoutController::class, 'store'])->name('checkout.store');
+    Route::post('/checkout/multiple-store', [CheckoutController::class, 'store_multiple'])->name('checkout.multiple.store');
 
     Route::post('/repair/store', [RepairController::class, 'store'])->name('checkout.store');
     Route::post('/dispose/store', [DisposeController::class, 'store'])->name('checkout.store');

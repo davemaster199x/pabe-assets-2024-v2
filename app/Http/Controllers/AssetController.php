@@ -245,7 +245,7 @@ class AssetController extends Controller
     public function api_asset_details($asset)
     {
         $asset_idd = $asset;//Crypt::decryptString(strval($asset));
-        $asset2 = Asset::with(['site', 'location', 'category', 'department', 'status'])->findOrFail($asset_idd);
+        $asset2 = Asset::with(['site', 'location', 'category', 'department', 'status', 'person'])->findOrFail($asset_idd);
         return response()->json($asset2);
     }
 

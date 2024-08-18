@@ -28,6 +28,11 @@ class Person extends Model
         'notes',
     ];
 
+    public function assets()
+    {
+        return $this->hasMany(Asset::class, 'person_id', 'person_id');
+    }
+
     // Optionally, define relationships with other models
     // public function site()
     // {

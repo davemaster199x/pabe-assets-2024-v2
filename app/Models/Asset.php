@@ -63,6 +63,11 @@ class Asset extends Model
     {
         return $this->belongsTo(Status::class, 'status_id', 'status_id');
     }
+
+    public function person()
+    {
+        return $this->belongsTo(Person::class, 'person_id', 'person_id');
+    }
     
     // Add any other relationships as needed
 }
