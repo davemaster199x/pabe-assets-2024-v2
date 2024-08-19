@@ -21,6 +21,7 @@ use App\Models\EventRepair;
 use App\Models\EventCheckin;
 use App\Models\EventCheckout;
 use App\Models\AssetEvent;
+use App\Models\Person;
 
 class AssetController extends Controller
 {
@@ -187,7 +188,7 @@ class AssetController extends Controller
     $asset->assets_life = $request->input('assets_life');
     $asset->depreciation_method = $request->input('depreciation_method');
     $asset->date_acquired = $request->input('date_acquired');
-    $asset->funding_source = $request->input('funding_source');
+    $asset->funding_source = $request->input('funding_id');
     $asset->amount_debited = $request->input('amount_debited');
    // $asset->status_id = $request->input('status_id');
 
@@ -262,10 +263,20 @@ class AssetController extends Controller
         return response()->json(['last_id' => $formattedId]);
     }
 
-    public function getAssets() {
-            $assets = Asset::selectRaw('asset_photo_file, assets_tag_id, description, brand, purchase_date, cost, status_id, asset_id')
-            ->orderBy('asset_id', 'desc')
-            ->get();
+    public function getAssets($status = NULL) {
+            if ($status == 'checkin') {
+                $assets = Asset::where('status_id', 2)
+                        ->orderBy('asset_id', 'desc')
+                        ->get();
+            } elseif($status == 'checkout'){
+                $assets = Asset::where('status_id', 1)
+                        ->orderBy('asset_id', 'desc')
+                        ->get();
+            } else {
+                $assets = Asset::orderBy('asset_id', 'desc')
+                ->get();
+            }
+            
     
             $response = [
                 "recordsTotal" => $assets->count(), // Total records without filtering
@@ -276,6 +287,9 @@ class AssetController extends Controller
             foreach ($assets as $asset) {
                 $asset_idd = $asset->asset_id;//Crypt::encryptString(strval($asset->asset_id));
                 $status_name = Status::where('status_id', $asset->status_id)->select('status_name')->first();
+                $site_name = SiteModel::where('site_id', $asset->site_id)->select('site_name')->first();
+                $location_name = LocationModel::where('location_id', $asset->location_id)->select('location_name')->first();
+                $person = Person::where('person_id', $asset->person_id)->select('full_name')->first();
                 $assetPhotoUrl = Storage::disk('public')->exists($asset->asset_photo_file) 
                     ? asset('storage/' . $asset->asset_photo_file) 
                     : 'No Image';
@@ -290,7 +304,11 @@ class AssetController extends Controller
                     "cost" => $asset->cost,
                     "status_id" => $status_name->status_name ?? '',
                     "view_button" => '<a href="' . route('asset_details', ['asset' => $asset_idd ]) . '" class="btn btn-outline-light" style="border-color: black; color: black;" title="View" data-bs-original-title="View" data-original-title="View"><i class="icofont icofont-eye-alt"></i> View</a>',
-                    "asset_id" => $asset_idd
+                    "asset_id" => $asset_idd,
+                    "site_name" => $site_name->site_name ?? '',
+                    "location_name" => $location_name->location_name ?? '',
+                    "assigned_to" => $person->full_name ?? '',
+                    "site_id" => $asset->site_id
                 ];
             }
             

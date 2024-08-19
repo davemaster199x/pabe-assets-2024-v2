@@ -13,7 +13,7 @@ class PersonController extends Controller
             // Validate the request data
             $request->validate([
                 'full_name' => 'required|string|max:50',
-                'emp_id' => 'required|string|max:50',
+                'emp_id' => 'nullable|string|max:50',
                 'title' => 'nullable|string|max:50',
                 'phone' => 'nullable|string|max:50',
                 'email' => 'nullable|email|max:50',

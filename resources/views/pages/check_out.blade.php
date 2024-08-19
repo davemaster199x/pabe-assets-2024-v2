@@ -33,10 +33,10 @@
                                     <th>Asset ID</th>
                                     <th>Asset Tag ID</th>
                                     <th>Description</th>
-                                    <th>Brand</th>
-                                    <th>Purchase Date</th>
-                                    <th>Cost</th>
                                     <th>Status</th>
+                                    <th>Assigned to</th>
+                                    <th>Sites</th>
+                                    <th>Location</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -203,10 +203,10 @@
                                 <th></th>
                                 <th>Asset Tag ID</th>
                                 <th>Description</th>
-                                <th>Brand</th>
-                                <th>Purchase Date</th>
-                                <th>Cost</th>
                                 <th>Status</th>
+                                <th>Assigned to</th>
+                                <th>Sites</th>
+                                <th>Location</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -321,7 +321,7 @@
     $(document).ready(function() {
         const table = $('#listassets').DataTable({
             "ajax": {
-                "url": "/api/assets",
+                "url": `/api/assets/${'checkout'}`,
                 "type": "GET"
             },
             "columns": [
@@ -335,10 +335,10 @@
                 },
                 { "data": "assets_tag_id" },
                 { "data": "description" },
-                { "data": "brand" },
-                { "data": "purchase_date" },
-                { "data": "cost" },
                 { "data": "status_id" },
+                { "data": "assigned_to" },
+                { "data": "site_name" },
+                { "data": "location_name" },
             ]
         });
 
@@ -352,16 +352,16 @@
                 },
                 { "data": "assets_tag_id" },
                 { "data": "description" },
-                { "data": "brand" },
-                { "data": "purchase_date" },
-                { "data": "cost" },
                 { "data": "status_id" },
+                { "data": "assigned_to" },
+                { "data": "site_name" },
+                { "data": "location_name" },
             ]
         });
 
         // Add event listener to the "Add to List" button
         $('.Add-List').on('click', function() {
-
+            selectedAssets = [];
             // Iterate over each checked checkbox
             $('#listassets tbody .asset-checkbox:checked').each(function() {
                 const row = $(this).closest('tr');
