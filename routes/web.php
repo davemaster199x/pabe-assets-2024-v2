@@ -17,6 +17,7 @@ use App\Http\Controllers\CheckinController;
 use App\Http\Controllers\SellController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\InsuranceController;
+use App\Http\Controllers\WarrantyController;
 
 
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -190,6 +191,12 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/insurance/{id}', [InsuranceController::class, 'detachInsurance']);
     Route::post('/link-insurance', [InsuranceController::class, 'linkInsurance']);
     Route::get('/insurances/{asset_id}', [InsuranceController::class, 'getInsurancesByAsset']);
+
+    Route::post('/add-warranty', [WarrantyController::class, 'store'])->name('warranty.store');
+    Route::get('/get-warranties/{asset_id}', [WarrantyController::class, 'getWarrantiesByAsset']);
+    Route::get('/warranties/{id}', [WarrantyController::class, 'getWarranty']);
+    Route::put('/warranties/{id}', [WarrantyController::class, 'updateWarranty']);
+    Route::delete('/warranty/{id}', [WarrantyController::class, 'deleteWarranty'])->name('warranty.delete');
 });
 
 

@@ -174,7 +174,7 @@
                          @include('partials.asset_details_docs')
                     </div>
                     <div class="tab-pane fade" id="info-warranty" role="tabpanel" aria-labelledby="warranty-info-tab">
-                    warranty
+                        @include('partials.asset_details_warranty')
                     </div>
                     <div class="tab-pane fade" id="info-insurance" role="tabpanel" aria-labelledby="insurance-info-tab">
                         @include('partials.asset_details_insurance')

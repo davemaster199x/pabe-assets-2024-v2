@@ -58,6 +58,40 @@
     document.addEventListener('DOMContentLoaded', function () {
         var assetId = {{ $encrypt_asset_id }}; // Replace this with the actual asset_id
 
+        function fetchInsurances() {
+            fetch(`/insurances/${assetId}`)
+                .then(response => response.json())
+                .then(data => {
+                    const tbody = document.getElementById('insurance-table-body');
+                    tbody.innerHTML = ''; // Clear existing rows
+                    console.log(data);
+                    // Check if the data is an object and not null
+                    if (data && typeof data === 'object' && data.insurance_id) {
+                        const row = document.createElement('tr');
+                        
+                        row.innerHTML = `
+                            <td>${data.description}</td>
+                            <td>${data.insurance_co}</td>
+                            <td>${data.contact_person || 'N/A'}</td>
+                            <td>${new Date(data.start_date).toLocaleDateString()}</td>
+                            <td>${new Date(data.end_date).toLocaleDateString()}</td>
+                            <td>
+                                <button type="button" class="btn btn-danger" onclick="detachInsurance(${data.insurance_id})">Detach</button>
+                            </td>
+                        `;
+                        
+                        tbody.appendChild(row);
+                    } else {
+                        // If no valid data is returned, show a message
+                        tbody.innerHTML = '<tr><td colspan="6">No insurance linked to this asset.</td></tr>';
+                    }
+                })
+                .catch(error => console.error('Error fetching insurances:', error));
+        }
+
+        // Initial fetch of insurances linked to the asset
+        fetchInsurances();
+
         fetch(`/insurance-data`)
             .then(response => response.json())
             .then(data => {
@@ -71,79 +105,54 @@
                     insuranceSelect.appendChild(option);
                 });
             })
-        .catch(error => console.error('Error fetching insurances:', error));
-
-        fetch(`/insurances/${assetId}`)
-            .then(response => response.json())
-            .then(data => {
-                const tbody = document.getElementById('insurance-table-body');
-                tbody.innerHTML = ''; // Clear existing rows
-                console.log(data);
-                // Check if the data is an object and not null
-                if (data && typeof data === 'object' && data.insurance_id) {
-                    const row = document.createElement('tr');
-                    
-                    row.innerHTML = `
-                        <td>${data.description}</td>
-                        <td>${data.insurance_co}</td>
-                        <td>${data.contact_person || 'N/A'}</td>
-                        <td>${new Date(data.start_date).toLocaleDateString()}</td>
-                        <td>${new Date(data.end_date).toLocaleDateString()}</td>
-                        <td>
-                            <button type="button" class="btn btn-danger" onclick="detachInsurance(${data.insurance_id})">Detach</button>
-                        </td>
-                    `;
-                    
-                    tbody.appendChild(row);
-                } else {
-                    // If no valid data is returned, show a message
-                    tbody.innerHTML = '<tr><td colspan="6">No insurance linked to this asset.</td></tr>';
-                }
-            })
             .catch(error => console.error('Error fetching insurances:', error));
-        
-    });
 
-    function linkInsurance() {
-        const assetId = {{ $encrypt_asset_id }};
-        const insuranceId = document.getElementById('insuranceSelect').value;
+        function linkInsurance() {
+            const insuranceId = document.getElementById('insuranceSelect').value;
 
-        // Make an AJAX request to link the insurance with the asset
-        fetch(`/link-insurance`, {
-            method: 'POST',
-            headers: {
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ asset_id: assetId, insurance_id: insuranceId }),
-        })
-        .then(response => response.json())
-        .then(data => {
-            swal(
-                "Success!", "Insurance linked successfully!", "success"           
-            )
-            location.reload();
-        })
-        .catch(error => console.error('Error linking insurance:', error));
-    }
-
-    function detachInsurance(insuranceId) {
-        if (confirm('Are you sure you want to detach this insurance?')) {
-            fetch(`/insurance/${insuranceId}`, {
-                method: 'DELETE',
+            // Make an AJAX request to link the insurance with the asset
+            fetch(`/link-insurance`, {
+                method: 'POST',
                 headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                }
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ asset_id: assetId, insurance_id: insuranceId }),
             })
             .then(response => response.json())
             .then(data => {
                 swal(
-                    "Success!", "Insurance successfully unlinked!", "success"           
+                    "Success!", "Insurance linked successfully!", "success"           
                 )
-                // Optionally refresh the list or remove the row from the table
-                location.reload(); // Refresh the page to see the updated list
+                fetchInsurances(); // Refresh the insurance table
+                var myModalEl = document.getElementById('linkInsuranceModal');
+                var modal = bootstrap.Modal.getInstance(myModalEl);
+                modal.hide();
             })
-            .catch(error => console.error('Error detaching insurance:', error));
+            .catch(error => console.error('Error linking insurance:', error));
         }
-    }
+
+        function detachInsurance(insuranceId) {
+            if (confirm('Are you sure you want to detach this insurance?')) {
+                fetch(`/insurance/${insuranceId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    swal(
+                        "Success!", "Insurance successfully unlinked!", "success"           
+                    )
+                    fetchInsurances(); // Refresh the insurance table
+                })
+                .catch(error => console.error('Error detaching insurance:', error));
+            }
+        }
+
+        // Expose the functions globally if they need to be called from HTML
+        window.linkInsurance = linkInsurance;
+        window.detachInsurance = detachInsurance;
+    });
 </script>
