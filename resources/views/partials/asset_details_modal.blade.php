@@ -483,7 +483,7 @@ document.querySelector('.form-repair').addEventListener('submit', function(event
                           <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">Date Disposed</label>
                             <div class="col-sm-9">
-                              <input class="form-control" type="date" id="r_schedule_date" name="d_date_disposed">
+                              <input class="form-control" type="date" id="d_schedule_date" name="d_date_disposed">
                               <input class="form-control" type="hidden" id="asset_id" name="asset_id" value="{{ $encrypt_asset_id }}">
                             </div>
                           </div>
@@ -496,7 +496,7 @@ document.querySelector('.form-repair').addEventListener('submit', function(event
                           <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">Notes</label>
                             <div class="col-sm-9">
-                                <textarea class="form-control" type="date" id="d_notes" name="d_notes"></textarea>
+                                <textarea class="form-control" id="d_notes" name="d_notes"></textarea>
                             </div> 
                           </div>
                           
@@ -536,6 +536,104 @@ document.querySelector('.form-dispose').addEventListener('submit', function(even
             .then(data => {
                 console.log('Success:', data);
                 alert('Dispose event updated successfully!');
+                location.reload();
+                fetchAssetDetails();
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        });
+</script>
+
+
+<!------ SELL ------------->
+<!------ SELL ------------->
+<!------ SELL ------------->
+<!------ SELL ------------->
+
+<!---------------sell----------------------->
+<div class="hiddenpreload" style="display:none">
+<div class="modal fade modalSell" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myLargeModalLabel">Sell</h5>
+                <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="form-sell theme-form">
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col">
+                          <div class="mb-3 row">
+                            <label class="col-sm-3 col-form-label">Sale Date</label>
+                            <div class="col-sm-9">
+                              <input class="form-control" type="date" id="s_sale_date" name="s_sale_date">
+                              <input class="form-control" type="hidden" id="asset_id" name="asset_id" value="{{ $encrypt_asset_id }}">
+                            </div>
+                          </div>
+                          <div class="mb-3 row">
+                            <label class="col-sm-3 col-form-label">Sold to</label>
+                            <div class="col-sm-9">
+                                <input class="form-control" type="text" id="s_sold_to" name="s_sold_to">
+                            </div>
+                          </div>
+
+                          <div class="mb-3 row">
+                            <label class="col-sm-3 col-form-label">Sale amount</label>
+                            <div class="col-sm-9">
+                            <div>
+                            <div class="input-group mb-3"><span class="input-group-text">₱  </span>
+                              <input class="form-control" type="text" aria-label="Philippines Peso" id="s_sales_amount" name="s_sales_amount">
+                            </div>
+                          </div>
+                            </div>
+                          </div>
+
+
+                          <div class="mb-3 row">
+                            <label class="col-sm-3 col-form-label">Notes</label>
+                            <div class="col-sm-9">
+                                <textarea class="form-control" id="s_notes" name="s_notes"></textarea>
+                            </div> 
+                          </div>
+                          
+                        </div>
+                      </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" type="submit">Update</button>
+                <button class="btn btn-primary" type="button" data-bs-dismiss="modal">Cancel</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+    </div>
+<script>
+document.querySelector('.form-sell').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the form from submitting the default way
+
+            // Collect form data
+            var formData = new FormData(event.target);
+
+            for (var pair of formData.entries()) {
+                console.log(pair[0] + ': ' + pair[1]);
+            }
+
+            
+            fetch('/sell/store', {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                alert('Sell event updated successfully!');
                 location.reload();
                 fetchAssetDetails();
             })

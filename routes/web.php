@@ -14,6 +14,8 @@ use App\Http\Controllers\RepairController;
 use App\Http\Controllers\DisposeController;
 use App\Http\Controllers\PersonController;
 use App\Http\Controllers\CheckinController;
+use App\Http\Controllers\SellController;
+use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\InsuranceController;
 
 
@@ -118,13 +120,30 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/repair/store', [RepairController::class, 'store'])->name('checkout.store');
     Route::post('/repair/multiple-store', [RepairController::class, 'store_multiple'])->name('repair.multiple.store');
 
-    Route::post('/dispose/store', [DisposeController::class, 'store'])->name('checkout.store');
+    Route::post('/dispose/store', [DisposeController::class, 'store'])->name('dispose.store');
     Route::post('dispose/multiple-store', [DisposeController::class, 'store_multiple'])->name('dispose.multiple.store');
 
-
-    
     Route::get('/dispose', [AssetController::class, 'dispose'])->name('dispose');
 
+    Route::post('/sell/store', [SellController::class, 'store'])->name('sell.store');
+    Route::post('sell/multiple-store', [SellController::class, 'store_multiple'])->name('sell.multiple.store');
+
+    Route::post('/upload-document', [DocumentController::class, 'store'])->name('upload.document');
+    Route::get('/documents', [DocumentController::class, 'index'])->name('documents.index');
+    Route::get('/documents/get', [DocumentController::class, 'getDocuments'])->name('documents.get');
+    Route::post('/documents', [DocumentController::class, 'store'])->name('upload.document');
+    Route::get('/documents/download/{id}', [DocumentController::class, 'download'])->name('documents.download');
+    Route::delete('/documents/{id}', [DocumentController::class, 'destroy'])->name('documents.destroy');
+
+    Route::post('/test-upload', function(Request $request) {
+        if ($request->hasFile('document')) {
+            $file = $request->file('document');
+            $path = $file->store('uploads');
+            return response()->json(['success' => true, 'path' => $path]);
+        }
+    
+        return response()->json(['success' => false, 'message' => 'No file uploaded.']);
+    });
     
 
     Route::get('/qrcode/{qrvalue}', function ($qrvalue) {

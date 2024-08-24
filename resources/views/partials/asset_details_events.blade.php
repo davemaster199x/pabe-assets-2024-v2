@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', function () {
             tableContainer.classList.add('table-responsive'); // Optional class for styling
             
             const headhtml = `
-                <table class="table table-border-vertical table-border-horizontal">
+                <table class="table table-border-vertical table-border-horizontal" style="table-layout: auto">
                     <thead>
                         <!-- Add table headers if needed -->
                     </thead>
@@ -111,48 +111,47 @@ document.addEventListener('DOMContentLoaded', function () {
             
             tableContainer.innerHTML = headhtml;
             const tbody = tableContainer.querySelector('tbody');
-
             if (Array.isArray(EEvents)) {
                 EEvents.forEach(event => {
                     const row = document.createElement('tr');
 
                     if (event.repair_id) {
                         row.innerHTML = `
-                            <td>
+                            <td style="width: 200px;">
                                 <label>Schedule Date</label><br />
                                 <label>${event.sched_date || ''}</label>
                             </td>
-                            <td>
-                                Repair
+                            <td style="width: 200px;">
+                                <i class="icofont icofont-repair"></i> Repair
                             </td>
                             <td>
                                 <label>Assigned to</label><br />
                                 <label>${event.assigned_to || ''}</label>
                             </td>
                             <td>
-                                <label>Completion Date</label><br />
+                                <label>Date Completed</label><br />
                                 <label>${event.date_completed || ''}</label>
                             </td>
                             <td>
-                                <label>Cost of Repairs</label><br />
+                                <label>Repair Cost</label><br />
                                 <label>${event.repair_cost || ''}</label>
                             </td>
                             <td>
                                 <label>Notes</label><br />
                                 <label>${event.repair_notes || ''}</label>
                             </td>
-                            <td>
-                                <button class="btn btn-primary edit-button" type="button" data-bs-toggle="modal" data-bs-target=".modalRepair" data-repair='${JSON.stringify(event)}'>Edit</button>
+                            <td style="width: 80px;>
+                                <button class="btn btn-primary edit-button pull-right" type="button" data-bs-toggle="modal" data-bs-target=".modalRepair" data-repair='${JSON.stringify(event)}'>Edit</button>
                             </td>
                         `;
                     } else if (event.dispose_id) {
                         row.innerHTML = `
-                            <td>
+                            <td style="width: 200px;">
                                 <label>Date Disposed</label><br />
                                 <label>${event.date_disposed || ''}</label>
                             </td>
-                            <td>
-                                Dispose
+                            <td style="width: 200px;">
+                                <i class="icofont icofont-trash"></i> Dispose
                             </td>
                             <td>
                                 <label>Disposed To</label><br />
@@ -163,54 +162,78 @@ document.addEventListener('DOMContentLoaded', function () {
                                 <label>${event.dispose_notes || ''}</label>
                             </td>
                             <td>
-                                <button class="btn btn-primary edit-button" type="button" data-bs-toggle="modal" data-bs-target=".modalRepair" data-repair='${JSON.stringify(event)}'>Edit</button>
+                                <button class="btn btn-primary edit-button pull-right" type="button" data-bs-toggle="modal" data-bs-target=".modalRepair" data-repair='${JSON.stringify(event)}'>Edit</button>
                             </td>
                         `;
-                    }
-                    else if (event.checkin_id) {
+                    } else if (event.checkin_id) {
                         row.innerHTML = `
-                            <td>
-                                <label>Date Disposed</label><br />
-                                <label>${event.date_disposed || ''}</label>
+                            <td style="width: 200px;">
+                                <label>Return Date</label><br />
+                                <label>${event.return_date || ''}</label>
                             </td>
-                            <td>
-                                Check in
+                            <td style="width: 200px;">
+                            <i class="icofont icofont-ui-check"></i> Check in
                             </td>
-                            <td>
-                                <label>Disposed To</label><br />
-                                <label>${event.dispose_to || ''}</label>
+                            <td colspan="6">
+                                <label>Check-in Notes</label><br />
+                                <label>${event.checkin_notes || ''}</label>
                             </td>
-                            <td colspan="3">
-                                <label>Notes</label><br />
-                                <label>${event.dispose_notes || ''}</label>
-                            </td>
-                            <td>
-                                <button class="btn btn-primary edit-button" type="button" data-bs-toggle="modal" data-bs-target=".modalRepair" data-repair='${JSON.stringify(event)}'>Edit</button>
+                            <td >
+                                <button class="btn btn-primary edit-button pull-right" type="button" data-bs-toggle="modal" data-bs-target=".modalRepair" data-repair='${JSON.stringify(event)}'>Edit</button>
                             </td>
                         `;
-                    }
-                    else if (event.checkout_id) {
+                    } else if (event.checkout_id) {
                         row.innerHTML = `
-                            <td>
-                                <label>Date Disposed</label><br />
-                                <label>${event.date_disposed || ''}</label>
+                            <td style="width: 200px;">
+                                <label>Check-out Date</label><br />
+                                <label>${event.checkout_date || ''}</label>
+                            </td>
+                            <td style="width: 200px;">
+                                <i class="icofont icofont-user"></i> Check Out
                             </td>
                             <td>
-                                Check Out
+                                <label>Assigned To</label><br />
+                                <label>${event.person_id || ''}</label>
                             </td>
                             <td>
-                                <label>Disposed To</label><br />
-                                <label>${event.dispose_to || ''}</label>
+                                <label>Due date</label><br />
+                                <label>${event.due_date || ''}</label>
                             </td>
-                            <td colspan="3">
+                            <td colspan="2">
+                                <label>Check-out Notes</label><br />
+                                <label>${event.checkout_notes || ''}</label>
+                            </td>
+                            <td>
+                                <button class="btn btn-primary edit-button pull-right" type="button" data-bs-toggle="modal" data-bs-target=".modalRepair" data-repair='${JSON.stringify(event)}'>Edit</button>
+                            </td>
+                        `;
+                    } else if (event.sell_asset_id) { 
+                        row.innerHTML = `
+                            <td style="width: 200px;">
+                                <label>Sale Date</label><br />
+                                <label>${event.sale_date || ''}</label>
+                            </td>
+                            <td style="width: 200px;">
+                                <i class="icofont icofont-cur-peso"></i> Sell
+                            </td>
+                            <td>
+                                <label>Sold To</label><br />
+                                <label>${event.sold_to || ''}</label>
+                            </td>
+                            <td>
+                                <label>Sale amount</label><br />
+                                <label>${event.sale_amount || ''}</label>
+                            </td>
+                            <td colspan="2">
                                 <label>Notes</label><br />
-                                <label>${event.dispose_notes || ''}</label>
+                                <label>${event.sell_notes || ''}</label>
                             </td>
                             <td>
-                                <button class="btn btn-primary edit-button" type="button" data-bs-toggle="modal" data-bs-target=".modalRepair" data-repair='${JSON.stringify(event)}'>Edit</button>
+                                <button class="btn btn-primary edit-button pull-right" type="button" data-bs-toggle="modal" data-bs-target=".modalRepair" data-repair='${JSON.stringify(event)}'>Edit</button>
                             </td>
                         `;
                     }
+
 
                     tbody.appendChild(row);
                 });
@@ -233,7 +256,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // Append the table container to the event data container
             eventDatasContainer.appendChild(tableContainer);
-        });
+        }); 
     })
     .catch(error => console.error('Error fetching data:', error));
 

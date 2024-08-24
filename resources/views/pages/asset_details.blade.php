@@ -59,6 +59,7 @@
                                     <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target=".check-in-modal"><span><i class="icofont icofont-ui-check"></i></span> Check In</a></li>
                                     <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target=".modalDispose"><span><i class="icofont icofont-trash"></i></span> Dispose</a></li>
                                     <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target=".modalRepair"><span><i class="icofont icofont-repair"></i></span> Repair</a></li>
+                                    <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target=".modalSell"><span><i class="icofont icofont-cur-peso"></i></span> Sell</a></li>
                                     <!-- Add more actions as needed --> 
                                 </ul>
                             </div>
@@ -170,7 +171,7 @@
                         @include('partials.asset_details_events')
                     </div>
                     <div class="tab-pane fade" id="info-docs" role="tabpanel" aria-labelledby="docs-info-tab">
-                    Docs
+                         @include('partials.asset_details_docs')
                     </div>
                     <div class="tab-pane fade" id="info-warranty" role="tabpanel" aria-labelledby="warranty-info-tab">
                     warranty
