@@ -160,7 +160,7 @@
                     <li class="nav-item"><a class="nav-link" id="events-info-tab" data-bs-toggle="tab" href="#info-events" role="tab" aria-controls="info-events" aria-selected="false">Events</a></li>
                     <li class="nav-item"><a class="nav-link" id="docs-info-tab" data-bs-toggle="tab" href="#info-docs" role="tab" aria-controls="info-docs" aria-selected="false">Docs.</a></li>
                     <li class="nav-item"><a class="nav-link" id="warranty-info-tab" data-bs-toggle="tab" href="#info-warranty" role="tab" aria-controls="info-warranty" aria-selected="false">Warranty</a></li>
-                    <li class="nav-item"><a class="nav-link" id="linking-info-tab" data-bs-toggle="tab" href="#info-linking" role="tab" aria-controls="info-linking" aria-selected="false">Linking</a></li>
+                    <li class="nav-item"><a class="nav-link" id="insurance-info-tab" data-bs-toggle="tab" href="#info-insurance" role="tab" aria-controls="info-insurance" aria-selected="false">Insurances</a></li>
                 </ul>
                 <div class="tab-content" id="info-tabContent">
                     <div class="tab-pane fade show active" id="info-details" role="tabpanel" aria-labelledby="info-details-tab">
@@ -175,8 +175,8 @@
                     <div class="tab-pane fade" id="info-warranty" role="tabpanel" aria-labelledby="warranty-info-tab">
                     warranty
                     </div>
-                    <div class="tab-pane fade" id="info-linking" role="tabpanel" aria-labelledby="linking-info-tab">
-                    linking
+                    <div class="tab-pane fade" id="info-insurance" role="tabpanel" aria-labelledby="insurance-info-tab">
+                        @include('partials.asset_details_insurance')
                     </div>
                 </div>
             </div>

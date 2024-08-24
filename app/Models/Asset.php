@@ -12,6 +12,7 @@ class Asset extends Model
     protected $primaryKey = 'asset_id';
     protected $table = 'tbl_assets';
     protected $fillable = [
+        'insurance_id',
         'description',
         'assets_tag_id',
         'purchase_date',
@@ -67,6 +68,11 @@ class Asset extends Model
     public function person()
     {
         return $this->belongsTo(Person::class, 'person_id', 'person_id');
+    }
+
+    public function insurance()
+    {
+        return $this->belongsTo(InsuranceModel::class, 'insurance_id');
     }
     
     // Add any other relationships as needed
