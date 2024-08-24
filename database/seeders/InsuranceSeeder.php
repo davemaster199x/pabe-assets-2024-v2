@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Insurance;
+use App\Models\InsuranceModel;
 
 class InsuranceSeeder extends Seeder
 {
@@ -14,7 +14,7 @@ class InsuranceSeeder extends Seeder
      */
     public function run()
     {
-        Insurance::create([
+        InsuranceModel::create([
             'description' => 'Property Insurance',
             'insurance_co' => 'ABC Insurance Co.',
             'contact_person' => 'John Doe',
@@ -31,7 +31,7 @@ class InsuranceSeeder extends Seeder
             'delete' => '0',
         ]);
 
-        Insurance::create([
+        InsuranceModel::create([
             'description' => 'Vehicle Insurance',
             'insurance_co' => 'XYZ Insurance Co.',
             'contact_person' => 'Jane Smith',
@@ -48,7 +48,7 @@ class InsuranceSeeder extends Seeder
             'delete' => '0',
         ]);
 
-        Insurance::create([
+        InsuranceModel::create([
             'description' => 'Vehicle Insurance',
             'insurance_co' => 'XYZ Insurance Co.',
             'contact_person' => 'Jane Smith',
@@ -64,7 +64,7 @@ class InsuranceSeeder extends Seeder
             'active' => '1',
             'delete' => '0',
         ]);
-        Insurance::create([
+        InsuranceModel::create([
             'description' => 'Vehicle Insurance',
             'insurance_co' => 'XYZ Insurance Co.',
             'contact_person' => 'Jane Smith',
@@ -80,7 +80,7 @@ class InsuranceSeeder extends Seeder
             'active' => '1',
             'delete' => '0',
         ]);
-        Insurance::create([
+        InsuranceModel::create([
             'description' => 'Vehicle Insurance',
             'insurance_co' => 'XYZ Insurance Co.',
             'contact_person' => 'Jane Smith',
@@ -96,7 +96,7 @@ class InsuranceSeeder extends Seeder
             'active' => '1',
             'delete' => '0',
         ]);
-        Insurance::create([
+        InsuranceModel::create([
             'description' => 'Vehicle Insurance',
             'insurance_co' => 'XYZ Insurance Co.',
             'contact_person' => 'Jane Smith',
@@ -112,7 +112,7 @@ class InsuranceSeeder extends Seeder
             'active' => '1',
             'delete' => '0',
         ]);
-        Insurance::create([
+        InsuranceModel::create([
             'description' => 'Vehicle Insurance',
             'insurance_co' => 'XYZ Insurance Co.',
             'contact_person' => 'Jane Smith',
@@ -128,7 +128,7 @@ class InsuranceSeeder extends Seeder
             'active' => '1',
             'delete' => '0',
         ]);
-        Insurance::create([
+        InsuranceModel::create([
             'description' => 'Vehicle Insurance',
             'insurance_co' => 'XYZ Insurance Co.',
             'contact_person' => 'Jane Smith',
@@ -144,7 +144,7 @@ class InsuranceSeeder extends Seeder
             'active' => '1',
             'delete' => '0',
         ]);
-        Insurance::create([
+        InsuranceModel::create([
             'description' => 'Vehicle Insurance',
             'insurance_co' => 'XYZ Insurance Co.',
             'contact_person' => 'Jane Smith',
@@ -160,7 +160,7 @@ class InsuranceSeeder extends Seeder
             'active' => '1',
             'delete' => '0',
         ]);
-        Insurance::create([
+        InsuranceModel::create([
             'description' => 'Vehicle Insurance',
             'insurance_co' => 'XYZ Insurance Co.',
             'contact_person' => 'Jane Smith',
@@ -176,7 +176,7 @@ class InsuranceSeeder extends Seeder
             'active' => '1',
             'delete' => '0',
         ]);
-        Insurance::create([
+        InsuranceModel::create([
             'description' => 'Vehicle Insurance',
             'insurance_co' => 'XYZ Insurance Co.',
             'contact_person' => 'Jane Smith',
@@ -192,7 +192,7 @@ class InsuranceSeeder extends Seeder
             'active' => '1',
             'delete' => '0',
         ]);
-        Insurance::create([
+        InsuranceModel::create([
             'description' => 'Vehicle Insurance',
             'insurance_co' => 'XYZ Insurance Co.',
             'contact_person' => 'Jane Smith',
@@ -208,7 +208,7 @@ class InsuranceSeeder extends Seeder
             'active' => '1',
             'delete' => '0',
         ]);
-        Insurance::create([
+        InsuranceModel::create([
             'description' => 'Vehicle Insurance',
             'insurance_co' => 'XYZ Insurance Co.',
             'contact_person' => 'Jane Smith',
@@ -224,7 +224,7 @@ class InsuranceSeeder extends Seeder
             'active' => '1',
             'delete' => '0',
         ]);
-        Insurance::create([
+        InsuranceModel::create([
             'description' => 'Vehicle Insurance',
             'insurance_co' => 'XYZ Insurance Co.',
             'contact_person' => 'Jane Smith',
@@ -240,7 +240,7 @@ class InsuranceSeeder extends Seeder
             'active' => '1',
             'delete' => '0',
         ]);
-        Insurance::create([
+        InsuranceModel::create([
             'description' => 'Vehicle Insurance',
             'insurance_co' => 'XYZ Insurance Co.',
             'contact_person' => 'Jane Smith',
@@ -256,7 +256,7 @@ class InsuranceSeeder extends Seeder
             'active' => '1',
             'delete' => '0',
         ]);
-        Insurance::create([
+        InsuranceModel::create([
             'description' => 'Vehicle Insurance',
             'insurance_co' => 'XYZ Insurance Co.',
             'contact_person' => 'Jane Smith',
@@ -272,7 +272,7 @@ class InsuranceSeeder extends Seeder
             'active' => '1',
             'delete' => '0',
         ]);
-        Insurance::create([
+        InsuranceModel::create([
             'description' => 'Vehicle Insurance',
             'insurance_co' => 'XYZ Insurance Co.',
             'contact_person' => 'Jane Smith',

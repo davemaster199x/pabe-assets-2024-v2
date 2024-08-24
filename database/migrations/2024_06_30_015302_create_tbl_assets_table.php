@@ -15,7 +15,7 @@ class CreateTblAssetsTable extends Migration
     {
         Schema::create('tbl_assets', function (Blueprint $table) {
             $table->bigIncrements('asset_id');
-            $table->id('insurance_id');
+            $table->integer('insurance_id')->nullable();
             $table->text('description')->nullable();
             $table->string('assets_tag_id', 150)->nullable();
             $table->date('purchase_date')->nullable();
