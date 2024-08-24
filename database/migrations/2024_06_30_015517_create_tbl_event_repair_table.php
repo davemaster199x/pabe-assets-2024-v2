@@ -22,7 +22,7 @@ class CreateTblEventRepairTable extends Migration
             $table->double('repair_cost')->nullable();
             $table->text('repair_notes')->nullable();
             $table->string('delete', 1)->default('0');
-            $table->text('delete_at')->nullable();
+            $table->text('deleted_at')->nullable();
             $table->timestamps();
         });
     }
