@@ -15,6 +15,7 @@ class CreateTblEventSellAssetsTable extends Migration
     {
         Schema::create('tbl_event_sell_assets', function (Blueprint $table) {
             $table->bigIncrements('sell_asset_id');
+            $table->bigInteger('event_id')->nullable();
             $table->bigInteger('asset_id')->nullable();
             $table->date('sale_date')->nullable();
             $table->string('sold_to', 50)->nullable();
