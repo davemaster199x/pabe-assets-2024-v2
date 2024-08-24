@@ -28,4 +28,9 @@ class InsuranceModel extends Model
         'active',
         'delete',
     ];
+
+    public function assets()
+    {
+        return $this->hasMany(Asset::class, 'insurance_id', 'insurance_id');
+    }
 }
