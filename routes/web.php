@@ -16,6 +16,7 @@ use App\Http\Controllers\PersonController;
 use App\Http\Controllers\CheckinController;
 use App\Http\Controllers\SellController;
 use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\InsuranceController;
 
 
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -181,6 +182,14 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/checkin/store', [CheckinController::class, 'store'])->name('checkin.store');
     Route::post('/checkin/multiple-store', [CheckinController::class, 'store_multiple'])->name('checkin.multiple.store');
 
+    Route::get('/insurance', function () {
+        return view('/pages/insurance');
+    });
+
+    Route::get('/insurance-data', [InsuranceController::class, 'getInsuranceData']);
+    Route::delete('/insurance/{id}', [InsuranceController::class, 'detachInsurance']);
+    Route::post('/link-insurance', [InsuranceController::class, 'linkInsurance']);
+    Route::get('/insurances/{asset_id}', [InsuranceController::class, 'getInsurancesByAsset']);
 });
 
 

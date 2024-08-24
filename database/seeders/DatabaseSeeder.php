@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             TblLocation::class,
             TblDepartment::class,
             TblFundings::class,
+            InsuranceSeeder::class,
         ]);
     }
 }
