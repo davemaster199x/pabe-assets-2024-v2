@@ -163,6 +163,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/checkin/store', [CheckinController::class, 'store'])->name('checkin.store');
     Route::post('/checkin/multiple-store', [CheckinController::class, 'store_multiple'])->name('checkin.multiple.store');
 
+    Route::get('/insurance', function () {
+        return view('/pages/insurance');
+    });
 });
 
 

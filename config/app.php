@@ -177,6 +177,7 @@ return [
 
 
         SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
+        Livewire\LivewireServiceProvider::class,
 
     ],
 
