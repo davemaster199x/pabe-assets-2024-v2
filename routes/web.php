@@ -118,10 +118,13 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/repair/store', [RepairController::class, 'store'])->name('checkout.store');
     Route::post('/repair/multiple-store', [RepairController::class, 'store_multiple'])->name('repair.multiple.store');
 
-    Route::post('/dispose/store', [DisposeController::class, 'store'])->name('checkout.store');
+    Route::post('/dispose/store', [DisposeController::class, 'store'])->name('dispose.store');
     Route::post('dispose/multiple-store', [DisposeController::class, 'store_multiple'])->name('dispose.multiple.store');
 
     Route::get('/dispose', [AssetController::class, 'dispose'])->name('dispose');
+
+    Route::post('/sell/store', [SellController::class, 'store'])->name('sell.store');
+    Route::post('sell/multiple-store', [SellController::class, 'store_multiple'])->name('sell.multiple.store');
 
     Route::get('/qrcode/{qrvalue}', function ($qrvalue) {
             // Generate QR code based on the provided $qrvalue
