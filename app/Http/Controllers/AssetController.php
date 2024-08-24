@@ -373,7 +373,10 @@ class AssetController extends Controller
     
     public function getAssetEvents($assetId)
 {
-    $assetEvents = AssetEvent::where('asset_id', $assetId)->get();
+    $assetEvents = AssetEvent::where('asset_id', $assetId)
+    ->orderBy('created_at', 'desc')
+    ->get();
+
     $result = [];
 
     /*foreach ($assetEvents as $event) {

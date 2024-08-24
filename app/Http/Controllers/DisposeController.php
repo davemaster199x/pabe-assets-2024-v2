@@ -22,7 +22,7 @@ class DisposeController extends Controller
 
             $dispose = EventDispose::create([
                 'event_id' => $events->id,
-                'asset_id' => $request->input('asset_id'),
+                //'asset_id' => $request->input('asset_id'),
                 'date_disposed' => $request->input('d_date_disposed'),
                 'dispose_to' => $request->input('d_dispose_to'),
                 'dispose_notes' => $request->input('d_notes')

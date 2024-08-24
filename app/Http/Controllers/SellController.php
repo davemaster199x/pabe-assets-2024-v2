@@ -22,7 +22,7 @@ class SellController extends Controller
 
         $sell = EventSell::create([
             'event_id' => $events->id,
-            'asset_id' => $request->input('asset_id'),
+            //'asset_id' => $request->input('asset_id'),
             'sale_date' => $request->input('s_sale_date'),
             'sale_amount' => $request->input('s_sales_amount'),
             'sold_to' => $request->input('s_sold_to'),

@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', function () {
             tableContainer.classList.add('table-responsive'); // Optional class for styling
             
             const headhtml = `
-                <table class="table table-border-vertical table-border-horizontal" style="table-layout: auto">
+                <table class="table table-bordered" style="table-layout: auto; border-collapse: collapse;">
                     <thead>
                         <!-- Add table headers if needed -->
                     </thead>
@@ -115,125 +115,126 @@ document.addEventListener('DOMContentLoaded', function () {
                 EEvents.forEach(event => {
                     const row = document.createElement('tr');
 
+                    const commonCellStyle = "border: solid 1px #dee2e6; text-align: center; vertical-align: middle;";
+
                     if (event.repair_id) {
                         row.innerHTML = `
-                            <td style="width: 200px;">
+                            <td style="width: 250px; ${commonCellStyle}">
                                 <label>Schedule Date</label><br />
                                 <label>${event.sched_date || ''}</label>
                             </td>
-                            <td style="width: 200px;">
+                            <td style="width: 250px; ${commonCellStyle}">
                                 <i class="icofont icofont-repair"></i> Repair
                             </td>
-                            <td>
+                            <td style="${commonCellStyle}">
                                 <label>Assigned to</label><br />
                                 <label>${event.assigned_to || ''}</label>
                             </td>
-                            <td>
+                            <td style="${commonCellStyle}">
                                 <label>Date Completed</label><br />
                                 <label>${event.date_completed || ''}</label>
                             </td>
-                            <td>
+                            <td style="${commonCellStyle}">
                                 <label>Repair Cost</label><br />
                                 <label>${event.repair_cost || ''}</label>
                             </td>
-                            <td>
+                            <td style="${commonCellStyle}">
                                 <label>Notes</label><br />
                                 <label>${event.repair_notes || ''}</label>
                             </td>
-                            <td style="width: 80px;>
-                                <button class="btn btn-primary edit-button pull-right" type="button" data-bs-toggle="modal" data-bs-target=".modalRepair" data-repair='${JSON.stringify(event)}'>Edit</button>
-                            </td>
+                          <td style="width: 80px; ${commonCellStyle}">
+                              <button class="btn btn-primary edit-button" type="button" data-bs-toggle="modal" data-bs-target=".modalRepair" data-repair='${JSON.stringify(event)}'>Edit</button>
+                            </td> 
                         `;
                     } else if (event.dispose_id) {
                         row.innerHTML = `
-                            <td style="width: 200px;">
+                            <td style="width: 250px; ${commonCellStyle}">
                                 <label>Date Disposed</label><br />
                                 <label>${event.date_disposed || ''}</label>
                             </td>
-                            <td style="width: 200px;">
+                            <td style="width: 250px; ${commonCellStyle}">
                                 <i class="icofont icofont-trash"></i> Dispose
                             </td>
-                            <td>
+                            <td style="${commonCellStyle}">
                                 <label>Disposed To</label><br />
                                 <label>${event.dispose_to || ''}</label>
                             </td>
-                            <td colspan="3">
+                            <td colspan="4" style="${commonCellStyle}">
                                 <label>Notes</label><br />
                                 <label>${event.dispose_notes || ''}</label>
                             </td>
-                            <td>
-                                <button class="btn btn-primary edit-button pull-right" type="button" data-bs-toggle="modal" data-bs-target=".modalRepair" data-repair='${JSON.stringify(event)}'>Edit</button>
-                            </td>
+                           <!-- <td style="width: 80px; ${commonCellStyle}">
+                                <button class="btn btn-primary edit-button" type="button" data-bs-toggle="modal" data-bs-target=".modalRepair" data-repair='${JSON.stringify(event)}'>Edit</button> 
+                            </td> -->
                         `;
                     } else if (event.checkin_id) {
                         row.innerHTML = `
-                            <td style="width: 200px;">
+                            <td style="width: 250px; ${commonCellStyle}">
                                 <label>Return Date</label><br />
                                 <label>${event.return_date || ''}</label>
                             </td>
-                            <td style="width: 200px;">
+                            <td style="width: 250px; ${commonCellStyle}">
                             <i class="icofont icofont-ui-check"></i> Check in
                             </td>
-                            <td colspan="6">
+                            <td colspan="7" style="${commonCellStyle}">
                                 <label>Check-in Notes</label><br />
                                 <label>${event.checkin_notes || ''}</label>
                             </td>
-                            <td >
-                                <button class="btn btn-primary edit-button pull-right" type="button" data-bs-toggle="modal" data-bs-target=".modalRepair" data-repair='${JSON.stringify(event)}'>Edit</button>
-                            </td>
+                           <!-- <td style="width: 80px; ${commonCellStyle}">
+                                <button class="btn btn-primary edit-button" type="button" data-bs-toggle="modal" data-bs-target=".modalRepair" data-repair='${JSON.stringify(event)}'>Edit</button>
+                            </td> -->
                         `;
                     } else if (event.checkout_id) {
                         row.innerHTML = `
-                            <td style="width: 200px;">
+                            <td style="width: 250px; ${commonCellStyle}">
                                 <label>Check-out Date</label><br />
                                 <label>${event.checkout_date || ''}</label>
                             </td>
-                            <td style="width: 200px;">
+                            <td style="width: 250px; ${commonCellStyle}">
                                 <i class="icofont icofont-user"></i> Check Out
                             </td>
-                            <td>
+                            <td style="${commonCellStyle}">
                                 <label>Assigned To</label><br />
                                 <label>${event.person_id || ''}</label>
                             </td>
-                            <td>
+                            <td style="${commonCellStyle}">
                                 <label>Due date</label><br />
                                 <label>${event.due_date || ''}</label>
                             </td>
-                            <td colspan="2">
+                            <td colspan="3" style="${commonCellStyle}">
                                 <label>Check-out Notes</label><br />
                                 <label>${event.checkout_notes || ''}</label>
                             </td>
-                            <td>
-                                <button class="btn btn-primary edit-button pull-right" type="button" data-bs-toggle="modal" data-bs-target=".modalRepair" data-repair='${JSON.stringify(event)}'>Edit</button>
-                            </td>
+                            <!-- <td style="width: 80px; ${commonCellStyle}">
+                                <button class="btn btn-primary edit-button" type="button" data-bs-toggle="modal" data-bs-target=".modalRepair" data-repair='${JSON.stringify(event)}'>Edit</button>
+                            </td> -->
                         `;
                     } else if (event.sell_asset_id) { 
                         row.innerHTML = `
-                            <td style="width: 200px;">
+                            <td style="width: 250px; ${commonCellStyle}">
                                 <label>Sale Date</label><br />
                                 <label>${event.sale_date || ''}</label>
                             </td>
-                            <td style="width: 200px;">
+                            <td style="width: 250px; ${commonCellStyle}">
                                 <i class="icofont icofont-cur-peso"></i> Sell
                             </td>
-                            <td>
+                            <td style="${commonCellStyle}">
                                 <label>Sold To</label><br />
                                 <label>${event.sold_to || ''}</label>
                             </td>
-                            <td>
+                            <td style="${commonCellStyle}">
                                 <label>Sale amount</label><br />
                                 <label>${event.sale_amount || ''}</label>
                             </td>
-                            <td colspan="2">
+                            <td colspan="3" style="${commonCellStyle}">
                                 <label>Notes</label><br />
                                 <label>${event.sell_notes || ''}</label>
                             </td>
-                            <td>
-                                <button class="btn btn-primary edit-button pull-right" type="button" data-bs-toggle="modal" data-bs-target=".modalRepair" data-repair='${JSON.stringify(event)}'>Edit</button>
-                            </td>
+                            <!-- <td style="width: 80px; ${commonCellStyle}">
+                                <button class="btn btn-primary edit-button" type="button" data-bs-toggle="modal" data-bs-target=".modalRepair" data-repair='${JSON.stringify(event)}'>Edit</button>
+                            </td> -->
                         `;
                     }
-
 
                     tbody.appendChild(row);
                 });
@@ -259,6 +260,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }); 
     })
     .catch(error => console.error('Error fetching data:', error));
+
 
 
 
