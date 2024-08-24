@@ -20,9 +20,13 @@ class CreateTblDocsTable extends Migration
             $table->string('description', 100)->nullable();
             $table->string('file_type', 20)->nullable();
             $table->text('file_name')->nullable();
+            $table->string('file_path')->nullable(); 
+            $table->binary('file_hash')->nullable(); // This should be binary or blob
             $table->string('delete', 1)->default('0');
             $table->timestamps();
         });
+        
+        
     }
 
     /**
