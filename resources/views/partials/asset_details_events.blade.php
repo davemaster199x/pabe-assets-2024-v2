@@ -123,18 +123,18 @@ document.addEventListener('DOMContentLoaded', function () {
                                 <label>${event.sched_date || ''}</label>
                             </td>
                             <td>
-                                Repair
+                                <i class="icofont icofont-repair"></i></span> Repair
                             </td>
                             <td>
                                 <label>Assigned to</label><br />
                                 <label>${event.assigned_to || ''}</label>
                             </td>
                             <td>
-                                <label>Completion Date</label><br />
+                                <label>Date Completed</label><br />
                                 <label>${event.date_completed || ''}</label>
                             </td>
                             <td>
-                                <label>Cost of Repairs</label><br />
+                                <label>Repair Cost</label><br />
                                 <label>${event.repair_cost || ''}</label>
                             </td>
                             <td>
@@ -152,7 +152,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                 <label>${event.date_disposed || ''}</label>
                             </td>
                             <td>
-                                Dispose
+                                <i class="icofont icofont-trash"></i></span> Dispose
                             </td>
                             <td>
                                 <label>Disposed To</label><br />
@@ -170,19 +170,15 @@ document.addEventListener('DOMContentLoaded', function () {
                     else if (event.checkin_id) {
                         row.innerHTML = `
                             <td>
-                                <label>Date Disposed</label><br />
-                                <label>${event.date_disposed || ''}</label>
+                                <label>Return Date</label><br />
+                                <label>${event.return_date || ''}</label>
                             </td>
                             <td>
-                                Check in
+                               <i class="icofont icofont-ui-check"></i> Check in
                             </td>
-                            <td>
-                                <label>Disposed To</label><br />
-                                <label>${event.dispose_to || ''}</label>
-                            </td>
-                            <td colspan="3">
-                                <label>Notes</label><br />
-                                <label>${event.dispose_notes || ''}</label>
+                            <td colspan="4">
+                                <label>Check-in Notes</label><br />
+                                <label>${event.checkin_notes || ''}</label>
                             </td>
                             <td>
                                 <button class="btn btn-primary edit-button" type="button" data-bs-toggle="modal" data-bs-target=".modalRepair" data-repair='${JSON.stringify(event)}'>Edit</button>
@@ -192,19 +188,49 @@ document.addEventListener('DOMContentLoaded', function () {
                     else if (event.checkout_id) {
                         row.innerHTML = `
                             <td>
-                                <label>Date Disposed</label><br />
-                                <label>${event.date_disposed || ''}</label>
+                                <label>Check-out Date</label><br />
+                                <label>${event.checkout_date || ''}</label>
                             </td>
                             <td>
-                                Check Out
+                                <i class="icofont icofont-user"></i> Check Out
                             </td>
                             <td>
-                                <label>Disposed To</label><br />
-                                <label>${event.dispose_to || ''}</label>
+                                <label>Assigned To</label><br />
+                                <label>${event.person_id || ''}</label>
                             </td>
-                            <td colspan="3">
+                            <td>
+                                <label>Due date</label><br />
+                                <label>${event.due_date || ''}</label>
+                            </td>
+                            <td colspan="2">
+                                <label>Check-out Notes</label><br />
+                                <label>${event.checkout_notes || ''}</label>
+                            </td>
+                            <td>
+                                <button class="btn btn-primary edit-button" type="button" data-bs-toggle="modal" data-bs-target=".modalRepair" data-repair='${JSON.stringify(event)}'>Edit</button>
+                            </td>
+                        `;
+                    }
+                    else if (event.sell_assets_id) {
+                        row.innerHTML = `
+                            <td>
+                                <label>Sale Date</label><br />
+                                <label>${event.sale_date || ''}</label>
+                            </td>
+                            <td>
+                                <i class="icofont icofont-cur-peso"></i> Sell
+                            </td>
+                            <td>
+                                <label>Sold To</label><br />
+                                <label>${event.sold_to || ''}</label>
+                            </td>
+                            <td>
+                                <label>Sale amount</label><br />
+                                <label>${event.sale_amount || ''}</label>
+                            </td>
+                            <td colspan="2">
                                 <label>Notes</label><br />
-                                <label>${event.dispose_notes || ''}</label>
+                                <label>${event.sell_notes || ''}</label>
                             </td>
                             <td>
                                 <button class="btn btn-primary edit-button" type="button" data-bs-toggle="modal" data-bs-target=".modalRepair" data-repair='${JSON.stringify(event)}'>Edit</button>

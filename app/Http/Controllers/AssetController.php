@@ -20,6 +20,7 @@ use App\Models\EventDispose;
 use App\Models\EventRepair;
 use App\Models\EventCheckin;
 use App\Models\EventCheckout;
+use App\Models\EventSell;
 use App\Models\AssetEvent;
 use App\Models\Person;
 
@@ -402,6 +403,7 @@ class AssetController extends Controller
         $disposeEvents = EventDispose::where('event_id', $eventID)->get();
         $checkinEvents = EventCheckin::where('event_id', $eventID)->get();
         $checkoutEvents = EventCheckout::where('event_id', $eventID)->get();
+        $sellEvents = EventSell::where('event_id', $eventID)->get();
     
         // Merge all events into a single collection
         $events = collect();
@@ -420,6 +422,10 @@ class AssetController extends Controller
     
         if ($checkoutEvents->isNotEmpty()) {
             $events = $events->merge($checkoutEvents);
+        }
+
+        if ($sellEvents->isNotEmpty()) {
+            $events = $events->merge($sellEvents);
         }
     
         // Add default value if no events are found
