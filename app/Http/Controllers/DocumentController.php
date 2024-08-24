@@ -21,7 +21,7 @@ class DocumentController extends Controller
 
     public function getDocuments2($id)
     {
-        $documents = Document::with('user')->where('asset_id',$id)->get();
+        $documents = Document::with('user')->where('asset_id',$id)->where('delete','0')->get();
         return response()->json($documents);
     }
 
@@ -59,11 +59,17 @@ class DocumentController extends Controller
 
     public function destroy($id)
     {
+        // Find the document by its primary key
         $document = Document::findOrFail($id);
 
-        Storage::disk('public')->delete($document->file_path);
-        $document->delete();
+        // Update the 'delete' field to 1 for soft deletion
+        $document->update(['delete' => 1]);
+
+        // Optionally, you can also update the timestamps if needed
+        // $document->touch();
 
         return response()->json(['success' => true, 'message' => 'Document detached successfully.']);
     }
+
+
 }

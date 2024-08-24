@@ -60,7 +60,7 @@ label.doctitle {
 
 
 <!-- Upload Document Modal -->
-<div class="modal fade modalAddDoc" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<div id="modalAddDoc" class="modal fade modalAddDoc" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -140,6 +140,11 @@ label.doctitle {
             .then(data => {
                 if (data.success) {
                     alert(data.message);
+
+                    let modalElement = document.getElementById('modalAddDoc');
+                    let modalInstance = bootstrap.Modal.getInstance(modalElement);
+                    modalInstance.hide();
+
                     document.getElementById('uploadForm').reset();
                     loadDocuments();
                 } else {

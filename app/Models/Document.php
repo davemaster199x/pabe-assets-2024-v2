@@ -20,6 +20,7 @@ class Document extends Model
         'asset_id',
         'user_id',
         'description',
+        'delete',
     ];
 
     public function user()
