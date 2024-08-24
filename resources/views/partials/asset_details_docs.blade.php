@@ -38,7 +38,26 @@ label.doctitle {
     </div>
 </div>
 
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Description</th>
+                <th>File Type</th>
+                <th>File Name</th>
+                <th>Date Uploaded</th>
+                <th>User</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="docs-table-body">
+
+        </tbody>
+    </table>
+
+
 <div class="docdatas"></div>
+
+
 
 <!-- Upload Document Modal -->
 <div class="modal fade modalAddDoc" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -161,7 +180,7 @@ label.doctitle {
     });
 
     function loadDocuments() {
-        fetch('{{ route('documents.get') }}')
+       /* fetch('{{ route('documents.get') }}')
             .then(response => response.json())
             .then(documents => {
                 let docContainer = document.querySelector('.docdatas');
@@ -177,7 +196,7 @@ label.doctitle {
                             <div class="uploaded-by">${document.user.name}</div>
                             <div class="actions">
                                 <a href="/documents/download/${document.docs_id}" class="btn btn-success">Download</a>
-                                <button class="btn btn-danger" onclick="detachDocument(${document.id})">Detach</button>
+                                <button class="btn btn-danger" onclick="detachDocument(${document.docs_id})">Detach</button>
                             </div>
                         </div>
                     `;
@@ -186,6 +205,44 @@ label.doctitle {
                 });
             })
             .catch(error => console.error('Error loading documents:', error));
+*/
+
+           // Assuming $encrypt_asset_id is correctly passed as a valid JavaScript variable
+var assetId = "{{ $encrypt_asset_id }}"; // Ensure this outputs the correct ID
+
+fetch('/documents/get2/' + assetId)
+    .then(response => response.json())
+    .then(data => {
+        const tbody = document.getElementById('docs-table-body');
+        tbody.innerHTML = ''; // Clear existing rows
+        
+        if (data.length > 0) {
+            data.forEach(document => {
+                let documentHtml = `
+                        <td class="description">${document.description || 'N/A'}</td>
+                        <td class="file-type">${document.file_type || 'N/A'}</td>
+                        <td class="file-name">${document.file_name || 'N/A'}</td>
+                        <td class="upload-date">${new Date(document.created_at).toLocaleString()}</td>
+                        <td class="uploaded-by">${document.user ? document.user.name : 'Unknown'}</td>
+                        <td class="actions">
+                            <a href="/documents/download/${document.docs_id}" class="btn btn-success">Download</a>
+                            <button class="btn btn-danger" onclick="detachDocument(${document.docs_id})">Detach</button>
+                        </td>
+                    
+                `;
+                
+                // Append the row to the tbody
+                tbody.insertAdjacentHTML('beforeend', documentHtml);
+            });
+        } else {
+            // If no valid data is returned, show a message
+            tbody.innerHTML = '<tr><td colspan="6">No Documents Available.</td></tr>';
+        }
+    })
+    .catch(error => console.error('Error fetching documents:', error));
+
+        
+
     }
 
     function detachDocument(documentId) {
@@ -194,3 +251,4 @@ label.doctitle {
         modal.show();
     }
 </script>
+

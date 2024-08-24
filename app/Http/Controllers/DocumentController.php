@@ -19,6 +19,12 @@ class DocumentController extends Controller
         return response()->json($documents);
     }
 
+    public function getDocuments2($id)
+    {
+        $documents = Document::with('user')->where('asset_id',$id)->get();
+        return response()->json($documents);
+    }
+
     public function store(Request $request)
     {
         $request->validate([
