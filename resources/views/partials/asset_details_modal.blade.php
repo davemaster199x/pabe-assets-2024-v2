@@ -496,7 +496,7 @@ document.querySelector('.form-repair').addEventListener('submit', function(event
                           <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">Notes</label>
                             <div class="col-sm-9">
-                                <textarea class="form-control" type="date" id="d_notes" name="d_notes"></textarea>
+                                <textarea class="form-control" id="d_notes" name="d_notes"></textarea>
                             </div> 
                           </div>
                           
@@ -568,7 +568,7 @@ document.querySelector('.form-dispose').addEventListener('submit', function(even
                           <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">Sale Date</label>
                             <div class="col-sm-9">
-                              <input class="form-control" type="date" id="s_sell_date" name="d_sell_date">
+                              <input class="form-control" type="date" id="s_sale_date" name="s_sale_date">
                               <input class="form-control" type="hidden" id="asset_id" name="asset_id" value="{{ $encrypt_asset_id }}">
                             </div>
                           </div>
@@ -594,7 +594,7 @@ document.querySelector('.form-dispose').addEventListener('submit', function(even
                           <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">Notes</label>
                             <div class="col-sm-9">
-                                <textarea class="form-control" type="date" id="s_notes" name="s_notes"></textarea>
+                                <textarea class="form-control" id="s_notes" name="s_notes"></textarea>
                             </div> 
                           </div>
                           

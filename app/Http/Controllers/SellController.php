@@ -20,14 +20,14 @@ class SellController extends Controller
             'asset_id' => $request->input('asset_id'),
         ]);
 
-            $sell = SellDispose::create([
-                'event_id' => $events->id,
-                'asset_id' => $request->input('asset_id'),
-                'sale_date' => $request->input('s_sale_date'),
-                'sale_amount' => $request->input('s_sale_amount'),
-                'sold_to' => $request->input('s_sold_to'),
-                'sell_notes' => $request->input('s_notes')
-            ]);
+        $sell = EventSell::create([
+            'event_id' => $events->id,
+            'asset_id' => $request->input('asset_id'),
+            'sale_date' => $request->input('s_sale_date'),
+            'sale_amount' => $request->input('s_sales_amount'),
+            'sold_to' => $request->input('s_sold_to'),
+            'sell_notes' => $request->input('s_notes')
+        ]);
 
         $assetstatus = Asset::where('asset_id',$request->input('asset_id'))->first();
         $assetstatus->status_id = '6'; //Status to Sold
@@ -39,10 +39,10 @@ class SellController extends Controller
 
     public function updateDispose(Request $request, $disposeId)
     {
-        $dispose = EventDispose::findOrFail($disposeId);
+        $dispose = EventSell::findOrFail($disposeId);
         $dispose->sale_date = $request->input('se_sale_date');
         $dispose->sold_to = $request->input('se_sold_to');
-        $dispose->sale_amount = $request->input('se_sale_amount');
+        $dispose->sale_amount = $request->input('se_sales_amount');
         $dispose->sale_notes = $request->input('se_notes');
         $dispose->save();
 

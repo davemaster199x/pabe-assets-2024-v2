@@ -14,6 +14,7 @@ use App\Http\Controllers\RepairController;
 use App\Http\Controllers\DisposeController;
 use App\Http\Controllers\PersonController;
 use App\Http\Controllers\CheckinController;
+use App\Http\Controllers\SellController;
 
 
 
