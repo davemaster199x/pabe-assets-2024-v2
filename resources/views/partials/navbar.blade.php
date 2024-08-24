@@ -40,9 +40,9 @@
                         <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" id="check_in-navbar" style="display: flex;"
                                 href="{{ route('check_in') }}"><i data-feather="x"> </i><span>Check
                                     In</span></a></li>
-                        <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" id="dispose-navbar" style="display: flex;"
+                        <!-- <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" id="dispose-navbar" style="display: flex;"
                                 href="{{ route('dispose') }}"><i data-feather="refresh-cw">
-                                </i><span>Dispose</span></a></li>
+                                </i><span>Dispose</span></a></li> -->
                     </ul>
                 </div>
                 <div class="right-arrow" id="right-arrow"><i data-feather="arrow-right"></i></div>

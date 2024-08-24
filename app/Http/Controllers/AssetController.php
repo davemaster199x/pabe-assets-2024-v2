@@ -289,7 +289,7 @@ class AssetController extends Controller
                 $status_name = Status::where('status_id', $asset->status_id)->select('status_name')->first();
                 $site_name = SiteModel::where('site_id', $asset->site_id)->select('site_name')->first();
                 $location_name = LocationModel::where('location_id', $asset->location_id)->select('location_name')->first();
-                $person = Person::where('person_id', $asset->person_id)->select('person_name')->first();
+                $person = Person::where('person_id', $asset->person_id)->select('full_name')->first();
                 $assetPhotoUrl = Storage::disk('public')->exists($asset->asset_photo_file) 
                     ? asset('storage/' . $asset->asset_photo_file) 
                     : 'No Image';
