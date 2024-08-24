@@ -47,7 +47,7 @@
                     </div>
                     <div class="col-6">
                         <div style="float: right;">
-                            <button type="button" class="btn btn-primary"><i class="fa fa-print"></i> Print</button>
+                            <!-- <button type="button" class="btn btn-primary"><i class="fa fa-print"></i> Print</button> -->
                             <a href="{{ url('assets/edit/' . $encrypt_asset_id) }}" class="btn btn-primary"><i class="fa fa-edit"></i> Edit Asset</a>
                             <div class="btn-group">
                                 <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
@@ -157,17 +157,16 @@
             </div>
             <div class="card-body">
                 <ul class="nav nav-tabs border-tab nav-primary" id="info-tab" role="tablist">
-                    <li class="nav-item"><a class="nav-link active" id="info-details-tab" data-bs-toggle="tab" href="#info-details" role="tab" aria-controls="info-details" aria-selected="true">Details</a></li>
-                    <li class="nav-item"><a class="nav-link" id="events-info-tab" data-bs-toggle="tab" href="#info-events" role="tab" aria-controls="info-events" aria-selected="false">Events</a></li>
+                    <!-- <li class="nav-item"><a class="nav-link active" id="info-details-tab" data-bs-toggle="tab" href="#info-details" role="tab" aria-controls="info-details" aria-selected="true">Details</a></li> -->
+                    <li class="nav-item"><a class="nav-link active" id="events-info-tab" data-bs-toggle="tab" href="#info-events" role="tab" aria-controls="info-events" aria-selected="false">Events</a></li>
                     <li class="nav-item"><a class="nav-link" id="docs-info-tab" data-bs-toggle="tab" href="#info-docs" role="tab" aria-controls="info-docs" aria-selected="false">Docs.</a></li>
                     <li class="nav-item"><a class="nav-link" id="warranty-info-tab" data-bs-toggle="tab" href="#info-warranty" role="tab" aria-controls="info-warranty" aria-selected="false">Warranty</a></li>
                     <li class="nav-item"><a class="nav-link" id="insurance-info-tab" data-bs-toggle="tab" href="#info-insurance" role="tab" aria-controls="info-insurance" aria-selected="false">Insurances</a></li>
                 </ul>
                 <div class="tab-content" id="info-tabContent">
-                    <div class="tab-pane fade show active" id="info-details" role="tabpanel" aria-labelledby="info-details-tab">
-                    Details
-                    </div>
-                    <div class="tab-pane fade" id="info-events" role="tabpanel" aria-labelledby="events-info-tab">
+                    <!-- <div class="tab-pane fade show active" id="info-details" role="tabpanel" aria-labelledby="info-details-tab">
+                    </div> -->
+                    <div class="tab-pane fade show active" id="info-events" role="tabpanel" aria-labelledby="events-info-tab">
                         @include('partials.asset_details_events')
                     </div>
                     <div class="tab-pane fade" id="info-docs" role="tabpanel" aria-labelledby="docs-info-tab">
