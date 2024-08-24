@@ -132,6 +132,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/upload-document', [DocumentController::class, 'store'])->name('upload.document');
     Route::get('/documents', [DocumentController::class, 'index'])->name('documents.index');
     Route::get('/documents/get', [DocumentController::class, 'getDocuments'])->name('documents.get');
+    Route::get('/documents/get2/{id}', [DocumentController::class, 'getDocuments2'])->name('documents.get2');
     Route::post('/documents', [DocumentController::class, 'store'])->name('upload.document');
     Route::get('/documents/download/{id}', [DocumentController::class, 'download'])->name('documents.download');
     Route::delete('/documents/{id}', [DocumentController::class, 'destroy'])->name('documents.destroy');
