@@ -19,7 +19,7 @@ table.table.table-border-vertical.table-border-horizontal {
 
 <div class="eventdatas"></div>
 
-<div class="modal fade modalRepair" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<div class="modal fade modalRepairr" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -78,6 +78,7 @@ table.table.table-border-vertical.table-border-horizontal {
     </div>
 </div>
 
+
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     function getAssetIdFromUrl() {
@@ -116,7 +117,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     const row = document.createElement('tr');
 
                     const commonCellStyle = "border: solid 1px #dee2e6; text-align: center; vertical-align: middle;";
-
+                    const commonCellStyle2 = "border: solid 1px #dee2e6; text-align: center; vertical-align: left;";
+                    
                     if (event.repair_id) {
                         row.innerHTML = `
                             <td style="width: 250px; ${commonCellStyle}">
@@ -143,7 +145,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                 <label>${event.repair_notes || ''}</label>
                             </td>
                           <td style="width: 80px; ${commonCellStyle}">
-                              <button class="btn btn-primary edit-button" type="button" data-bs-toggle="modal" data-bs-target=".modalRepair" data-repair='${JSON.stringify(event)}'>Edit</button>
+                              <button class="btn btn-primary edit-button" type="button" data-bs-toggle="modal" data-bs-target=".modalRepairr" data-repair='${JSON.stringify(event)}'>Edit</button>
                             </td> 
                         `;
                     } else if (event.dispose_id) {
@@ -262,21 +264,6 @@ document.addEventListener('DOMContentLoaded', function () {
     .catch(error => console.error('Error fetching data:', error));
 
 
-
-
-
-    document.querySelector('.eventdatas').addEventListener('click', function(event) {
-        if (event.target.classList.contains('edit-button')) {
-            const repairData = JSON.parse(event.target.getAttribute('data-repair-edit'));
-            document.getElementById('re_schedule_date').value = repairData.sched_date;
-            document.getElementById('re_assigned_to').value = repairData.assigned_to;
-            document.getElementById('re_date_completed').value = repairData.date_completed;
-            document.getElementById('re_cost').value = repairData.repair_cost;
-            document.getElementById('re_notes').value = repairData.repair_notes;
-            document.getElementById('repair_id').value = repairData.repair_id;
-        }
-    });
-
     document.querySelector('.form-repair-edit').addEventListener('submit', function(event) {
         event.preventDefault();
 
@@ -295,10 +282,54 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(response => response.json())
         .then(data => {
             alert('Repair event updated successfully!');
-            location.reload();
+            location.reload(); // Refresh the page to show updated data
         })
         .catch(error => console.error('Error updating repair event:', error));
+
     });
 });
+</script>
+
+<script>
+document.querySelector('.eventdatas').addEventListener('click', function(event) {
+    if (event.target.classList.contains('edit-button')) {
+        const repairDataJson = event.target.getAttribute('data-repair');
+        console.log('data-repair attribute value:', repairDataJson);
+
+        try {
+            const repairData = JSON.parse(repairDataJson);
+            console.log('Parsed repair data:', repairData);
+
+            // Log each element to ensure it's being selected correctly
+            console.log(document.getElementById('re_schedule_date'));
+            console.log(document.getElementById('re_assigned_to'));
+            console.log(document.getElementById('re_date_completed'));
+            console.log(document.getElementById('re_cost'));
+            console.log(document.getElementById('re_notes'));
+            console.log(document.getElementById('repair_id'));
+
+            // Log each value to ensure the data is correct
+            console.log('Schedule Date:', repairData.sched_date);
+            console.log('Assigned To:', repairData.assigned_to);
+            console.log('Date Completed:', repairData.date_completed);
+            console.log('Repair Cost:', repairData.repair_cost);
+            console.log('Notes:', repairData.repair_notes);
+            console.log('Repair ID:', repairData.repair_id);
+
+            // Set the values
+            document.getElementById('re_schedule_date').value = repairData.sched_date || '';
+            document.getElementById('re_assigned_to').value = repairData.assigned_to || '';
+            document.getElementById('re_date_completed').value = repairData.date_completed || '';
+            document.getElementById('re_cost').value = repairData.repair_cost || '';
+            document.getElementById('re_notes').value = repairData.repair_notes || '';
+            document.getElementById('repair_id').value = repairData.repair_id || '';
+        } catch (error) {
+            console.error('Failed to parse repair data:', error);
+        }
+    }
+});
+
+
+
 </script>
 
