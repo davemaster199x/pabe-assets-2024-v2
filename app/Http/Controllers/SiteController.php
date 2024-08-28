@@ -31,6 +31,11 @@ class SiteController extends Controller
         return response()->json(['message' => 'Site created successfully.']);
     }
 
+    public function update(Request $request)
+    {
+    
+    }
+
     // Example in Laravel controller
     public function getSites() {
         //using this custom field name to prevent giving idea to the hackers like me XD

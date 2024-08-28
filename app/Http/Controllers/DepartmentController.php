@@ -31,6 +31,11 @@ class DepartmentController extends Controller
         return response()->json(['message' => 'Department created successfully.']);
     }
 
+    public function update(Request $request)
+    {
+    
+    }
+
     // Example in Laravel controller
     public function getDepartments() {
         //using this custom field name to prevent giving idea to the hackers like me XD

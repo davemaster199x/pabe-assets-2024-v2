@@ -33,6 +33,11 @@ class LocationController extends Controller
         return response()->json(['message' => 'Location created successfully.']);
     }
 
+    public function update(Request $request)
+    {
+    
+    }
+
     // Example in Laravel controller
     public function getLocations() {
         $locations = LocationModel::selectRaw('location_id as id, location_name as name')->get();

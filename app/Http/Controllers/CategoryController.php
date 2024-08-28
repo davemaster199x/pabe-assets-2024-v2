@@ -31,6 +31,8 @@ class CategoryController extends Controller
         return response()->json(['message' => 'Category created successfully.']);
     }
 
+    
+
     // Example in Laravel controller
     public function getCategories() {
         //using this custom field name to prevent giving idea to the hackers like me XD
