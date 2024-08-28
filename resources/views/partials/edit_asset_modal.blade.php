@@ -320,4 +320,86 @@
          </script>
      </div>
  </div>
+    
+
+<!-- Edit Fundings Modal -->
+<div class="modal fade" id="EditFundingsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenter" aria-hidden="true">
+    <div class="modal-dialog modal-dialog" role="document">
+        <form id="site-form">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Funding</h5>
+                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="errors5" style="display:none;">
+                        <ul id="error-list5"></ul>
+                    </div>
+                    @csrf
+                    <div class="col-md-12">
+                        <label class="form-label" for="e_funding_name">Funding Name</label>
+                        <input class="form-control" placeholder="Funding Name" type="text" name="e_funding_name" id="e_funding_name" value="{{ old('e_funding_name') }}" required="" data-bs-original-title="" title="">
+                        <input class="form-control" placeholder="Funding ID" type="hidden" name="e_funding_id" id="e_funding_id" value="{{ old('e_funding_id') }}" required="" data-bs-original-title="" title="">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                     <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
+                    <button class="btn btn-primary" type="button" onclick="esubmitFormFunding()">Update</button>
+           
+                </div>
+            </div>
+        </form>
+        <script>
+        function esubmitFormFunding() {
+            var fundingName = $('#e_funding_name').val();
+            var fundingId = $('#e_funding_id').val();
+            $.ajax({
+                url: '{{ route('fundings.update') }}',
+                type: 'POST',
+                data: {
+                    _token: $('meta[name="csrf-token"]').attr('content'),
+                    funding_name: fundingName,
+                    funding_id: fundingId
+                },
+                success: function(response) {
+                    swal("Success!", response.message, "success");
+                    var fundingModal = new bootstrap.Modal(document.getElementById('EditFundingsModal'));
+                    fundingModal.hide();
+
+                    // Optionally, you can clear the form fields
+                    $('#e_funding_name').val('');
+                    $('#errors5').hide();
+                    loadData();
+                },
+                error: function(xhr) {
+                    var errors = xhr.responseJSON.errors;
+                    $('#error-list5').empty();
+                    $.each(errors, function(key, value) {
+                        $('#error-list5').append('<li>' + value + '</li>');
+                    });
+                    $('#errors5').show();
+                }
+            });
+        }
+
+        function openEditFundingModal() {
+            var selectedOption = $('#fundingSelect').find('option:selected');
+            var fundingName = selectedOption.text();
+            var fundingId = selectedOption.val();
+
+            $('#e_funding_name').val(fundingName);
+            $('#e_funding_id').val(fundingId);
+
+            var editFundingModal = new bootstrap.Modal(document.getElementById('EditFundingsModal'));
+            editFundingModal.show();
+        }
+
+        function closeEditFundingModal() {
+            var editFundingModal = bootstrap.Modal.getInstance(document.getElementById('EditFundingsModal'));
+            editFundingModal.hide();
+        }
+        </script>
+    </div>
+</div>
+
         </div>

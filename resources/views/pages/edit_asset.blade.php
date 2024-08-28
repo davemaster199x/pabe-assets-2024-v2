@@ -95,6 +95,7 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                             <button class="btn btn-primary ms-2" type="button" data-bs-toggle="modal" data-bs-target="#SitesModal" data-bs-original-title="" title="">Add</button>
+                            <button class="btn btn-primary ms-2" type="button" onclick="openEditSitesModal()" >Edit</button>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -107,6 +108,7 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                             <button class="btn btn-primary ms-2" type="button" data-bs-toggle="modal" data-bs-target="#LocationsModal" data-bs-original-title="" title="">Add</button>
+                            <button class="btn btn-primary ms-2" type="button" onclick="openEditLocationModal()" >Edit</button>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -119,6 +121,7 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                             <button class="btn btn-primary ms-2" type="button" data-bs-toggle="modal" data-bs-target="#CategoryModal" data-bs-original-title="" title="">Add</button>
+                            <button class="btn btn-primary ms-2" type="button" onclick="openEditCategoryModal()" >Edit</button>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -132,6 +135,7 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                             <button class="btn btn-primary ms-2" type="button" data-bs-toggle="modal" data-bs-target="#DepartmentModal" data-bs-original-title="" title="">Add</button>
+                            <button class="btn btn-primary ms-2" type="button" onclick="openEditDepartmentModal()" >Edit</button>
                         </div>
                     </div>
                     </div>
@@ -221,39 +225,34 @@
                     </div>
                 </div>
                 <div class="row g-3">
-                    <div class="col-md-12">
-                        <hr />
-                        <h5>Accounting</h5>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label" for="funding_source">Funding Source</label>
-                        <div class="d-flex">
-                            <select class="form-select @error('funding_source') is-invalid @enderror"
-                            id="fundingSelect" name="funding_id" required>
-
-                            <option value="{{ $funding_id }}" selected>{{ $funding_name }}</option>
-                            </select>
-                            
-                            @error('funding_id')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                            <button class="btn btn-primary ms-2" type="button" data-bs-toggle="modal"
-                                data-bs-target="#FundingsModal" data-bs-original-title="" title="">Add</button>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label" for="amount_debited">Amount Debited</label>
-                        <div class="input-group">
-                            <span class="input-group-text" id="inputGroupPrepend">₱</span>
-                            <input class="form-control @error('amount_debited') is-invalid @enderror"
-                                id="amount_debited" name="amount_debited" type="number" step="0.01"
-                                value="{{ old('amount_debited',$data->amount_debited) }}" required>
-                            @error('amount_debited')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                    </div>
-                </div>
+    <div class="col-md-12">
+        <hr />
+        <h5>Accounting</h5>
+    </div>
+    <div class="col-md-6">
+        <label class="form-label" for="funding_source">Funding Source</label>
+        <div class="d-flex">
+            <select class="form-select @error('funding_source') is-invalid @enderror" id="fundingSelect" name="funding_id" required>
+                <option value="{{ $funding_id }}" selected>{{ $funding_name }}</option>
+            </select>
+            @error('funding_id')
+            <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+            <button class="btn btn-primary ms-2" type="button" data-bs-toggle="modal" data-bs-target="#FundingsModal" data-bs-original-title="" title="">Add</button>
+            <button class="btn btn-primary ms-2" type="button" onclick="openEditFundingModal()" >Edit</button>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <label class="form-label" for="amount_debited">Amount Debited</label>
+        <div class="input-group">
+            <span class="input-group-text" id="inputGroupPrepend">₱</span>
+            <input class="form-control @error('amount_debited') is-invalid @enderror" id="amount_debited" name="amount_debited" type="number" step="0.01" value="{{ old('amount_debited',$data->amount_debited) }}" required>
+            @error('amount_debited')
+            <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+    </div>
+</div>
                 <hr/>
                     <div class="col-12">
                         <button class="btn btn-primary" type="submit">Save</button>

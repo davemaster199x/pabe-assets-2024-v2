@@ -92,6 +92,7 @@ Route::middleware(['auth'])->group(function () {
         //add funding on add assets
         Route::get('/fundings/create', [FundingController::class, 'create'])->name('fundings.create');
         Route::post('/fundings', [FundingController::class, 'store'])->name('fundings.store');
+        Route::post('/fundings/update', [FundingController::class, 'update'])->name('fundings.update');
         //load fundings via api
         Route::get('/api/fundings', [FundingController::class, 'getFundings']);
     // });
