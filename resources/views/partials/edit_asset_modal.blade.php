@@ -1,5 +1,5 @@
- <!-- Vertically centered Site modal-->
-  <div class="hiddenpreload" style="display:none">
+<div class="hiddenpreload" style="display:none">
+ <!-- Sites -->
  <div class="modal fade" id="SitesModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenter"
      aria-hidden="true">
      <div class="modal-dialog modal-dialog" role="document">
@@ -62,7 +62,91 @@
      </div>
  </div>
 
- <!-- Vertically centered Location modal-->
+<!-- Edit Sites -->
+<div class="modal fade" id="EditSitesModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenter"
+     aria-hidden="true">
+     <div class="modal-dialog modal-dialog" role="document">
+         <form id="site-form">
+             <div class="modal-content">
+                 <div class="modal-header">
+                     <h5 class="modal-title">Edit Site</h5>
+                     <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                 </div>
+                 <div class="modal-body">
+                     <div id="errors" style="display:none;">
+                         <ul id="error-list"></ul>
+                     </div>
+                     @csrf
+                     <div class="col-md-12">
+                         <label class="form-label" for="e_site_name">Site Name</label>
+                         <input class="form-control" type="text" placeholder="Site Name"
+                             type="text" name="e_site_name" id="e_site_name" value="{{ old('e_site_name') }}" required=""
+                             data-bs-original-title="" title="">
+                            <input type="hidden" name="e_site_id" id="e_site_id" />
+                     </div>
+                 </div>
+                 <div class="modal-footer">
+                     <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
+                     <button class="btn btn-primary" type="button" onclick="esubmitFormSite()">Update</button>
+                 </div>
+             </div>
+         </form>
+         <script> 
+         function esubmitFormSite() {
+             var siteName = $('#e_site_name').val();
+             var siteId = $('#e_site_id').val();
+
+             $.ajax({
+                 url: '{{ route('sites.update') }}',
+                 type: 'POST',
+                 data: {
+                     _token: $('meta[name="csrf-token"]').attr('content'),
+                     site_name: siteName,
+                     site_id:siteId
+                 },
+                 success: function(response) {
+                     swal("Success!", response.message, "success");
+                     var siteModal = new bootstrap.Modal(document.getElementById('EditSitesModal'));
+                    siteModal.hide();
+
+                    // Optionally, you can clear the form fields
+                    $('#e_site_name').val('');
+                    $('#errors').hide();
+                    loadData();
+                 },
+                 error: function(xhr) {
+                     var errors = xhr.responseJSON.errors;
+                     $('#error-list').empty();
+                     $.each(errors, function(key, value) {
+                         $('#error-list').append('<li>' + value + '</li>');
+                     });
+                     $('#errors').show();
+                 }
+             });
+         }
+
+         
+         function openEditSitesModal() {
+            var selectedOption = $('#siteSelect').find('option:selected');
+            var siteName = selectedOption.text();
+            var siteId = selectedOption.val();
+
+            $('#e_site_name').val(siteName);
+            $('#e_site_id').val(siteId);
+
+            var editSitesModal = new bootstrap.Modal(document.getElementById('EditSitesModal'));
+            editSitesModal.show();
+        }
+
+        function closeEditSitesModal() {
+            var editSitesModal = new bootstrap.Modal.getInstance(document.getElementById('EditSitesModal'));
+            editSitesModal.hide();
+        }
+         </script>
+     </div>
+ </div>
+
+ <!-- Location -->
  <div class="modal fade" id="LocationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenter"
      aria-hidden="true">
      <div class="modal-dialog modal-dialog" role="document">
@@ -131,7 +215,141 @@
      </div>
  </div>
 
- <!-- Vertically centered Category modal-->
+<!-- Edit Location -->
+<div class="modal fade" id="EditLocationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenter"
+     aria-hidden="true">
+     <div class="modal-dialog modal-dialog" role="document">
+         <form id="location-form">
+         <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Location</h5>
+                <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="errors2" style="display:none;">
+                    <ul id="error-list2"></ul>
+                </div>
+                @csrf
+                <div class="col-md-12">
+                    <label class="form-label" for="e_location_name">Location Name</label>
+                    <input class="form-control" type="text" placeholder="Location Name"
+                        name="e_location_name" id="e_location_name" value="{{ old('e_location_name') }}" required=""
+                        data-bs-original-title="" title="">
+                    
+                    <label class="form-label" for="e_siteSelect2">Site</label>
+                    <select class="form-select @error('e_site_id') is-invalid @enderror" id="e_siteSelect2"
+                        name="e_site_location_id" required>
+                        <!-- Options will be populated dynamically -->
+                    </select> 
+
+                    <!-- Ensure this hidden input is included to store site ID -->
+                    <input type="hidden" name="e_site_id" id="e_site_id" />
+
+                    <input type="hidden" name="e_location_id" id="e_location_id" /> 
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
+                <button class="btn btn-primary" type="button" onclick="esubmitFormLocation()">Update</button>
+            </div>
+        </div>
+
+         </form>
+         <script>
+         function esubmitFormLocation() {
+             var locationId = $('#e_location_id').val();
+             var locationName = $('#e_location_name').val();
+             var siteID = $('#e_siteSelect2').val();
+
+             $.ajax({
+                 url: '{{ route('locations.update') }}',
+                 type: 'POST',
+                 data: {
+                     _token: $('meta[name="csrf-token"]').attr('content'),
+                     location_name: locationName,
+                     site_id: siteID,
+                     location_id:locationId
+                 },
+                 success: function(response) {
+                     swal("Success!", response.message, "success");
+                     var locationModal = new bootstrap.Modal(document.getElementById('EditLocationModal'));
+                    locationModal.hide();
+
+                    // Optionally, you can clear the form fields
+                    $('#e_location_name').val('');
+                    $('#errors2').hide();
+                    loadData();
+                 },
+                 error: function(xhr) {
+                     var errors = xhr.responseJSON.errors;
+                     $('#error-list2').empty();
+                     $.each(errors, function(key, value) {
+                         $('#error-list2').append('<li>' + value + '</li>');
+                     });
+                     $('#errors2').show();
+                 }
+             });
+         }
+
+         function openEditLocationModal() {
+    var selectedOption = $('#locationSelect').find('option:selected');
+    var locationName = selectedOption.text();
+    var locationId = selectedOption.val();
+    var siteId = $('#e_siteSelect').val();
+    var siteName = $('#e_siteSelect').find('option:selected').text(); // Get selected site's name
+    
+    $('#e_location_name').val(locationName);
+    $('#e_site_id').val(siteId);  // Make sure the hidden input or another field for siteId exists.
+    $('#e_location_id').val(locationId);
+
+    // Update the select box or another element with the site name
+    //$('#e_siteSelect2').val(siteName);  // If you want to update the value of the select box.
+    // Or, if you want to display the site name in another element:
+    // $('#someElement').text(siteName);
+
+    var editLocationModal = new bootstrap.Modal(document.getElementById('EditLocationModal'));
+    editLocationModal.show();
+}
+
+
+
+        function closeEditLocationModal() {
+            var editLocationModal = new bootstrap.Modal.getInstance(document.getElementById('EditLocationModal'));
+            editLocationModal.hide();
+        }
+         </script>
+         <script>
+            fetch('/api/sites')
+            .then(function(response) {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(function(data) {
+                // Assuming data is an array of objects with id and site_name properties
+                var select = document.getElementById('e_siteSelect2');
+
+                // Clear existing options (if any)
+                select.innerHTML = '';
+
+                // Create and append new options based on fetched data
+                data.forEach(function(site) {
+                    var option = document.createElement('option');
+                    option.value = site.id;
+                    option.textContent = site.name;
+                    select.appendChild(option);
+                });
+            })
+            .catch(function(error) {
+                console.error('Error fetching data:', error);
+            });
+        </script>
+     </div>
+ </div>
+
+
+ <!-- Category -->
  <div class="modal fade" id="CategoryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenter"
      aria-hidden="true">
      <div class="modal-dialog modal-dialog" role="document">
@@ -194,7 +412,90 @@
      </div>
  </div>
 
- <!-- Vertically centered Site modal-->
+ <!-- Edit Category -->
+ <div class="modal fade" id="EditCategoryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenter"
+     aria-hidden="true">
+     <div class="modal-dialog modal-dialog" role="document">
+         <form id="category-form">
+             <div class="modal-content">
+                 <div class="modal-header">
+                     <h5 class="modal-title">Edit Category</h5>
+                     <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                 </div>
+                 <div class="modal-body">
+                     <div id="errors3" style="display:none;">
+                         <ul id="error-list3"></ul>
+                     </div>
+                     @csrf
+                     <div class="col-md-12">
+                         <label class="form-label" for="e_category_name">Category Name</label>
+                         <input class="form-control" type="text" placeholder="Category Name"
+                             type="text" name="e_category_name" id="e_category_name" value="{{ old('e_category_name') }}" required=""
+                             data-bs-original-title="" title="">
+                         <input type="hidden" id="e_category_id" name="e_category_id" />
+                     </div>
+                 </div>
+                 <div class="modal-footer">
+                     <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
+                     <button class="btn btn-primary" type="button" onclick="esubmitFormCategory()">Update</button>
+                 </div>
+             </div>
+         </form>
+         <script>
+         function esubmitFormCategory() {
+             var categoryName = $('#e_category_name').val();
+             var categoryId = $('#e_category_id').val();
+
+             $.ajax({
+                 url: '{{ route('categories.update') }}',
+                 type: 'POST',
+                 data: {
+                     _token: $('meta[name="csrf-token"]').attr('content'),
+                     category_name: categoryName,
+                     category_id: categoryId
+                 },
+                 success: function(response) {
+                     swal("Success!", response.message, "success");
+                     var categoryModal = new bootstrap.Modal(document.getElementById('EditCategoryModal'));
+                    categoryModal.hide();
+
+                    // Optionally, you can clear the form fields
+                    $('#e_category_name').val('');
+                    $('#errors3').hide();
+                    loadData();
+                 },
+                 error: function(xhr) {
+                     var errors = xhr.responseJSON.errors;
+                     $('#error-list3').empty();
+                     $.each(errors, function(key, value) {
+                         $('#error-list3').append('<li>' + value + '</li>');
+                     });
+                     $('#errors3').show();
+                 }
+             });
+         }
+
+         function openEditCategoryModal() {
+            var selectedOption = $('#categorySelect').find('option:selected');
+            var categoryName = selectedOption.text();
+            var categoryId = selectedOption.val();
+
+            $('#e_category_name').val(categoryName);
+            $('#e_category_id').val(categoryId);
+
+            var editCategoryModal = new bootstrap.Modal(document.getElementById('EditCategoryModal'));
+            editCategoryModal.show();
+        }
+
+        function closeEditCategoryModal() {
+            var editCategoryModal = new bootstrap.Modal.getInstance(document.getElementById('EditCategoryModal'));
+            editCategoryModal.hide();
+        }
+         </script>
+     </div>
+ </div>
+
+ <!-- Department -->
  <div class="modal fade" id="DepartmentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenter"
      aria-hidden="true">
      <div class="modal-dialog modal-dialog" role="document">
@@ -258,6 +559,90 @@
      </div>
  </div>
 
+ <!-- Edit Department -->
+ <div class="modal fade" id="EditDepartmentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenter"
+     aria-hidden="true">
+     <div class="modal-dialog modal-dialog" role="document">
+         <form id="department-form">
+             <div class="modal-content">
+                 <div class="modal-header">
+                     <h5 class="modal-title">Edit Department</h5>
+                     <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                 </div>
+                 <div class="modal-body">
+                     <div id="errors4" style="display:none;">
+                         <ul id="error-list4"></ul>
+                     </div>
+                     @csrf
+                     <div class="col-md-12">
+                         <label class="form-label" for="e_department_name">Department Name</label>
+                         <input class="form-control" type="text" placeholder="Department Name"
+                             type="text" name="e_department_name" id="e_department_name" value="{{ old('e_department_name') }}" required=""
+                             data-bs-original-title="" title="">
+                            <input type="hidden" id="e_department_id" name="e_department_id" />
+                     </div>
+                 </div>
+                 <div class="modal-footer">
+                     <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
+                     <button class="btn btn-primary" type="button" onclick="esubmitFormDepartment()">Update</button>
+                 </div>
+             </div>
+         </form>
+         <script>
+         function esubmitFormDepartment() {
+             var departmentName = $('#e_department_name').val();
+             var departmentId = $('#e_department_id').val();
+
+             $.ajax({
+                 url: '{{ route('departments.update') }}',
+                 type: 'POST',
+                 data: {
+                     _token: $('meta[name="csrf-token"]').attr('content'),
+                     department_name: departmentName,
+                     department_id: departmentId
+                 },
+                 success: function(response) {
+                     swal("Success!", response.message, "success");
+                     // Hide the modal
+                    var departmentModal = new bootstrap.Modal(document.getElementById('EditDepartmentModal'));
+                    departmentModal.hide();
+
+                    // Optionally, you can clear the form fields
+                    $('#e_department_name').val('');
+                    $('#errors4').hide();
+                    loadData();
+                 },
+                 error: function(xhr) {
+                     var errors = xhr.responseJSON.errors;
+                     $('#error-list4').empty();
+                     $.each(errors, function(key, value) {
+                         $('#error-list4').append('<li>' + value + '</li>');
+                     });
+                     $('#errors4').show();
+                 }
+             });
+         }
+
+         function openEditDepartmentModal() {
+            var selectedOption = $('#departmentSelect').find('option:selected');
+            var departmentName = selectedOption.text();
+            var departmentId = selectedOption.val();
+
+            $('#e_department_name').val(departmentName);
+            $('#e_department_id').val(departmentId);
+
+            var editDepartmentModal = new bootstrap.Modal(document.getElementById('EditDepartmentModal'));
+            editDepartmentModal.show();
+        }
+
+        function closeEditFundingModal() {
+            var editDepartmentModal = new bootstrap.Modal.getInstance(document.getElementById('EditDepartmentModal'));
+            editDepartmentModal.hide();
+        }
+         </script>
+     </div>
+ </div>
+
 <!-- Fundings -->
  <div class="modal fade" id="FundingsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenter"
      aria-hidden="true">
@@ -317,6 +702,8 @@
                  }
              });
          }
+
+         
          </script>
      </div>
  </div>

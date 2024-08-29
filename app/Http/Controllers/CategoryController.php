@@ -31,7 +31,25 @@ class CategoryController extends Controller
         return response()->json(['message' => 'Category created successfully.']);
     }
 
-    
+    public function update(Request $request)
+    {
+        $id = $request->input('category_id');
+        // Validate the request data
+        $request->validate([
+            'category_name' => 'required|string|max:100|unique:tbl_category,category_name',
+        ]);
+
+        // Find the funding by ID
+        $category = CategoryModel::findOrFail($id);
+
+        // Update the funding
+        $category->update([
+            'category_name' => $request->input('category_name')
+        ]);
+
+        // Redirect or return a response
+        return response()->json(['message' => 'Category updated successfully.']);
+    }
 
     // Example in Laravel controller
     public function getCategories() {
