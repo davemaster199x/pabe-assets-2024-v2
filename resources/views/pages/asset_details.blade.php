@@ -5,6 +5,9 @@
 @section('page-title', 'Asset View')
 
 @section('header')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet"> -->
     <!-- <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/scrollbar.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/select2.css') }}"> -->
@@ -38,8 +41,8 @@
 
 
 @section('content')
-    <div class="col-sm-12">
-        <div class="card">
+    <div class="col-sm-12 pdf-body">
+        <div class="card ">
             <div class="card-body">
                 <div class="row">
                     <div class="col-6">
@@ -47,7 +50,7 @@
                     </div>
                     <div class="col-6">
                         <div style="float: right;">
-                            <!-- <button type="button" class="btn btn-primary"><i class="fa fa-print"></i> Print</button> -->
+                            <button type="button" class="btn btn-primary" onclick="generatePDF()"><i class="fa fa-print"></i> Print</button>
                             <a href="{{ url('assets/edit/' . $encrypt_asset_id) }}" class="btn btn-primary"><i class="fa fa-edit"></i> Edit Asset</a>
                             <div class="btn-group">
                                 <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
@@ -238,7 +241,7 @@
             checkImageExists(assetPhotoUrl, function(exists) {
                 const imgUrl = exists ? assetPhotoUrl : defaultPhotoUrl;
                 $('#asset_photo').html(
-                    `<img src="${imgUrl}" alt="${data.description || 'No Image Available'}" style="width: 100%; height: auto;">`
+                    `<img src="${imgUrl}" alt="${data.description || 'No Image Available'}" style="width: 70%; height: auto;">`
                 );
             });
 
@@ -471,6 +474,26 @@
                 divSite.style.display = 'none';   // Hide the site div
                 divPerson.style.display = 'block'; // Show the person div
             }
+        }
+
+        function generatePDF() {
+
+            document.getElementById('qr_code').style.display = 'none';
+
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF('l', 'pt', [612, 1008]); // Legal size, landscape orientation
+
+            // Adjusted width and position to ensure everything is captured
+            doc.html(document.querySelector('.pdf-body'), {
+                callback: function (doc) {
+                    doc.save('asset_details.pdf');
+                },
+                x: 10,
+                y: 10,
+                width: 948, // Adjusted width for landscape legal size in points
+                windowWidth: 1600, // Increase window width to capture all details
+                autoPaging: 'text',
+            });
         }
 
         

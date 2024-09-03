@@ -296,8 +296,8 @@ class AssetController extends Controller
                     : 'No Image';
                 $response['data'][] = [
                     "asset_photo" => $assetPhotoUrl !== 'No Image' 
-                        ? '<img src="' . $assetPhotoUrl . '" alt="' . $asset->description . '" style="width: 100px; height: auto;">' 
-                        : '<img src="' . asset('images/No_Image_Available.jpg') . '" alt="' . $asset->description . '" style="width: 100px; height: auto;">',
+                        ? '<img src="' . $assetPhotoUrl . '" alt="' . $asset->description . '" style="width: 70px; height: auto;">' 
+                        : '<img src="' . asset('images/No_Image_Available.jpg') . '" alt="' . $asset->description . '" style="width: 70px; height: auto;">',
                     "assets_tag_id" => $asset->assets_tag_id,
                     "description" => $asset->description,
                     "brand" => $asset->brand,
