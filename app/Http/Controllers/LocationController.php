@@ -33,6 +33,29 @@ class LocationController extends Controller
         return response()->json(['message' => 'Location created successfully.']);
     }
 
+    public function update(Request $request)
+    {
+        $locationid = $request->input('location_id');
+        $locationname = $request->input('location_name');
+        $siteid = $request->input('site_id');
+        // Validate the request data
+        $request->validate([
+            'location_name' => 'required|string|max:100|unique:tbl_location,location_name',
+        ]);
+
+        // Find the funding by ID
+        $location = LocationModel::findOrFail($locationid);
+
+        // Update the funding
+        $location->update([
+            'location_name' => $locationname,
+            'site_id' => $siteid
+        ]);
+
+        // Redirect or return a response
+        return response()->json(['message' => 'Location updated successfully.']);
+    }
+
     // Example in Laravel controller
     public function getLocations() {
         $locations = LocationModel::selectRaw('location_id as id, location_name as name')->get();

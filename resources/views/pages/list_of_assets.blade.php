@@ -4,7 +4,18 @@
 @section('page-title', 'List of Assets')
 
 @section('header')
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css"/>
+
+    <!-- DataTables Buttons CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css"/>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+
+
+
     <style>
         /* Adjust pagination font size */
         .dataTables_paginate .paginate_button {
@@ -19,21 +30,21 @@
         <div class="card-body">
             <div class="dt-ext table-responsive">
                 <table class="display" id="listassets">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>Asset Tag ID</th>
-                        <th>Description</th>
-                        <th>Brand</th>
-                        <th>Purchase Date</th>
-                        <th>Cost</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Data rows will be populated by DataTables -->
-                </tbody>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Asset Tag ID</th>
+                            <th>Description</th>
+                            <th>Brand</th>
+                            <th>Purchase Date</th>
+                            <th>Cost</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Data rows will be populated by DataTables -->
+                    </tbody>
                 </table>
             </div>
         </div>
@@ -42,69 +53,81 @@
 @endsection
 
 @section('scripts')
-    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <!-- DataTables JS -->
+    <script type="text/javascript" src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+
+    <!-- DataTables Buttons JS -->
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
 
     <script type="text/javascript">
+    $(document).ready(function() {
+        $('#listassets').DataTable({
+            "ajax": {
+                "url": "/api/assets",
+                "type": "GET"
+            },
+            "columns": [
+                { "data": "asset_photo" },
+                { "data": "assets_tag_id" },
+                { "data": "description" },
+                { "data": "brand" },
+                { "data": "purchase_date" },
+                { "data": "cost" },
+                { "data": "status_id" },
+                { "data": "view_button" }
+            ],
+            "dom": 'Bfrtip',
+            "buttons": [
+                {
+    text: 'Export Excel',
+    action: function (e, dt, node, config) {
+        var data = dt.buttons.exportData();
+        var ws_data = [];
+        ws_data.push(["Asset Photo", "Asset Tag ID", "Description", "Brand", "Purchase Date", "Cost", "Status", "Action"]);
 
-        document.getElementById('list_of_assets-navbar').classList.add('active');
-
-        $(document).ready(function() {
-            $('#listassets').DataTable({
-                "ajax": {
-                    "url": "/api/assets",
-                    "type": "GET"
-                },
-                "columns": [
-                    { "data": "asset_photo" },
-                    { "data": "assets_tag_id" },
-                    { "data": "description" },
-                    { "data": "brand" },
-                    { "data": "purchase_date" },
-                    { "data": "cost" },
-                    { "data": "status_id" },
-                    { "data": "view_button" }
-                ]
-            });
+        data.body.forEach(function(row) {
+            ws_data.push(row);
         });
-    </script>
 
+        // Create a worksheet and a workbook
+        var ws = XLSX.utils.aoa_to_sheet(ws_data);
+        var wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, "Assets");
 
-<script>
+        // Generate Excel file
+        var wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+        var blob = new Blob([wbout], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
 
-/*
-if (!$.fn.dataTable.isDataTable('#list_assets_table')) {
-    $('#list_assets_table').DataTable({
-        paging: false, // Disable pagination
-        info: false, // Disable information display
-        columnDefs: [{
-                orderable: false,
-                targets: 0
-            } // Disable sorting on the first column
-        ]
-    });
+        // Use FileSaver.js to prompt Save As dialog
+        saveAs(blob, 'assets_list.xlsx');
+    }
+},
+{
+    text: 'Export PDF',
+    action: function (e, dt, node, config) {
+        var { jsPDF } = window.jspdf;
+        var doc = new jsPDF();
+
+        var data = dt.buttons.exportData();
+        var columns = ["Asset Photo", "Asset Tag ID", "Description", "Brand", "Purchase Date", "Cost", "Status", "Action"];
+        var rows = data.body;
+
+        doc.autoTable({
+            head: [columns],
+            body: rows
+        });
+
+        // Generate PDF and prompt Save As dialog
+        doc.save('assets_list.pdf');
+    }
 }
 
-document.getElementById('select_all').addEventListener('change', function() {
-    const checkboxes = document.querySelectorAll('.asset_checkbox');
-    checkboxes.forEach(checkbox => {
-        checkbox.checked = this.checked;
-    });
-    updateCheckedItems();
-});
 
-document.querySelectorAll('.asset_checkbox').forEach(checkbox => {
-    checkbox.addEventListener('change', function() {
-        updateCheckedItems();
+            ]
+        });
     });
-});
-
-function updateCheckedItems() {
-    const checkedItems = [];
-    document.querySelectorAll('.asset_checkbox:checked').forEach(checkbox => {
-        checkedItems.push(checkbox.getAttribute('data-id'));
-    });
-    console.log('Checked items:', checkedItems);
-    // You can perform further actions with the checked items here
-}*/
 </script>
+
 @endsection

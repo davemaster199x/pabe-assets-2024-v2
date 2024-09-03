@@ -68,30 +68,35 @@ Route::middleware(['auth'])->group(function () {
         //add site on add assets
         Route::get('/sites/create', [SiteController::class, 'create'])->name('sites.create');
         Route::post('/sites', [SiteController::class, 'store'])->name('sites.store');
+        Route::post('/sites/update', [SiteController::class, 'update'])->name('sites.update');
         //load sites via api
         Route::get('/api/sites', [SiteController::class, 'getSites']);
 
         //add location on add assets
         Route::get('/locations/create', [LocationController::class, 'create'])->name('locations.create');
         Route::post('/locations', [LocationController::class, 'store'])->name('locations.store');
+        Route::post('/locations/update', [LocationController::class, 'update'])->name('locations.update');
         //load locations via api
         Route::get('/api/locations', [LocationController::class, 'getLocations']);
 
         //add department on add assets
         Route::get('/departments/create', [DepartmentController::class, 'create'])->name('departments.create');
         Route::post('/departments', [DepartmentController::class, 'store'])->name('departments.store');
+        Route::post('/departments/update', [DepartmentController::class, 'update'])->name('departments.update');
         //load departments via api
         Route::get('/api/departments', [DepartmentController::class, 'getDepartments']);
 
         //add category on add assets
         Route::get('/categories/create', [CategoryController::class, 'create'])->name('categories.create');
         Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
+        Route::post('/categories/update', [CategoryController::class, 'update'])->name('categories.update');
         //load categories via api
         Route::get('/api/categories', [CategoryController::class, 'getCategories']);
         
         //add funding on add assets
         Route::get('/fundings/create', [FundingController::class, 'create'])->name('fundings.create');
         Route::post('/fundings', [FundingController::class, 'store'])->name('fundings.store');
+        Route::post('/fundings/update', [FundingController::class, 'update'])->name('fundings.update');
         //load fundings via api
         Route::get('/api/fundings', [FundingController::class, 'getFundings']);
     // });

@@ -31,6 +31,27 @@ class DepartmentController extends Controller
         return response()->json(['message' => 'Department created successfully.']);
     }
 
+    public function update(Request $request)
+    {
+        $id = $request->input('department_id');
+
+        // Validate the request data
+        $request->validate([
+            'department_name' => 'required|string|max:100|unique:tbl_department,department_name',
+        ]);
+
+        // Find the funding by ID
+        $department = DepartmentModel::findOrFail($id);
+
+        // Update the funding
+        $department->update([
+            'department_name' => $request->input('department_name')
+        ]);
+
+        // Redirect or return a response
+        return response()->json(['message' => 'Department updated successfully.']);
+    }
+
     // Example in Laravel controller
     public function getDepartments() {
         //using this custom field name to prevent giving idea to the hackers like me XD
