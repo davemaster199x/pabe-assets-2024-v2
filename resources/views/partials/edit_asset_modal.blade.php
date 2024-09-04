@@ -127,7 +127,7 @@
 
          
          function openEditSitesModal() {
-            var selectedOption = $('#siteSelect').find('option:selected');
+            var selectedOption = $('#siteSelect').find('option:selected'); 
             var siteName = selectedOption.text();
             var siteId = selectedOption.val();
 
