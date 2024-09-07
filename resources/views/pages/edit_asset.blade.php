@@ -621,7 +621,7 @@
                 .then(response => response.json())
                 .then(data => {
                     const paymentModeSelect = document.getElementById('paymentModeSelect');
-                    const selectedPaymentModeId = {{ $data->payment_mode_id }};
+                    const selectedPaymentModeId = {{ isset($data->payment_mode_id) ? $data->payment_mode_id : 0 }};
                     // Clear any existing options
                     paymentModeSelect.innerHTML = '';
 
