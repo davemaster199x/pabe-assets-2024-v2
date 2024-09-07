@@ -321,3 +321,75 @@
      </div>
  </div>
         </div>
+
+<!-- Payment Mode -->
+ <div class="modal fade" id="PaymentModeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenter"
+     aria-hidden="true">
+     <div class="modal-dialog modal-dialog" role="document">
+         <form id="site-form">
+             <div class="modal-content">
+                 <div class="modal-header">
+                     <h5 class="modal-title">Add a Payment</h5>
+                     <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                 </div>
+                 <div class="modal-body">
+                     <div id="errors5" style="display:none;">
+                         <ul id="error-list5"></ul>
+                     </div>
+                     @csrf
+                     <div class="col-md-12">
+                         <label class="form-label" for="payment_name">Payment Name</label>
+                         <input class="form-control" type="text" placeholder="Payment Name"
+                             type="text" name="payment_name" id="payment_name" value="{{ old('payment_name') }}" required=""
+                             data-bs-original-title="" title="">
+                     </div>
+                 </div>
+                 <div class="modal-footer">
+                     <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
+                     <button class="btn btn-primary" type="button" onclick="submitFormPayment()">Add</button>
+                 </div>
+             </div>
+         </form>
+         <script> 
+         function submitFormPayment() {
+            var payment_name = $('#payment_name').val(); // Get the payment name input value
+
+            $.ajax({
+                url: '/payment-modes', // Adjust the route to the correct one for storing payment modes
+                type: 'POST',
+                data: {
+                    _token: $('meta[name="csrf-token"]').attr('content'), // Include CSRF token for security
+                    payment_name: payment_name // Send the payment name
+                },
+                success: function(response) {
+                    swal("Success!", response.message, "success"); // Show success message
+
+                    // Hide the PaymentModeModal
+                    var paymentModal = new bootstrap.Modal(document.getElementById('PaymentModeModal'));
+                    paymentModal.hide();
+
+                    // Clear the form field
+                    $('#payment_name').val('');
+                    $('#errors5').hide();
+
+                    // Optionally, reload the payment modes list in the dropdown or wherever needed
+                    loadData();
+                },
+                error: function(xhr) {
+                    var errors = xhr.responseJSON.errors; // Get the error response
+                    $('#error-list5').empty();
+
+                    // Display each validation error
+                    $.each(errors, function(key, value) {
+                        $('#error-list5').append('<li>' + value + '</li>');
+                    });
+
+                    // Show the error container
+                    $('#errors5').show();
+                }
+            });
+        }
+         </script>
+     </div>
+ </div>
+        </div>

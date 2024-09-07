@@ -262,6 +262,23 @@
                             @enderror
                         </div>
                     </div>
+                    <div class="col-md-6">
+                        <label class="form-label" for="funding_source">Payment Mode</label>
+                        <div class="d-flex">
+                            <select class="form-select"
+                            id="paymentModeSelect" name="payment_mode_id" required onchange="check_payment_mode(this.value)">
+                            </select>
+                            @error('payment_mode_id')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                            <!-- <button class="btn btn-primary ms-2" type="button" data-bs-toggle="modal"
+                                data-bs-target="#PaymentModeModal" data-bs-original-title="" title="">Add</button> -->
+                        </div>
+                    </div>
+                    <div class="col-md-12" id="div_check" style="display: none;">
+                        <button type="button" class="btn btn-primary" onclick="addPaymentRow()">+</button>
+                        <div id="paymentRowsContainer" class="mt-3"></div>
+                    </div>
                 </div>
 
                 <div class="row g-3">
@@ -452,6 +469,106 @@
             .catch(function(error) {
                 console.error('Error fetching data:', error);
             });
+
+            fetch('/payment-modes')
+                .then(response => response.json())
+                .then(data => {
+                    const paymentModeSelect = document.getElementById('paymentModeSelect');
+                    
+                    // Clear any existing options
+                    paymentModeSelect.innerHTML = '';
+
+                    // Populate the select options with payment modes
+                    data.forEach(paymentMode => {
+                        const option = document.createElement('option');
+                        option.value = paymentMode.id;
+                        option.textContent = paymentMode.payment_name;
+                        paymentModeSelect.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching payment modes:', error);
+                });
+    }
+    
+    function check_payment_mode(value) {
+        if (value == 2) {
+            // Show the div containing the input rows
+            $('#div_check').show();
+            addPaymentRow(); // Optionally add the first row when Payment Mode is 2
+        } else {
+            // Hide the div and clear the previously added rows
+            $('#div_check').hide();
+            resetPaymentRows(); // Clear all rows if a different mode is selected
+        }
+    }
+
+    function addPaymentRow() {
+        // Create a new div to hold the row inputs
+        const paymentRow = document.createElement('div');
+        paymentRow.className = 'row mb-3 payment-row'; // Add a class to identify each row
+
+        // Create the inner HTML for each input and a remove button
+        paymentRow.innerHTML = `
+            <div class="col-md-1">
+                <label for="date">Date</label>
+                <input type="date" name="date_check[]" class="form-control">
+            </div>
+            <div class="col-md-2">
+                <label for="check_no">Check #</label>
+                <input type="text" name="check_no[]" class="form-control">
+            </div>
+            <div class="col-md-2">
+                <label for="description">Description</label>
+                <textarea name="description_check[]" class="form-control" rows="2"></textarea>
+            </div>
+            <div class="col-md-2">
+                <label for="amount">Amount</label>
+                <input type="text" name="amount[]" class="form-control">
+            </div>
+            <div class="col-md-2">
+                <label for="due_date">Due Date</label>
+                <input type="date" name="due_date[]" class="form-control">
+            </div>
+            <div class="col-md-2">
+                <label for="bank">Bank</label>
+                <select name="bank[]" class="form-select">
+                    <option value="">Select Bank</option>
+                    <option value="BDO">BDO (Banco de Oro)</option>
+                    <option value="BPI">BPI (Bank of the Philippine Islands)</option>
+                    <option value="Metrobank">Metrobank</option>
+                    <option value="Landbank">Landbank of the Philippines</option>
+                    <option value="PNB">Philippine National Bank (PNB)</option>
+                    <option value="RCBC">RCBC (Rizal Commercial Banking Corporation)</option>
+                    <option value="Security Bank">Security Bank</option>
+                    <option value="UnionBank">UnionBank of the Philippines</option>
+                    <option value="China Bank">China Bank</option>
+                    <option value="EastWest Bank">EastWest Bank</option>
+                    <option value="UCPB">United Coconut Planters Bank (UCPB)</option>
+                </select>
+            </div>
+            <div class="col-md-1 mt-4">
+                <button type="button" class="btn btn-danger btn-sm remove-row">Remove</button>
+            </div>
+        `;
+
+        // Append the new row to the container
+        document.getElementById('paymentRowsContainer').appendChild(paymentRow);
+
+        // Attach the remove button functionality
+        paymentRow.querySelector('.remove-row').addEventListener('click', function() {
+            removePaymentRow(paymentRow);
+        });
+    }
+
+    function resetPaymentRows() {
+        // Clear all the content inside the paymentRowsContainer div
+        document.getElementById('paymentRowsContainer').innerHTML = '';
+    }
+
+    function removePaymentRow(rowElement) {
+        // Remove the selected row element
+        rowElement.remove();
     }
 </script>
 @endsection

@@ -63,6 +63,9 @@
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
 
     <script type="text/javascript">
+
+    document.getElementById('list_of_assets-navbar').classList.add('active');
+
     $(document).ready(function() {
         $('#listassets').DataTable({
             "ajax": {

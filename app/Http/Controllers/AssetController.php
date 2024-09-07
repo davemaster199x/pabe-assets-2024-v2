@@ -23,6 +23,7 @@ use App\Models\EventCheckout;
 use App\Models\EventSell;
 use App\Models\AssetEvent;
 use App\Models\Person;
+use App\Models\CheckDetail;
 
 class AssetController extends Controller
 {
@@ -58,6 +59,7 @@ class AssetController extends Controller
             'date_acquired' => 'nullable|date',
             'funding_source' => 'nullable|string|max:100',
             'amount_debited' => 'nullable|numeric',
+            'payment_mode_id' => 'nullable|string',
             'status_id' => 'nullable|integer',
             'delete' => 'nullable|string|max:1',
         ]);
@@ -101,11 +103,33 @@ class AssetController extends Controller
         $asset->date_acquired = $request->date_acquired;
         $asset->funding_source = $request->funding_source;
         $asset->amount_debited = $request->amount_debited;
+        $asset->payment_mode_id = $request->payment_mode_id;
         $asset->status_id = 1;//$request->status_id;
         $asset->delete = $request->delete ?? '0';
 
         // Save the asset to the database
         $asset->save();
+
+        // Loop through the appended CheckDetail data
+        if ($request->has('date_check')) {
+            $lastAsset = Asset::latest('asset_id')->first();
+            // Format the asset_id
+            $lastId = $lastAsset ? $lastAsset->asset_id : 0;
+
+            foreach ($request->date_check as $key => $value) {
+                // Ensure that at least one field is filled for a valid CheckDetail entry
+                CheckDetail::create([
+                    'asset_id' => $lastId,  // Associate with the newly created asset
+                    'date' => $request->date_check[$key],
+                    'check_no' => $request->check_no[$key],
+                    'description' => $request->description_check[$key],
+                    'amount' => $request->amount[$key],
+                    'due_date' => $request->due_date[$key],
+                    'bank' => $request->bank[$key],
+                    'status' => 'Pending',  // Default status if needed
+                ]);
+            }
+        }
 
         return redirect()->route('add_assets')->with('success', 'Asset created successfully.');
     }
@@ -191,6 +215,7 @@ class AssetController extends Controller
     $asset->date_acquired = $request->input('date_acquired');
     $asset->funding_source = $request->input('funding_id');
     $asset->amount_debited = $request->input('amount_debited');
+    $asset->payment_mode_id = $request->input('payment_mode_id');
    // $asset->status_id = $request->input('status_id');
 
     // Handle file upload if any

@@ -18,6 +18,7 @@ use App\Http\Controllers\SellController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\InsuranceController;
 use App\Http\Controllers\WarrantyController;
+use App\Http\Controllers\PaymentModeController;
 
 
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -203,6 +204,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/warranties/{id}', [WarrantyController::class, 'getWarranty']);
     Route::put('/warranties/{id}', [WarrantyController::class, 'updateWarranty']);
     Route::delete('/warranty/{id}', [WarrantyController::class, 'deleteWarranty'])->name('warranty.delete');
+
+    Route::get('/payment-modes', [PaymentModeController::class, 'index']);
+    Route::post('/payment-modes', [PaymentModeController::class, 'store']);
+    Route::get('/payment-modes/{paymentMode}', [PaymentModeController::class, 'show']);
+    Route::put('/payment-modes/{paymentMode}', [PaymentModeController::class, 'update']);
+    Route::delete('/payment-modes/{paymentMode}', [PaymentModeController::class, 'destroy']);
 });
 
 

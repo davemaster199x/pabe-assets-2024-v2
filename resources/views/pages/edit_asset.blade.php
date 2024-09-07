@@ -22,7 +22,7 @@
                     <!-- Add your form fields here -->
                     <div class="col-md-12">
                         <label class="form-label" for="description">Description*</label>
-                        <input class="form-control @error('description') is-invalid @enderror" id="description" name="description" type="text" value="{{ old('description', $data->description) }}" required>
+                        <input class="form-control @error('description') is-invalid @enderror" id="description" name="description" type="text" value="{{ old('description', $data->description) }}" >
                         @error('description')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -45,14 +45,14 @@
                     </div>
                     <div class="col-md-6">
                         <label class="form-label" for="purchase_date">Purchased Date</label>
-                        <input class="form-control @error('purchase_date') is-invalid @enderror" id="purchase_date" name="purchase_date" type="date" value="{{ old('purchase_date', $data->purchase_date) }}" required>
+                        <input class="form-control @error('purchase_date') is-invalid @enderror" id="purchase_date" name="purchase_date" type="date" value="{{ old('purchase_date', $data->purchase_date) }}" >
                         @error('purchase_date')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="col-md-6">
                         <label class="form-label" for="brand">Brand</label>
-                        <input class="form-control @error('brand') is-invalid @enderror" id="brand" name="brand" type="text" value="{{ old('brand', $data->brand) }}" required>
+                        <input class="form-control @error('brand') is-invalid @enderror" id="brand" name="brand" type="text" value="{{ old('brand', $data->brand) }}" >
                         @error('brand')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -61,7 +61,7 @@
                         <label class="form-label" for="cost">Cost</label>
                         <div class="input-group">
                             <span class="input-group-text" id="inputGroupPrepend">₱</span>
-                            <input class="form-control @error('cost') is-invalid @enderror" id="cost" name="cost" type="number" step="0.01" value="{{ old('cost', $data->cost) }}" required>
+                            <input class="form-control @error('cost') is-invalid @enderror" id="cost" name="cost" type="number" step="0.01" value="{{ old('cost', $data->cost) }}" >
                             @error('cost')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -69,14 +69,14 @@
                     </div>
                     <div class="col-md-6">
                         <label class="form-label" for="model">Model</label>
-                        <input class="form-control @error('model') is-invalid @enderror" id="model" name="model" type="text" value="{{ old('model', $data->model) }}" required>
+                        <input class="form-control @error('model') is-invalid @enderror" id="model" name="model" type="text" value="{{ old('model', $data->model) }}" >
                         @error('model')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="col-md-6">
                         <label class="form-label" for="serial_no">Serial No</label>
-                        <input class="form-control @error('serial_no') is-invalid @enderror" id="serial_no" name="serial_no" type="text" value="{{ old('serial_no', $data->serial_no) }}" required>
+                        <input class="form-control @error('serial_no') is-invalid @enderror" id="serial_no" name="serial_no" type="text" value="{{ old('serial_no', $data->serial_no) }}" >
                         @error('serial_no')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -88,7 +88,7 @@
                     <div class="col-md-6">
                         <label class="form-label" for="site_id">Site</label>
                         <div class="d-flex">
-                            <select class="form-select @error('site_id') is-invalid @enderror" id="siteSelect" name="site_id" required>
+                            <select class="form-select @error('site_id') is-invalid @enderror" id="siteSelect" name="site_id" >
                                     <option value="{{ $site_id }}" selected>{{ $site_name }}</option>
                             </select>
                             @error('site_id')
@@ -101,7 +101,7 @@
                     <div class="col-md-6">
                         <label class="form-label" for="location_id">Location</label>
                         <div class="d-flex">
-                            <select class="form-select @error('location_id') is-invalid @enderror" id="locationSelect" name="location_id" required>
+                            <select class="form-select @error('location_id') is-invalid @enderror" id="locationSelect" name="location_id" >
                                 <option value="{{ $location_id }}" selected>{{ $location_name }}</option>
                             </select>
                             @error('location_id')
@@ -114,7 +114,7 @@
                     <div class="col-md-6">
                         <label class="form-label" for="category_id">Category</label>
                         <div class="d-flex">
-                            <select class="form-select @error('category_id') is-invalid @enderror" id="categorySelect" name="category_id" required>
+                            <select class="form-select @error('category_id') is-invalid @enderror" id="categorySelect" name="category_id" >
                             <option value="{{ $category_id }}" selected>{{ $category_name }}</option>
                             </select> 
                             @error('category_id')
@@ -127,7 +127,7 @@
                     <div class="col-md-6">
                         <label class="form-label" for="department_id">Department</label>
                         <div class="d-flex">
-                            <select class="form-select @error('department_id') is-invalid @enderror" id="departmentSelect" name="department_id" required>
+                            <select class="form-select @error('department_id') is-invalid @enderror" id="departmentSelect" name="department_id" >
                                 
                             <option value="{{ $department_id }}" selected>{{ $department_name }}</option>
                             </select>
@@ -179,7 +179,7 @@
                             <span class="input-group-text" id="inputGroupPrepend">₱</span>
                             <input class="form-control @error('depreciable_cost') is-invalid @enderror"
                                 id="depreciable_cost" name="depreciable_cost" type="number" step="0.01"
-                                value="{{ old('depreciable_cost',$data->depreciable_cost) }}" required>
+                                value="{{ old('depreciable_cost',$data->depreciable_cost) }}">
                             @error('depreciable_cost')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -191,7 +191,7 @@
                             <span class="input-group-text" id="inputGroupPrepend">₱</span>
                             <input class="form-control @error('salvage_value') is-invalid @enderror" id="salvage_value"
                                 name="salvage_value" type="number" step="0.01" value="{{ old('salvage_value',$data->salvage_value) }}"
-                                required>
+                                >
                             @error('salvage_value')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -200,7 +200,7 @@
                     <div class="col-md-6">
                         <label class="form-label" for="assets_life">Assets Life</label>
                         <input class="form-control @error('assets_life') is-invalid @enderror" id="assets_life"
-                            name="assets_life" type="text" value="{{ old('assets_life',$data->assets_life) }}" required>
+                            name="assets_life" type="text" value="{{ old('assets_life',$data->assets_life) }}">
                         @error('assets_life')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -209,7 +209,7 @@
                         <label class="form-label" for="depreciation_method">Depreciation Method</label>
                         <input class="form-control @error('depreciation_method') is-invalid @enderror"
                             id="depreciation_method" name="depreciation_method" type="text"
-                            value="{{ old('depreciation_method',$data->depreciation_method) }}" required>
+                            value="{{ old('depreciation_method',$data->depreciation_method) }}">
                         @error('depreciation_method')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -218,41 +218,54 @@
                     <div class="col-md-6">
                         <label class="form-label" for="date_acquired">Date Acquired</label>
                         <input class="form-control @error('date_acquired') is-invalid @enderror" id="date_acquired"
-                            name="date_acquired" type="date" value="{{ old('date_acquired',$data->date_acquired) }}" required>
+                            name="date_acquired" type="date" value="{{ old('date_acquired',$data->date_acquired) }}">
                         @error('date_acquired')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
                 </div>
                 <div class="row g-3">
-    <div class="col-md-12">
-        <hr />
-        <h5>Accounting</h5>
-    </div>
-    <div class="col-md-6">
-        <label class="form-label" for="funding_source">Funding Source</label>
-        <div class="d-flex">
-            <select class="form-select @error('funding_source') is-invalid @enderror" id="fundingSelect" name="funding_id" required>
-                <option value="{{ $funding_id }}" selected>{{ $funding_name }}</option>
-            </select>
-            @error('funding_id')
-            <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-            <button class="btn btn-primary ms-2" type="button" data-bs-toggle="modal" data-bs-target="#FundingsModal" data-bs-original-title="" title="">Add</button>
-            <button class="btn btn-primary ms-2" type="button" onclick="openEditFundingModal()" >Edit</button>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <label class="form-label" for="amount_debited">Amount Debited</label>
-        <div class="input-group">
-            <span class="input-group-text" id="inputGroupPrepend">₱</span>
-            <input class="form-control @error('amount_debited') is-invalid @enderror" id="amount_debited" name="amount_debited" type="number" step="0.01" value="{{ old('amount_debited',$data->amount_debited) }}" required>
-            @error('amount_debited')
-            <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-        </div>
-    </div>
-</div>
+                    <div class="col-md-12">
+                        <hr />
+                        <h5>Accounting</h5>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label" for="funding_source">Funding Source</label>
+                        <div class="d-flex">
+                            <select class="form-select @error('funding_source') is-invalid @enderror" id="fundingSelect" name="funding_id">
+                                <option value="{{ $funding_id }}" selected>{{ $funding_name }}</option>
+                            </select>
+                            @error('funding_id')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                            <button class="btn btn-primary ms-2" type="button" data-bs-toggle="modal" data-bs-target="#FundingsModal" data-bs-original-title="" title="">Add</button>
+                            <button class="btn btn-primary ms-2" type="button" onclick="openEditFundingModal()" >Edit</button>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label" for="amount_debited">Amount Debited</label>
+                        <div class="input-group">
+                            <span class="input-group-text" id="inputGroupPrepend">₱</span>
+                            <input class="form-control @error('amount_debited') is-invalid @enderror" id="amount_debited" name="amount_debited" type="number" step="0.01" value="{{ old('amount_debited',$data->amount_debited) }}">
+                            @error('amount_debited')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label" for="funding_source">Payment Mode</label>
+                        <div class="d-flex">
+                            <select class="form-select"
+                            id="paymentModeSelect" name="payment_mode_id">
+                            </select>
+                            @error('payment_mode_id')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                            <!-- <button class="btn btn-primary ms-2" type="button" data-bs-toggle="modal"
+                                data-bs-target="#PaymentModeModal" data-bs-original-title="" title="">Add</button> -->
+                        </div>
+                    </div>
+                </div>
                 <hr/>
                     <div class="col-12">
                         <button class="btn btn-primary" type="submit">Save</button>
@@ -603,6 +616,29 @@
             .catch(function(error) {
                 console.error('Error fetching data:', error);
             });
+
+            fetch('/payment-modes')
+                .then(response => response.json())
+                .then(data => {
+                    const paymentModeSelect = document.getElementById('paymentModeSelect');
+                    const selectedPaymentModeId = {{ $data->payment_mode_id }};
+                    // Clear any existing options
+                    paymentModeSelect.innerHTML = '';
+
+                    // Populate the select options with payment modes
+                    data.forEach(paymentMode => {
+                        const option = document.createElement('option');
+                        option.value = paymentMode.id;
+                        option.textContent = paymentMode.payment_name;
+                        if (paymentMode.id == selectedPaymentModeId) {
+                            option.selected = true; // Set the option as selected
+                        }
+                        paymentModeSelect.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching payment modes:', error);
+                });
     }
 </script>
 @endsection

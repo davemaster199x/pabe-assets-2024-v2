@@ -34,6 +34,7 @@ class Asset extends Model
         'date_acquired',
         'funding_source',
         'amount_debited',
+        'payment_mode_id',
         'status_id',
         'delete',
     ];
