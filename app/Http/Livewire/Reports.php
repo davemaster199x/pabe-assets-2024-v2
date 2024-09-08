@@ -23,6 +23,8 @@ class Reports extends Component
 
             $pdf = PDF::loadView('pdfs.asset-report', ['assets' => $assets, 'from' => $this->dateRangefrom, 'to' => $this->dateRangeto]);
 
+            $pdf->setPaper('a4', 'landscape');
+            
             $filename = 'asset_report_' . now()->format('YmdHis') . '.pdf';
             Storage::put('public/reports/' . $filename, $pdf->output());
 
