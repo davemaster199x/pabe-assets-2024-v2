@@ -194,6 +194,10 @@ Route::middleware(['auth'])->group(function () {
         return view('/pages/insurance');
     });
 
+    Route::get('/reports', function () {
+        return view('/pages/reports');
+    });
+
     Route::get('/insurance-data', [InsuranceController::class, 'getInsuranceData']);
     Route::delete('/insurance/{id}', [InsuranceController::class, 'detachInsurance']);
     Route::post('/link-insurance', [InsuranceController::class, 'linkInsurance']);

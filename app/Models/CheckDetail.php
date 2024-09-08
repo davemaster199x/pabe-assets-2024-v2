@@ -23,4 +23,9 @@ class CheckDetail extends Model
         'status',
         'bank'
     ];
+
+    public function asset()
+    {
+        return $this->belongsTo(Asset::class, 'asset_id', 'asset_id');
+    }
 }

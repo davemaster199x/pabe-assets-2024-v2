@@ -46,7 +46,7 @@
                         <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" id="insurance-navbar" style="display: flex;"
                                 href="/insurance"><i data-feather="archive"> </i><span>Insurance</span></a></li>
                         <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" id="reports-navbar" style="display: flex;"
-                                href="#"><i data-feather="inbox"> </i><span>Reports</span></a></li>
+                                href="/reports"><i data-feather="inbox"> </i><span>Reports</span></a></li>
                     </ul>
                 </div>
                 <div class="right-arrow" id="right-arrow"><i data-feather="arrow-right"></i></div>
