@@ -220,9 +220,10 @@ class AssetController extends Controller
 
     // Handle file upload if any
     if ($request->hasFile('asset_photo_file')) {
-        $file = $request->file('asset_photo_file');
-        $path = $file->store('public/assets_photos'); // Store the file
-        $asset->asset_photo_file = $path;
+        $asset->asset_photo_file = $request->file('asset_photo_file')->store('assets_photos', 'public');
+        // $file = $request->file('asset_photo_file');
+        // $path = $file->store('assets_photos'); // Store the file
+        // $asset->asset_photo_file = $path;
     }
 
     // Save the updated asset instance
