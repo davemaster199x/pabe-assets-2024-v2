@@ -173,6 +173,18 @@ Route::middleware(['auth'])->group(function () {
             return view('partials.qrcode_print', compact('qrCodeValue'));
     });
 
+    Route::get('/printqrcode2/{qrvalue}', function ($qrvalue) {
+        
+         // Generate QR code based on the provided $qrvalue
+         $qrCodeValue = QrCode::size(100)->generate($qrvalue);
+        
+         // Return the view with the generated QR code and the QR text
+         return view('partials.qrcode_print2', compact('qrCodeValue'));
+        
+    });
+
+
+
 
     Route::get('/asset_events/{assetId}', [AssetController::class, 'getAssetEvents']);
 

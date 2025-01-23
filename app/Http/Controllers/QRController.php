@@ -11,4 +11,8 @@ class QRController extends Controller
     {
         return QrCode::size(300)->generate('Your text or URL here');
     }
+
+    
+
+
 }
