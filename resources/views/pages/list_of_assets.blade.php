@@ -40,6 +40,8 @@
                             <th>Purchase Date</th>
                             <th>Cost</th>
                             <th>Status</th>
+                            <th>Depriciable Value</th>
+                            <th>Salvage Value</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -80,6 +82,10 @@
                 { "data": "purchase_date" },
                 { "data": "cost" },
                 { "data": "status_id" },
+
+                { "data": "depreciable_cost" },
+                { "data": "salvage_value" },
+
                 { "data": "view_button" }
             ],
             "dom": 'Bfrtip',
@@ -89,7 +95,7 @@
     action: function (e, dt, node, config) {
         var data = dt.buttons.exportData();
         var ws_data = [];
-        ws_data.push(["Asset Photo", "Asset Tag ID", "Description", "Brand", "Purchase Date", "Cost", "Status", "Action"]);
+        ws_data.push(["Asset Photo", "Asset Tag ID", "Description", "Brand", "Purchase Date", "Cost", "Status", "Depriciable Value", "Salvage Value", "Action"]);
 
         data.body.forEach(function(row) {
             ws_data.push(row);
@@ -115,7 +121,7 @@
         var doc = new jsPDF();
 
         var data = dt.buttons.exportData();
-        var columns = ["Asset Photo", "Asset Tag ID", "Description", "Brand", "Purchase Date", "Cost", "Status", "Action"];
+        var columns = ["Asset Photo", "Asset Tag ID", "Description", "Brand", "Purchase Date", "Cost", "Status", "Depriciable Value", "Salvage Value","Action"];
         var rows = data.body;
 
         doc.autoTable({
