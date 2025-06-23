@@ -42,6 +42,8 @@
                             <th>Status</th>
                             <th>Depriciable Value</th>
                             <th>Salvage Value</th>
+                            <th>Department</th>
+                            <th>Assigned To</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -85,6 +87,9 @@
 
                 { "data": "depreciable_cost" },
                 { "data": "salvage_value" },
+
+                { "data": "department_name" },
+                { "data": "assigned_to" },
 
                 { "data": "view_button" }
             ],
