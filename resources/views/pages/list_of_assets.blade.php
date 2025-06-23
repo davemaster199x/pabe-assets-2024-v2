@@ -100,7 +100,7 @@
     action: function (e, dt, node, config) {
         var data = dt.buttons.exportData();
         var ws_data = [];
-        ws_data.push(["Asset Photo", "Asset Tag ID", "Description", "Brand", "Purchase Date", "Cost", "Status", "Depriciable Value", "Salvage Value", "Action"]);
+        ws_data.push(["Asset Photo", "Asset Tag ID", "Description", "Brand", "Purchase Date", "Cost", "Status", "Depriciable Value", "Salvage Value" , "Department" , "Assigned Person", "Action"]);
 
         data.body.forEach(function(row) {
             ws_data.push(row);
@@ -126,7 +126,7 @@
         var doc = new jsPDF();
 
         var data = dt.buttons.exportData();
-        var columns = ["Asset Photo", "Asset Tag ID", "Description", "Brand", "Purchase Date", "Cost", "Status", "Depriciable Value", "Salvage Value","Action"];
+        var columns = ["Asset Photo", "Asset Tag ID", "Description", "Brand", "Purchase Date", "Cost", "Status", "Depriciable Value", "Salvage Value", "Department" , "Assigned Person", "Action"];
         var rows = data.body;
 
         doc.autoTable({
