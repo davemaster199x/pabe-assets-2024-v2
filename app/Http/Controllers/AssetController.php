@@ -335,7 +335,9 @@ class AssetController extends Controller
                     "site_name" => $site_name->site_name ?? '',
                     "location_name" => $location_name->location_name ?? '',
                     "assigned_to" => $person->full_name ?? '',
-                    "site_id" => $asset->site_id
+                    "site_id" => $asset->site_id,
+                    "depreciable_cost" => $asset->depreciable_cost,
+                    "salvage_value" => $asset->salvage_value
                 ];
             }
             
