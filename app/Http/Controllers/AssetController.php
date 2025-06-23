@@ -313,6 +313,9 @@ class AssetController extends Controller
             
             foreach ($assets as $asset) {
                 $asset_idd = $asset->asset_id;//Crypt::encryptString(strval($asset->asset_id));
+
+                $departments = DepartmentModel::where('department_id',$asset->department_id)->first();
+
                 $status_name = Status::where('status_id', $asset->status_id)->select('status_name')->first();
                 $site_name = SiteModel::where('site_id', $asset->site_id)->select('site_name')->first();
                 $location_name = LocationModel::where('location_id', $asset->location_id)->select('location_name')->first();
@@ -337,7 +340,9 @@ class AssetController extends Controller
                     "assigned_to" => $person->full_name ?? '',
                     "site_id" => $asset->site_id,
                     "depreciable_cost" => $asset->depreciable_cost,
-                    "salvage_value" => $asset->salvage_value
+                    "salvage_value" => $asset->salvage_value,
+                    "department_name" => $departments->department_name
+
                 ];
             }
             
