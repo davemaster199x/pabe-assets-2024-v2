@@ -95,6 +95,7 @@ document.addEventListener('DOMContentLoaded', function () {
     .then(data => {
         const eventDatasContainer = document.querySelector('.eventdatas');
 
+        console.log(data);
         data.forEach(item => {
             const assetEvent = item.assetevent;
             const EEvents = item.events;
@@ -197,7 +198,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             </td>
                             <td style="${commonCellStyle}">
                                 <label>Assigned To</label><br />
-                                <label>${event.person_id || ''}</label>
+                                <label>${event.person && event.person.full_name ? event.person.full_name : event.site.site_name}</label>
                             </td>
                             <td style="${commonCellStyle}">
                                 <label>Due date</label><br />

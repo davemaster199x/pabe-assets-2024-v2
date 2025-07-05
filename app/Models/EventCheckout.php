@@ -34,4 +34,14 @@ class EventCheckout extends Model
         'concent',
         'delete',
     ];
+
+    public function person()
+    {
+        return $this->belongsTo(Person::class, 'person_id', 'person_id');
+    }
+
+    public function site()
+    {
+        return $this->belongsTo(SiteModel::class, 'site_id', 'site_id');
+    }
 }

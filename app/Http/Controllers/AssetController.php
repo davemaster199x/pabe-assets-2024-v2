@@ -338,6 +338,7 @@ class AssetController extends Controller
                     "site_name" => $site_name->site_name ?? '',
                     "location_name" => $location_name->location_name ?? '',
                     "assigned_to" => $person->full_name ?? '',
+                    "site" => $site_name->site_name ?? '',
                     "site_id" => $asset->site_id,
                     "depreciable_cost" => $asset->depreciable_cost,
                     "salvage_value" => $asset->salvage_value,
@@ -404,79 +405,61 @@ class AssetController extends Controller
     }
     
     
-    public function getAssetEvents($assetId)
-{
-    $assetEvents = AssetEvent::where('asset_id', $assetId)
-    ->orderBy('created_at', 'desc')
-    ->get();
+    public function getAssetEvents($assetId) {
+        $assetEvents = AssetEvent::where('asset_id', $assetId)
+        ->orderBy('created_at', 'desc')
+        ->get();
 
-    $result = [];
+        $result = [];
 
-    /*foreach ($assetEvents as $event) {
-        $eventID = $event->event_id;
-
-        // Get repair and dispose events
-        $repairEvents = EventRepair::where('event_id', $eventID)->get();
-        $disposeEvents = EventDispose::where('event_id', $eventID)->get();
+        foreach ($assetEvents as $event) {
+            $eventID = $event->event_id;
         
-        $checkinEvents = EventCheckin::where('event_id', $eventID)->get();
-        $checkoutEvents = EventCheckout::where('event_id', $eventID)->get();
+            // Get repair, dispose, check-in, and check-out events
+            $repairEvents = EventRepair::where('event_id', $eventID)->get();
+            $disposeEvents = EventDispose::where('event_id', $eventID)->get();
+            $checkinEvents = EventCheckin::where('event_id', $eventID)->get();
+            $checkoutEvents = EventCheckout::where('event_id', $eventID)
+                ->with('person', 'site')
+                ->get();
+            $sellEvents = EventSell::where('event_id', $eventID)->get();
+        
+            // Merge all events into a single collection
+            $events = collect();
+        
+            if ($repairEvents->isNotEmpty()) {
+                $events = $events->merge($repairEvents);
+            }
+        
+            if ($disposeEvents->isNotEmpty()) {
+                $events = $events->merge($disposeEvents);
+            }
+        
+            if ($checkinEvents->isNotEmpty()) {
+                $events = $events->merge($checkinEvents);
+            }
+        
+            if ($checkoutEvents->isNotEmpty()) {
+                $events = $events->merge($checkoutEvents);
+            }
 
-        // Determine which events to include
-        $events = $repairEvents->isNotEmpty() ? $repairEvents : ($disposeEvents->isNotEmpty() ? $disposeEvents : '1');
-
-        $result[] = [
-            'assetevent' => $event,
-            'events' => $events,
-        ];
-    }*/
-
-    foreach ($assetEvents as $event) {
-        $eventID = $event->event_id;
-    
-        // Get repair, dispose, check-in, and check-out events
-        $repairEvents = EventRepair::where('event_id', $eventID)->get();
-        $disposeEvents = EventDispose::where('event_id', $eventID)->get();
-        $checkinEvents = EventCheckin::where('event_id', $eventID)->get();
-        $checkoutEvents = EventCheckout::where('event_id', $eventID)->get();
-        $sellEvents = EventSell::where('event_id', $eventID)->get();
-    
-        // Merge all events into a single collection
-        $events = collect();
-    
-        if ($repairEvents->isNotEmpty()) {
-            $events = $events->merge($repairEvents);
-        }
-    
-        if ($disposeEvents->isNotEmpty()) {
-            $events = $events->merge($disposeEvents);
-        }
-    
-        if ($checkinEvents->isNotEmpty()) {
-            $events = $events->merge($checkinEvents);
-        }
-    
-        if ($checkoutEvents->isNotEmpty()) {
-            $events = $events->merge($checkoutEvents);
+            if ($sellEvents->isNotEmpty()) {
+                $events = $events->merge($sellEvents);
+            }
+        
+            // Add default value if no events are found
+            if ($events->isEmpty()) {
+                $events = '1';
+            }
+        
+            $result[] = [
+                'assetevent' => $event,
+                'events' => $events,
+            ];
         }
 
-        if ($sellEvents->isNotEmpty()) {
-            $events = $events->merge($sellEvents);
-        }
-    
-        // Add default value if no events are found
-        if ($events->isEmpty()) {
-            $events = '1';
-        }
-    
-        $result[] = [
-            'assetevent' => $event,
-            'events' => $events,
-        ];
+        return response()->json($result);
     }
-
-    return response()->json($result);
-}
 
     
 }

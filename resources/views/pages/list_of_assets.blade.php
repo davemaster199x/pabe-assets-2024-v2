@@ -44,6 +44,7 @@
                             <th>Salvage Value</th>
                             <th>Department</th>
                             <th>Assigned To</th>
+                            <th>Site</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -90,6 +91,7 @@
 
                 { "data": "department_name" },
                 { "data": "assigned_to" },
+                { "data": "site" },
 
                 { "data": "view_button" }
             ],
