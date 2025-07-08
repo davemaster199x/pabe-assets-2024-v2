@@ -25,6 +25,12 @@ use App\Models\AssetEvent;
 use App\Models\Person;
 use App\Models\CheckDetail;
 
+
+//use ZipArchive;
+//use SimpleSoftwareIO\QrCode\Facades\QrCode;
+//use Intervention\Image\ImageManagerStatic as Image;
+
+
 class AssetController extends Controller
 {
 
@@ -461,5 +467,42 @@ class AssetController extends Controller
         return response()->json($result);
     }
 
+  /*  public function downloadQrCodesZip()
+{
+    $assets = Asset::all(); // Adjust this query if needed
+
+    $tempPath = storage_path('app/temp');
+    if (!file_exists($tempPath)) {
+        mkdir($tempPath, 0777, true);
+    }
+
+    $zipFileName = 'qrcodes_' . now()->format('Ymd_His') . '.zip';
+    $zipFullPath = $tempPath . '/' . $zipFileName;
+
+    $zip = new ZipArchive;
+    if ($zip->open($zipFullPath, ZipArchive::CREATE | ZipArchive::OVERWRITE) !== TRUE) {
+        return response()->json(['error' => 'Could not create ZIP file.'], 500);
+    }
+
+    foreach ($assets as $asset) {
+        $tag = $asset->assets_tag_id;
+
+        // ✅ Step 1: Generate QR Code as SVG
+        $svg = QrCode::format('svg')->size(300)->generate($tag);
+
+        // ✅ Step 2: Convert SVG to PNG using Intervention Image
+        $png = Image::make($svg)->encode('png');
+
+        // ✅ Step 3: Add PNG image to ZIP
+        $zip->addFromString("{$tag}.png", $png);
+    }
+
+    $zip->close();
+
+    return response()->download($zipFullPath, $zipFileName, [
+        'Content-Type' => 'application/zip',
+    ])->deleteFileAfterSend(true);
+}
+*/
     
 }

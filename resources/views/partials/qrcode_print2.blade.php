@@ -23,43 +23,41 @@
     </div>
 
     <script>
-        window.onload = function() {
-            // Select the QR code container
+        window.onload = function () {
             const qrCodeContainer = document.getElementById('qrCodeContainer');
-
-            // Create a canvas element
-            const canvas = document.createElement('canvas');
-            const context = canvas.getContext('2d');
-
-            // Get the QR code as an SVG element
             const qrCodeSvg = qrCodeContainer.querySelector('svg');
 
-            // Create an image from the QR code SVG
+            if (!qrCodeSvg) {
+                console.error("SVG QR code not found.");
+                return;
+            }
+
             const xml = new XMLSerializer().serializeToString(qrCodeSvg);
-            const svg64 = btoa(xml);
+            const svg64 = btoa(unescape(encodeURIComponent(xml)));
             const image64 = 'data:image/svg+xml;base64,' + svg64;
 
-            // Create an Image element
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
             const img = new Image();
-            img.onload = function() {
+
+            img.onload = function () {
                 canvas.width = img.width;
                 canvas.height = img.height;
-
-                // Draw the image on the canvas
                 context.drawImage(img, 0, 0);
 
-                // Convert the canvas to a PNG data URL
                 const pngData = canvas.toDataURL('image/png');
 
-                // Create a download link
                 const downloadLink = document.createElement('a');
                 downloadLink.href = pngData;
-                downloadLink.download = 'qrcode.png';
 
-                // Automatically trigger the download
+                // Sanitize the QR value to use as a filename
+                const rawValue = @json($rawValue ?? 'qr'); // you pass this in your controller
+                const safeFileName = rawValue.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+
+                downloadLink.download = `QR-${safeFileName}.png`;
                 downloadLink.click();
 
-                setTimeout(function () {
+                setTimeout(() => {
                     window.close();
                 }, 500);
             };

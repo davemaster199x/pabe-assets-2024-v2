@@ -179,10 +179,18 @@ Route::middleware(['auth'])->group(function () {
          $qrCodeValue = QrCode::size(100)->generate($qrvalue);
         
          // Return the view with the generated QR code and the QR text
-         return view('partials.qrcode_print2', compact('qrCodeValue'));
+         //return view('partials.qrcode_print2', compact('qrCodeValue'));
+
+         return view('partials.qrcode_print2', [
+        'qrCodeValue' => $qrCodeValue,
+        'rawValue' => $qrvalue, // pass this separately for filename use
+    ]);
         
     });
 
+
+    //download all qr
+    Route::get('/download-qrcodes', [AssetController::class, 'downloadQrCodesZip'])->name('assets.qrcodes.zip');
 
 
 

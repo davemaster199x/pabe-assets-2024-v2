@@ -59,6 +59,11 @@
 @endsection
 
 @section('scripts')
+
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.0/build/qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
     <!-- DataTables JS -->
     <script type="text/javascript" src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 
@@ -139,12 +144,56 @@
         // Generate PDF and prompt Save As dialog
         doc.save('assets_list.pdf');
     }
+},
+{
+    text: 'Download QR ZIP',
+    action: function () {
+        downloadAllQrCodes(); // ✅ Call the JS-based ZIP function
+    }
 }
+
+
+
 
 
             ]
         });
     });
 </script>
+<script>
+async function downloadAllQrCodes() {
+    const assets = await fetch('/api/assets').then(res => res.json());
+    const data = assets.data || assets; // Depending on your API response format
+
+    const zip = new JSZip();
+
+    for (let asset of data) {
+        const tagId = asset.assets_tag_id;
+
+        // ✅ Generate PNG QR as base64
+        const dataUrl = await QRCode.toDataURL(tagId, {
+            errorCorrectionLevel: 'H',
+            width: 300
+        });
+
+        // ✅ Convert base64 to binary Uint8Array
+        const base64 = dataUrl.split(',')[1];
+        const binary = atob(base64);
+        const array = new Uint8Array(binary.length);
+        for (let i = 0; i < binary.length; i++) {
+            array[i] = binary.charCodeAt(i);
+        }
+
+        // ✅ Add PNG to zip
+        zip.file(`${tagId}.png`, array);
+    }
+
+    // ✅ Generate zip & trigger download
+    zip.generateAsync({ type: 'blob' }).then(function(content) {
+        saveAs(content, 'qrcodes.zip');
+    });
+}
+</script>
+
 
 @endsection
