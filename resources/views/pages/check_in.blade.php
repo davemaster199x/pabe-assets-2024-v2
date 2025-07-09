@@ -38,6 +38,7 @@
                                     <th>Assigned to</th>
                                     <th>Sites</th>
                                     <th>Location</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -180,7 +181,37 @@
                 { "data": "assigned_to" },
                 { "data": "site_name" },
                 { "data": "location_name" },
+                {
+                    "data": "asset_id",
+                    "render": function (data, type, row) {
+                        return `<button class="btn btn-danger btn-sm remove-asset" data-id="${data}">Remove</button>`;
+                    },
+                    "orderable": false
+                }
             ]
+        });
+
+        // Add event listener for remove buttons
+        $('#listcheckin').on('click', '.remove-asset', function() {
+            const assetId = $(this).data('id');
+            
+            // Remove from selectedAssets array
+            selectedAssets = selectedAssets.filter(asset => asset.asset_id !== assetId);
+            
+            // Update the check-in table
+            checkoutTable.clear().rows.add(selectedAssets).draw();
+            
+            // Uncheck the checkbox in the main table if it exists
+            $('#listassets .asset-checkbox').each(function() {
+                if ($(this).val() == assetId) {
+                    $(this).prop('checked', false);
+                }
+            });
+            
+            // Hide check-in section if no assets left
+            if (selectedAssets.length === 0) {
+                $('#div-checkout').hide();
+            }
         });
 
         // Add event listener to the "Add to List" button
