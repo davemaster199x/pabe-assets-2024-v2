@@ -21,6 +21,7 @@
         <label class="form-label" for="funding_source">Track the journey of each asset as it moves through your organization.</label>
             <div class="input-group">
                 <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target=".bd-example-modal-lg">Select Assets</button>
+                <button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#ScanModal">Scan Asset</button>
             </div><br>
 
             <div id="div-checkout" style="display: none;">
@@ -68,7 +69,7 @@
                                 <label class="col-sm-3 col-form-label"></label>
                                 <div class="col-sm-9">
                                     <button class="btn btn-success" type="submit">Check-In</button>
-                                    <button class="btn btn-primary" type="button">Cancel</button>
+                                    <button class="btn btn-primary" type="button" onclick="reload()">Cancel</button>
                                 </div>
                             </div>
                         </div>
@@ -118,14 +119,31 @@
     </div>
 <!-- End Modal -->
 
+
+<div class="modal fade" id="ScanModal" tabindex="-1" aria-labelledby="ScanModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Scan Asset</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <input type="text" id="scanInput" class="form-control" placeholder="Scan or type asset tag" autofocus />
+      </div>
+    </div>
+  </div>
+</div>
+
 <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
 <script>
     document.getElementById('check_in-navbar').classList.add('active');
 
     let selectedAssets = [];
+    let checkoutTable;
+    let table;
 
     $(document).ready(function() {
-        const table = $('#listassets').DataTable({
+        table = $('#listassets').DataTable({
             "ajax": {
                 "url": `/api/assets/${'checkin'}`,
                 "type": "GET"
@@ -149,7 +167,7 @@
         });
 
         // Initialize DataTable for checkout list
-        const checkoutTable = $('#listcheckin').DataTable({
+        checkoutTable = $('#listcheckin').DataTable({
             "paging": false, // Disable paging for the checkout table
             "info": false, // Disable table info display
             "columns": [
@@ -341,5 +359,61 @@
             });
 </script>
 
+<script>
+    //let selectedAssets = []; // make sure this is declared only once
+    //let table = $('#listassets').DataTable(); // reference to your asset list table
+    //let checkoutTable2 = $('#listcheckout').DataTable(); // reference to checkout list
+
+    // Focus input when modal is shown
+$('#ScanModal').on('shown.bs.modal', function () {
+    $('#scanInput').val('').focus();
+});
+
+// Auto-add after input with debounce (useful if barcode scanner triggers blur)
+let scanTimeout = null;
+$('#scanInput').on('input', function () {
+    clearTimeout(scanTimeout);
+    scanTimeout = setTimeout(() => {
+        const scannedCode = this.value.trim();
+        if (scannedCode !== '') {
+            scanAndAddAssetSilently(scannedCode);
+            this.value = ''; // clear after match
+        }
+    }, 300); // debounce to allow full scan input
+});
+
+function scanAndAddAssetSilently(scannedCode) {
+    const rowIndex = table.rows().eq(0).filter(function (rowIdx) {
+        return table.cell(rowIdx, 1).data().toString() === scannedCode;
+    });
+
+    if (rowIndex.length > 0) {
+        const row = table.row(rowIndex[0]);
+        const rowData = row.data();
+        const rowNode = row.node();
+
+        // Auto check checkbox
+        $(rowNode).find('.asset-checkbox').prop('checked', true);
+
+        // Add if not already in list
+        if (!selectedAssets.some(a => a.asset_id === rowData.asset_id)) {
+            selectedAssets.push(rowData);
+            checkoutTable.clear().rows.add(selectedAssets).draw();
+            $('#div-checkout').show();
+        }
+
+        // Optional: close modal after successful scan
+        const modalEl = document.getElementById('ScanModal');
+        const modal = bootstrap.Modal.getInstance(modalEl);
+        modal.hide();
+    }
+}
+
+
+reload()
+{
+    location.reload();
+}
+</script>
 
 @endsection
