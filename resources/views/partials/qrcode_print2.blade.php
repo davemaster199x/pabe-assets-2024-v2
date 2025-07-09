@@ -45,6 +45,7 @@
                 canvas.height = img.height;
                 context.drawImage(img, 0, 0);
 
+                
                 const pngData = canvas.toDataURL('image/png');
 
                 const downloadLink = document.createElement('a');
