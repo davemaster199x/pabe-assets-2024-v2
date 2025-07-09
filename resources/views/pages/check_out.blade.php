@@ -15,12 +15,15 @@
 @endsection
 
 @section('content')
+
 <div class="col-12">
     <div class="card">
         <div class="card-body">
         <label class="form-label" for="funding_source">Keep track of your assets within your organization and create an even more detailed history of them.</label>
             <div class="input-group">
                 <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target=".bd-example-modal-lg">Select Assets</button>
+                <button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#ScanModal">Scan Asset</button>
+
             </div><br>
 
             <div id="div-checkout" style="display: none;">
@@ -267,6 +270,24 @@
          </script>
      </div>
  </div>
+
+
+ <div class="modal fade" id="ScanModal" tabindex="-1" aria-labelledby="ScanModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Scan Asset</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <input type="text" id="scanInput" class="form-control" placeholder="Scan or type asset tag" autofocus />
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
  <script>
     document.querySelector('.person-form').addEventListener('submit', function(event) {
             event.preventDefault(); // Prevent the form from submitting the default way
@@ -317,9 +338,10 @@
     document.getElementById('check_out-navbar').classList.add('active');
 
     let selectedAssets = [];
-
+    let table;
+    let checkoutTable ;
     $(document).ready(function() {
-        const table = $('#listassets').DataTable({
+        table = $('#listassets').DataTable({
             "ajax": {
                 "url": `/api/assets/${'checkout'}`,
                 "type": "GET"
@@ -343,7 +365,7 @@
         });
 
         // Initialize DataTable for checkout list
-        const checkoutTable = $('#listcheckout').DataTable({
+        checkoutTable = $('#listcheckout').DataTable({
             "paging": false, // Disable paging for the checkout table
             "info": false, // Disable table info display
             "columns": [
@@ -593,6 +615,58 @@
                 divPerson.style.display = 'block'; // Show the person div
             }
         }
+       
+</script>
+
+<script>
+    //let selectedAssets = []; // make sure this is declared only once
+    //let table = $('#listassets').DataTable(); // reference to your asset list table
+    //let checkoutTable2 = $('#listcheckout').DataTable(); // reference to checkout list
+
+    // Focus input when modal is shown
+$('#ScanModal').on('shown.bs.modal', function () {
+    $('#scanInput').val('').focus();
+});
+
+// Auto-add after input with debounce (useful if barcode scanner triggers blur)
+let scanTimeout = null;
+$('#scanInput').on('input', function () {
+    clearTimeout(scanTimeout);
+    scanTimeout = setTimeout(() => {
+        const scannedCode = this.value.trim();
+        if (scannedCode !== '') {
+            scanAndAddAssetSilently(scannedCode);
+            this.value = ''; // clear after match
+        }
+    }, 300); // debounce to allow full scan input
+});
+
+function scanAndAddAssetSilently(scannedCode) {
+    const rowIndex = table.rows().eq(0).filter(function (rowIdx) {
+        return table.cell(rowIdx, 1).data().toString() === scannedCode;
+    });
+
+    if (rowIndex.length > 0) {
+        const row = table.row(rowIndex[0]);
+        const rowData = row.data();
+        const rowNode = row.node();
+
+        // Auto check checkbox
+        $(rowNode).find('.asset-checkbox').prop('checked', true);
+
+        // Add if not already in list
+        if (!selectedAssets.some(a => a.asset_id === rowData.asset_id)) {
+            selectedAssets.push(rowData);
+            checkoutTable.clear().rows.add(selectedAssets).draw();
+            $('#div-checkout').show();
+        }
+
+        // Optional: close modal after successful scan
+        const modalEl = document.getElementById('ScanModal');
+        const modal = bootstrap.Modal.getInstance(modalEl);
+        modal.hide();
+    }
+}
 </script>
 
 @endsection
