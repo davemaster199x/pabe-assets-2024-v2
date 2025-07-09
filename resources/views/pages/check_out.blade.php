@@ -178,7 +178,7 @@
                             <label class="col-sm-3 col-form-label"></label>
                             <div class="col-sm-9">
                                 <button class="btn btn-success" type="submit">Check-out</button>
-                                <button class="btn btn-primary" type="button">Cancel</button>
+                                <button class="btn btn-primary" type="button" onclick="reload()">Cancel</button>
                             </div>
                         </div>
                     </form>
@@ -667,6 +667,18 @@ function scanAndAddAssetSilently(scannedCode) {
         modal.hide();
     }
 }
+
+reload()
+{
+    location.reload();
+}
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('checkout_date').value = today;
+});
 </script>
 
 @endsection
