@@ -340,4 +340,6 @@
                 console.error('Error fetching data:', error);
             });
 </script>
+
+
 @endsection
