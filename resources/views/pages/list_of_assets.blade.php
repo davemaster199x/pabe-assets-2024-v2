@@ -161,7 +161,7 @@
     });
 </script>
 <script>
-async function downloadAllQrCodes() {
+/*async function downloadAllQrCodes() {
     const assets = await fetch('/api/assets').then(res => res.json());
     const data = assets.data || assets; // Depending on your API response format
 
@@ -192,8 +192,84 @@ async function downloadAllQrCodes() {
     zip.generateAsync({ type: 'blob' }).then(function(content) {
         saveAs(content, 'qrcodes.zip');
     });
+}*/
+</script>
+
+<script>
+async function downloadAllQrCodes() {
+    const assets = await fetch('/api/assets').then(res => res.json());
+    const data = assets.data || assets; // Adjust to your API format
+
+    const zip = new JSZip();
+
+    for (let asset of data) {
+        const tagId = asset.assets_tag_id;
+
+        // 1. Generate QR code data URL (PNG base64)
+        const qrDataUrl = await QRCode.toDataURL(tagId, {
+            errorCorrectionLevel: 'H',
+            width: 300
+        });
+
+        // 2. Create canvas to draw QR code + text
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+
+        // Set canvas size (QR height + extra space for text)
+        const qrSize = 300;
+        const textHeight = 40;
+        canvas.width = qrSize;
+        canvas.height = qrSize + textHeight;
+
+        // 3. Draw QR image on canvas
+        const img = new Image();
+        img.src = qrDataUrl;
+
+        await new Promise(resolve => {
+            img.onload = () => {
+                const qrSize = 300;
+                const textHeight = 20; // small height for tight spacing
+                canvas.width = qrSize;
+                canvas.height = qrSize + textHeight;
+
+                // Fill white background
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                // Draw QR code
+                ctx.drawImage(img, 0, 0, qrSize, qrSize);
+
+                // Draw text close to QR
+                ctx.font = '16px Arial';
+                ctx.fillStyle = '#000';
+                ctx.textAlign = 'center';
+                ctx.fillText(tagId, qrSize / 2, qrSize + 3); // very close to QR bottom
+
+
+                resolve();
+            };
+        });
+
+        // 5. Convert canvas to PNG binary
+        const finalDataUrl = canvas.toDataURL('image/png');
+        const base64 = finalDataUrl.split(',')[1];
+        const binary = atob(base64);
+        const array = new Uint8Array(binary.length);
+        for (let i = 0; i < binary.length; i++) {
+            array[i] = binary.charCodeAt(i);
+        }
+
+        // 6. Add to ZIP
+        zip.file(`${tagId}.png`, array);
+    }
+
+    // 7. Trigger ZIP download
+    zip.generateAsync({ type: 'blob' }).then(function (content) {
+        saveAs(content, 'qrcodes.zip');
+    });
 }
 </script>
+
 
 
 @endsection
