@@ -15,7 +15,7 @@
                           <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">Check-out Date</label>
                             <div class="col-sm-9">
-                              <input class="form-control" type="date" id="checkout_date" name="checkout_date">
+                              <input class="form-control" type="datetime-local" id="checkout_date" name="checkout_date">
                               <input class="form-control" type="hidden" id="asset_id" name="asset_id" value="{{ $encrypt_asset_id }}">
                             </div>
                           </div>

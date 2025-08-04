@@ -42,6 +42,7 @@
                             <th>Status</th>
                             <th>Depriciable Value</th>
                             <th>Salvage Value</th>
+                            <th>Category</th>
                             <th>Department</th>
                             <th>Assigned To</th>
                             <th>Site</th>
@@ -93,6 +94,7 @@
 
                 { "data": "depreciable_cost" },
                 { "data": "salvage_value" },
+                { "data": "category_id" },
 
                 { "data": "department_name" },
                 { "data": "assigned_to" },

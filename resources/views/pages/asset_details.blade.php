@@ -425,15 +425,22 @@
                 })
                 .then(function(data) {
                     console.log(data);
-                    // Assuming data is an array of objects with person_id and full_name properties
+                    // Remove duplicates by creating a map of unique names
+                    const uniquePersons = [];
+                    const nameMap = new Map();
+                    
+                    data.forEach(person => {
+                        if (!nameMap.has(person.full_name)) {
+                            nameMap.set(person.full_name, true); // Mark name as seen
+                            uniquePersons.push(person); // Add to unique array
+                        }
+                    });
+
                     var selects = document.querySelectorAll('select[id="person_id"]');
 
-                    // Iterate over each select element
                     selects.forEach(function(select) {
-                        // Clear existing options (if any)
                         select.innerHTML = '';
 
-                        // Create and append the "Select Person" placeholder option
                         var placeholderOption = document.createElement('option');
                         placeholderOption.value = '';
                         placeholderOption.textContent = 'Select Person';
@@ -441,15 +448,13 @@
                         placeholderOption.selected = true;
                         select.appendChild(placeholderOption);
 
-                        // Create and append new options based on fetched data
-                        data.forEach(function(person) {
+                        uniquePersons.forEach(function(person) {
                             var option = document.createElement('option');
                             option.value = person.person_id;
                             option.textContent = person.full_name;
                             select.appendChild(option);
                         });
 
-                        // Set the selected option if a personId is provided
                         if (selectedPersonId) {
                             select.value = selectedPersonId;
                         }

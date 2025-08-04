@@ -326,6 +326,7 @@ class AssetController extends Controller
                 $site_name = SiteModel::where('site_id', $asset->site_id)->select('site_name')->first();
                 $location_name = LocationModel::where('location_id', $asset->location_id)->select('location_name')->first();
                 $person = Person::where('person_id', $asset->person_id)->select('full_name')->first();
+                $categories = CategoryModel::where('category_id',$asset->category_id)->first();
                 $assetPhotoUrl = Storage::disk('public')->exists($asset->asset_photo_file) 
                     ? asset('storage/' . $asset->asset_photo_file) 
                     : 'No Image';
@@ -347,6 +348,7 @@ class AssetController extends Controller
                     "site" => $site_name->site_name ?? '',
                     "site_id" => $asset->site_id,
                     "depreciable_cost" => $asset->depreciable_cost,
+                    "category_id" => $categories->category_name,
                     "salvage_value" => $asset->salvage_value,
                     "department_name" => $departments->department_name
 

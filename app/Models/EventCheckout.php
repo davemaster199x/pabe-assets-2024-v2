@@ -33,6 +33,7 @@ class EventCheckout extends Model
         'checkout_notes',
         'concent',
         'delete',
+        'updated_at',
     ];
 
     public function person()
